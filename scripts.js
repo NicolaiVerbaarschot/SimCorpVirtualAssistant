@@ -116,7 +116,7 @@ function send() {
 
 function setResponse(val) {
     $("#response").text($("#response").text() + val + "\r\n");
-e
+}
 
 function addRow() {
     $("#table").append("<tr>\n" +
@@ -135,28 +135,22 @@ function removeRow() {
     $("#table tr:last").remove();
 }
 
-function toggleTable(){
-    $( "#table" ).toggle();
+function toggleTable() {
+    $("#table").toggle();
 }
-
-
-
 
 function action(data) {
     if (data.result.action == "input.addRow") {
         addRow();
-    }
-    else if (data.result.action == "input.deleteRow") {
+    } else if (data.result.action == "input.deleteRow") {
         removeRow();
-    }
-    else if (data.result.action == "input.toggleTable") {
+    } else if (data.result.action == "input.toggleTable") {
         toggleTable();
+    } else if (data.result.action == "sortBy") {
+        $("#stockTitle").click();
     }
-    else if (data.result.action == "sortBy") {
-        $( "#stockTitle" ).click();
-    }
-
 }
+
 
 
 
