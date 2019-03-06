@@ -116,6 +116,7 @@ function send() {
 
 function setResponse(val) {
     $("#response").text($("#response").text() + val + "\r\n");
+    $("#response").scrollTop($("#response")[0].scrollHeight);
 }
 
 function addRow() {
@@ -140,14 +141,54 @@ function toggleTable() {
 }
 
 function action(data) {
-    if (data.result.action == "input.addRow") {
-        addRow();
-    } else if (data.result.action == "input.deleteRow") {
-        removeRow();
-    } else if (data.result.action == "input.toggleTable") {
-        toggleTable();
-    } else if (data.result.action == "sortBy") {
-        $("#stockTitle").click();
+
+    let intent = data.result.action;
+    var stockAttribute = null;
+
+    if (data.result.actionIncomplete) return;
+
+    if (!jQuery.isEmptyObject(data.result.parameters)) {
+        stockAttribute =  data.result.parameters["StockAttribute"];
+    }
+
+
+
+    switch (intent) {
+        case "input.addRow":
+            addRow();
+            break;
+        case "input.deleteRow":
+            removeRow();
+            break;
+        case "input.toggleTable":
+            toggleTable();
+            break;
+        case "sortBy":
+            switch (stockAttribute) {
+                case "title":
+                    $("#stockTitle").click();
+                    break;
+                case "market":
+                    $("#market").click();
+                    break;
+                case "price":
+                    $("#currentPrice").click();
+                    break;
+                case "opening price":
+                    $("#open").click();
+                    break;
+                case "daily high":
+                    $("#dailyHigh").click();
+                    break;
+                case "daily low":
+                    $("#dailyLow").click();
+                    break;
+                case "percent change":
+                    $("#percentChange").click();
+                    break;
+            }
+
+            break;
     }
 }
 
