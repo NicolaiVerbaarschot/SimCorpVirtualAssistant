@@ -4,7 +4,7 @@ const router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  res.sendFile("/Users/jakoboffersen/Desktop/myFirstNode/myapp/views/client.html");
+  res.sendFile("/Users/simonchristensen/Documents/Developer/SimCorpChatBot/myapp/views/client.html");
 });
 
 module.exports = router;
