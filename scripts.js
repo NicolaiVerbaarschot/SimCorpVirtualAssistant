@@ -33,6 +33,23 @@ $(document).ready(function() {
         $( "#stockTitle" ).click();
     });
 
+    $( "#sortBtn" ).click(function() {
+        $( "#stockTitle" ).click();
+    });
+
+    $( "#sortBtn" ).click(function() {
+        $( "#stockTitle" ).click();
+    });
+
+    $( "#populate" ).click(function() {
+        $("tbody").each(function(elem,index){
+            var arr = $.makeArray($("tr",this).detach());
+            arr.reverse();
+            $(this).append(arr);
+        });
+    });
+
+
     $('#table').DataTable({
         "ordering": true // false to disable sorting (or any other option)
     });
@@ -138,6 +155,15 @@ function toggleTable() {
     $("#table").toggle();
 }
 
+function flipTable() {
+    $("tbody").each(function(elem,index){
+        var arr = $.makeArray($("tr",this).detach());
+        arr.reverse();
+        $(this).append(arr);
+    });
+}
+
+
 function action(data) {
 
     let intent = data.result.action;
@@ -160,6 +186,9 @@ function action(data) {
             break;
         case "input.toggleTable":
             toggleTable();
+            break;
+        case "reverseTable":
+            flipTable();
             break;
         case "sortBy":
             switch (stockAttribute) {
