@@ -33,6 +33,8 @@ $(document).ready(function() {
         $( "#stockTitle" ).click();
     });
 
+    $( "#")
+
 
 
     $('#table').DataTable({
