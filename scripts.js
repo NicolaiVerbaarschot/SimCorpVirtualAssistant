@@ -162,19 +162,20 @@ function flipTable() {
         $(this).append(arr);
     });
 }
+function searchTable(string) {
+    $('#table').DataTable().search(string).draw();
+}
 
 
 function action(data) {
 
     let intent = data.result.action;
-    var stockAttribute = null;
 
     if (data.result.actionIncomplete) return;
 
-    if (!jQuery.isEmptyObject(data.result.parameters)) {
-        stockAttribute =  data.result.parameters["StockAttribute"];
-    }
-
+    // TODO: Make robust
+    let stockAttribute =  data.result.parameters["StockAttribute"];
+    let searchString = data.result.parameters["any"];
 
 
     switch (intent) {
@@ -189,6 +190,9 @@ function action(data) {
             break;
         case "reverseTable":
             flipTable();
+            break;
+        case "searchTable":
+            searchTable(searchString);
             break;
         case "sortBy":
             switch (stockAttribute) {
