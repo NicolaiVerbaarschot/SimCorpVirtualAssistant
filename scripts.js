@@ -162,8 +162,13 @@ function flipTable() {
         $(this).append(arr);
     });
 }
+
 function searchTable(string) {
     $('#table').DataTable().search(string).draw();
+}
+
+function clearSearch() {
+    $('#table').DataTable().search("").draw();
 }
 
 
@@ -193,6 +198,9 @@ function action(data) {
             break;
         case "searchTable":
             searchTable(searchString);
+            break;
+        case "clearSearch":
+            clearSearch();
             break;
         case "sortBy":
             switch (stockAttribute) {
