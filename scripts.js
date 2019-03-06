@@ -33,10 +33,6 @@ $(document).ready(function() {
         $( "#stockTitle" ).click();
     });
 
-    $( "#")
-
-
-
     $('#table').DataTable({
         "ordering": true // false to disable sorting (or any other option)
     });
