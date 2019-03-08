@@ -2,6 +2,10 @@
 var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
 var baseUrl = "https://api.api.ai/v1/";
 
+var p = document.querySelector("h1 + p");
+setInterval(function(){
+    p.textContent += ".";
+},1000);
 
 $(document).ready(function() {
     $("#input").keypress(function(event) {
@@ -33,6 +37,21 @@ $(document).ready(function() {
         $( "#stockTitle" ).click();
     });
 
+    $( "#sortBtn" ).click(function() {
+        $( "#stockTitle" ).click();
+    });
+
+    $( "#sortBtn" ).click(function() {
+        $( "#stockTitle" ).click();
+    });
+
+    $( "#populate" ).click(function() {
+        $("tbody").each(function(elem,index){
+            var arr = $.makeArray($("tr",this).detach());
+            arr.reverse();
+            $(this).append(arr);
+        });
+    });
 
 
     $('#table').DataTable({
@@ -116,6 +135,7 @@ function send() {
 
 function setResponse(val) {
     $("#response").text($("#response").text() + val + "\r\n");
+    $("#response").scrollTop($("#response")[0].scrollHeight);
 }
 
 function addRow() {
@@ -135,28 +155,84 @@ function removeRow() {
     $("#table tr:last").remove();
 }
 
-function toggleTable(){
-    $( "#table" ).toggle();
+function toggleTable() {
+    $("#table").toggle();
+}
+
+function flipTable() {
+    $("tbody").each(function(elem,index){
+        var arr = $.makeArray($("tr",this).detach());
+        arr.reverse();
+        $(this).append(arr);
+    });
+}
+
+function searchTable(string) {
+    $('#table').DataTable().search(string).draw();
+}
+
+function clearSearch() {
+    $('#table').DataTable().search("").draw();
 }
 
 
-
-
 function action(data) {
-    if (data.result.action == "input.addRow") {
-        addRow();
-    }
-    else if (data.result.action == "input.deleteRow") {
-        removeRow();
-    }
-    else if (data.result.action == "input.toggleTable") {
-        toggleTable();
-    }
-    else if (data.result.action == "sortBy") {
-        $( "#stockTitle" ).click();
-        
-    }
 
+    let intent = data.result.action;
+
+    if (data.result.actionIncomplete) return;
+
+    // TODO: Make robust
+    let stockAttribute =  data.result.parameters["StockAttribute"];
+    let searchString = data.result.parameters["any"];
+
+
+    switch (intent) {
+        case "input.addRow":
+            addRow();
+            break;
+        case "input.deleteRow":
+            removeRow();
+            break;
+        case "input.toggleTable":
+            toggleTable();
+            break;
+        case "reverseTable":
+            flipTable();
+            break;
+        case "searchTable":
+            searchTable(searchString);
+            break;
+        case "clearSearch":
+            clearSearch();
+            break;
+        case "sortBy":
+            switch (stockAttribute) {
+                case "title":
+                    $("#stockTitle").click();
+                    break;
+                case "market":
+                    $("#market").click();
+                    break;
+                case "price":
+                    $("#currentPrice").click();
+                    break;
+                case "opening price":
+                    $("#open").click();
+                    break;
+                case "daily high":
+                    $("#dailyHigh").click();
+                    break;
+                case "daily low":
+                    $("#dailyLow").click();
+                    break;
+                case "percent change":
+                    $("#percentChange").click();
+                    break;
+            }
+
+            break;
+    }
 }
 
 
