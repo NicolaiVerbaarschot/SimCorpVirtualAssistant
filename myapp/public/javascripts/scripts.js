@@ -154,6 +154,7 @@ function action(data) {
     }
     else if (data.result.action == "sortBy") {
         $( "#stockTitle" ).click();
+        
     }
 
 }
