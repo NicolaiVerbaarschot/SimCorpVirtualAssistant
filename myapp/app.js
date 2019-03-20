@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+
 var indexRouter = require('./routes/index');
 
 var app = express();
@@ -14,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'public/javascripts')))
 
 app.use('/', indexRouter);
 
-
+// Listen on port 3000. 
 app.listen(3000, function() {console.log(`listening at the moment!`)})
 
 module.exports = app;

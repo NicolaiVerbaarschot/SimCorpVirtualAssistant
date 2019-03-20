@@ -2,6 +2,10 @@
 var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
 var baseUrl = "https://api.api.ai/v1/";
 
+var p = document.querySelector("h1 + p");
+setInterval(function(){
+    p.textContent += ".";
+},1000);
 
 $(document).ready(function() {
     $("#input").keypress(function(event) {
@@ -230,7 +234,6 @@ function action(data) {
             break;
     }
 }
-
 
 
 
