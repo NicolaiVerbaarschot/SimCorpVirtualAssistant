@@ -3,7 +3,7 @@ $(document).ready(function() {
         if (event.which == 13) {
             event.preventDefault();
             var text = $("#input").val();
-            send(text);
+            network.send(text);
         }
     });
     $("#rec").click(function(event) {

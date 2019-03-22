@@ -1,7 +1,5 @@
-
 var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
 var baseUrl = "https://api.api.ai/v1/";
-
 
 var recognition;
 
@@ -16,7 +14,7 @@ function startRecognition() {
             text += event.results[i][0].transcript;
         }
         setInput(text);
-        send(text);
+        network.send(text);
         stopRecognition();
     };
     recognition.onend = function() {
@@ -50,27 +48,6 @@ function updateRec() {
     $("#rec").text(recognition ? "Stop" : "Speak");
 }
 
-function send(value) {
-    setResponse("You: " + value);
-    $.ajax({
-        type: "POST",
-        url: baseUrl + "query?v=20150910",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + accessToken
-        },
-        data: JSON.stringify({ query: value, lang: "en", sessionId: "somerandomthing" }),
-
-        success: function(data) {
-            setResponse("Bot: " + data.result.fulfillment.speech);
-            action(data);
-        },
-        error: function() {
-            setResponse("Internal Server Error");
-        }
-    });
-}
 
 function setResponse(val) {
     $("#response").text($("#response").text() + val + "\r\n");
