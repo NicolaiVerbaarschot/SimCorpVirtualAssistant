@@ -29,14 +29,6 @@ $(document).ready(function() {
         $( "#stockTitle" ).click();
     });
 
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
     $( "#populate" ).click(function() {
         $("tbody").each(function(elem,index){
             var arr = $.makeArray($("tr",this).detach());
