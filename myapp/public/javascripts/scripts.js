@@ -119,7 +119,8 @@ function send() {
         data: JSON.stringify({ query: text, lang: "en", sessionId: "somerandomthing" }),
 
         success: function(data) {
-            setResponse("Bot: " + data.result.fulfillment.speech);
+			var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
+            setResponse("Bot: " + reply);
             action(data);
         },
         error: function() {
@@ -127,6 +128,19 @@ function send() {
         }
     });
     //setResponse("Loading...");
+}
+
+function formatMultipleLineReply(response) {
+	var responseLines = response.split('#linebreak');			// split response by keyword #linebreak
+	var multiLineReply = "";									// create output variable
+	
+	for (var i = 0; i < responseLines.length - 1; i++) {		// append all but the last line with \n
+		multiLineReply += responseLines[i] + "\n ";
+	}
+	
+	multiLineReply += responseLines[responseLines.length - 1];	// append the last line
+	
+	return multiLineReply;										// return the result
 }
 
 function setResponse(val) {
