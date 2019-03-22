@@ -3,61 +3,6 @@ var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
 var baseUrl = "https://api.api.ai/v1/";
 
 
-$(document).ready(function() {
-    $("#input").keypress(function(event) {
-        if (event.which == 13) {
-            event.preventDefault();
-            send();
-        }
-    });
-    $("#rec").click(function(event) {
-        switchRecognition();
-    });
-    $("#rowButton").click(function() {
-        $("#myTable").append("<tr><td>Beer</td><td>$ 20.00 </td></tr>");
-    });
-
-    $( "#addRow" ).click(function() {
-        addRow();
-    });
-
-    $( "#removeRow" ).click(function() {
-        removeRow();
-    });
-
-    $( "#showHideTable" ).click(function() {
-        toggleTable();
-    });
-
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
-    $( "#populate" ).click(function() {
-        $("tbody").each(function(elem,index){
-            var arr = $.makeArray($("tr",this).detach());
-            arr.reverse();
-            $(this).append(arr);
-        });
-    });
-
-
-    $('#table').DataTable({
-        "ordering": true // false to disable sorting (or any other option)
-    });
-    $('.dataTables_length').addClass('bs-select');
-
-});
-
-
 var recognition;
 
 function startRecognition() {
@@ -71,6 +16,7 @@ function startRecognition() {
             text += event.results[i][0].transcript;
         }
         setInput(text);
+        send(text);
         stopRecognition();
     };
     recognition.onend = function() {
@@ -98,16 +44,14 @@ function switchRecognition() {
 
 function setInput(text) {
     $("#input").val(text);
-    send();
 }
 
 function updateRec() {
     $("#rec").text(recognition ? "Stop" : "Speak");
 }
 
-function send() {
-    var text = $("#input").val();
-    setResponse("You: " + text);
+function send(value) {
+    setResponse("You: " + value);
     $.ajax({
         type: "POST",
         url: baseUrl + "query?v=20150910",
@@ -116,7 +60,7 @@ function send() {
         headers: {
             "Authorization": "Bearer " + accessToken
         },
-        data: JSON.stringify({ query: text, lang: "en", sessionId: "somerandomthing" }),
+        data: JSON.stringify({ query: value, lang: "en", sessionId: "somerandomthing" }),
 
         success: function(data) {
             setResponse("Bot: " + data.result.fulfillment.speech);
@@ -126,7 +70,6 @@ function send() {
             setResponse("Internal Server Error");
         }
     });
-    //setResponse("Loading...");
 }
 
 function setResponse(val) {
