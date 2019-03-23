@@ -1,147 +1,14 @@
-
 var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
 var baseUrl = "https://api.api.ai/v1/";
 
-
-$(document).ready(function() {
-    $("#input").keypress(function(event) {
-        if (event.which == 13) {
-            event.preventDefault();
-            send();
-        }
-    });
-    $("#rec").click(function(event) {
-        switchRecognition();
-    });
-    $("#rowButton").click(function() {
-        $("#myTable").append("<tr><td>Beer</td><td>$ 20.00 </td></tr>");
-    });
-
-    $( "#addRow" ).click(function() {
-        addRow();
-    });
-
-    $( "#removeRow" ).click(function() {
-        removeRow();
-    });
-
-    $( "#showHideTable" ).click(function() {
-        toggleTable();
-    });
-
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
-    $( "#populate" ).click(function() {
-        $("tbody").each(function(elem,index){
-            var arr = $.makeArray($("tr",this).detach());
-            arr.reverse();
-            $(this).append(arr);
-        });
-    });
-
-
-    $('#table').DataTable({
-        "ordering": true // false to disable sorting (or any other option)
-    });
-    $('.dataTables_length').addClass('bs-select');
-
-});
-
-
-var recognition;
-
-function startRecognition() {
-    recognition = new webkitSpeechRecognition();
-    recognition.onstart = function(event) {
-        updateRec();
-    };
-    recognition.onresult = function(event) {
-        var text = "";
-        for (var i = event.resultIndex; i < event.results.length; ++i) {
-            text += event.results[i][0].transcript;
-        }
-        setInput(text);
-        stopRecognition();
-    };
-    recognition.onend = function() {
-        stopRecognition();
-    };
-    recognition.lang = "en-US";
-    recognition.start();
-}
-
-function stopRecognition() {
-    if (recognition) {
-        recognition.stop();
-        recognition = null;
-    }
-    updateRec();
-}
-
-function switchRecognition() {
-    if (recognition) {
-        stopRecognition();
-    } else {
-        startRecognition();
-    }
-}
-
 function setInput(text) {
     $("#input").val(text);
-    send();
 }
 
 function updateRec() {
     $("#rec").text(recognition ? "Stop" : "Speak");
 }
 
-function send() {
-    var text = $("#input").val();
-    setResponse("You: " + text);
-    $.ajax({
-        type: "POST",
-        url: baseUrl + "query?v=20150910",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + accessToken
-        },
-        data: JSON.stringify({ query: text, lang: "en", sessionId: "somerandomthing" }),
-
-        success: function(data) {
-			var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
-            setResponse("Bot: " + reply);
-            action(data);
-        },
-        error: function() {
-            setResponse("Internal Server Error");
-        }
-    });
-    //setResponse("Loading...");
-}
-
-function formatMultipleLineReply(response) {
-	var responseLines = response.split('#linebreak');			// split response by keyword #linebreak
-	var multiLineReply = "";									// create output variable
-	
-	for (var i = 0; i < responseLines.length - 1; i++) {		// append all but the last line with \n
-		multiLineReply += responseLines[i] + "\n ";
-	}
-	
-	multiLineReply += responseLines[responseLines.length - 1];	// append the last line
-	
-	return multiLineReply;										// return the result
-}
 
 function setResponse(val) {
     $("#response").text($("#response").text() + val + "\r\n");
