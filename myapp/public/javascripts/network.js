@@ -1,5 +1,6 @@
 var successHandler = function(data) {
-    setResponse("Bot: " + data.result.fulfillment.speech);
+    var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
+    setResponse("Bot: " + reply);
     action(data);
 }
 
