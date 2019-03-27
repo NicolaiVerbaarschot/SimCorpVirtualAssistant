@@ -1,8 +1,10 @@
 export function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
     this.recognition = new webkitSpeechRecognition();
     this.isSpeaking = false;
+    var self = this; // The most hacky solution ever
 
     this.recognition.onstart = function(_) {
+        console.log("on start: " + self.isSpeaking);
         updateHandler("Stop");
     }
     this.recognition.onresult = function(event) {
@@ -12,17 +14,19 @@ export function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
         }
         resultHandler(text);
         queryHandler.send(text);
-        this.isSpeaking = false;
+        console.log("on result: " + self.isSpeaking);
     };
 
     this.recognition.onend = function(_) {
         updateHandler("Speak");
-        this.isSpeaking = false; 
+        self.isSpeaking = false; 
+        console.log("on end: " + self.isSpeaking);
     }
     this.recognition.lang = "en-US";
 }
 
 SpeechRecognition.prototype.switch = function() {
+    console.log("switching: " + this.isSpeaking);
     if(this.isSpeaking) {
         this.isSpeaking = false;
         this.recognition.stop();
