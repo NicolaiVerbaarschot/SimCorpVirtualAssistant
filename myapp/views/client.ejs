@@ -115,10 +115,9 @@
         $("#HButton").on("click", function () {
 
             $.ajax({
-                url: "/api/books"
+                url: "/api/query"
             })
                 .done(function( data ) {
-                    console.log( "Sample of data:", data.toString() );
                     $('#holder').html(data.toString());
                 });
         });

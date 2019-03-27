@@ -28,7 +28,7 @@ function queryDB(res,query) {
 
 
 
-router.get('/api/books', function(req, res) {
+router.get('/api/query', function(req, res) {
   queryDB(res,"select * from Stocks where Price>1000");
 });
 
