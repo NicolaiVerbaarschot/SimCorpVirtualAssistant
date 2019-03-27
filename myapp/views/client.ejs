@@ -90,6 +90,31 @@
 
             </div>
 
+
+                <table id="table" class="table table-striped table-sm table-borderless">
+                    <thead>
+                    <tr>
+                        <td> mail </td>
+                        <td> name </td>
+                        <td> password </td>
+                        <td> groups </td>
+                        <td> accountLevel </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <%  results.forEach(function(result) { %>
+                        <tr>
+                            <td> result. </td>
+                            <td> name </td>
+                            <td> password </td>
+                            <td> groups </td>
+                            <td> accountLevel </td>
+                        </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+
+
             <!-- Table Div -->
             <div class='table-responsive'>
 

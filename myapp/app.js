@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+console.log("first");
 var indexRouter = require('./routes/index');
 
 var app = express();
@@ -18,3 +19,7 @@ app.use('/', indexRouter);
 app.listen(3000, function() {console.log(`listening at the moment!`)})
 
 module.exports = app;
+
+
+
+
