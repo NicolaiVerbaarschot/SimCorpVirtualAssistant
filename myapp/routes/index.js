@@ -22,6 +22,7 @@ router.get('/', function(req, res, next) {
     con.query("select * from Stocks", function (err, data) {
       if (err) throw err;
       res.render('client.ejs',{results:data});
+      console.log(data[2].Symbol)
     });
   });
   console.log("rendering");
