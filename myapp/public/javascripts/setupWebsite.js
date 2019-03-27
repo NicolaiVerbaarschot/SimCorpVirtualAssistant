@@ -1,4 +1,13 @@
 $(document).ready(function() {
+    $("#HButton").on("click", function () {
+        var query = $("#queryText").val();
+        $.ajax({
+            url: "/api/"+query
+        })
+            .done(function( data ) {
+                $("#holder").html(data.toString());
+            });
+    });
     $("#input").keypress(function(event) {
         if (event.which == 13) {
             event.preventDefault();

@@ -111,23 +111,4 @@
 
 </body>
 
-<script>
-    $(document).ready(function () {
-        var my_div = $("#holder");
-        //var query = $("#queryText").text();
-
-        $("#HButton").on("click", function () {
-
-            var query = document.getElementById("queryText").value;
-            console.log("query: " + query);
-            $.ajax({
-                url: "/api/:"+query
-            })
-                .done(function( data ) {
-                    my_div.html(data.toString());
-                });
-        });
-    });
-</script>
-
 </html>
