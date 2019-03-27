@@ -1,7 +1,7 @@
 import { Network } from './network';
 import { action } from './scripts';
 import { setResponse} from './scripts';
-import { recognition, switchRecognition } from './speechRecognition'; 
+import { SpeechRecognition } from './speechRecognition'; 
 
 var successHandler = function(data) {
     var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
@@ -15,8 +15,10 @@ var errorHandler = function() {
 
 export var network = new Network(successHandler, errorHandler);
 
-export function updateRec() {
-    $("#rec").text(recognition ? "Stop!!" : "Speak!!");
+var speechRecognition = new SpeechRecognition(updateRec);
+
+export function updateRec(text) {
+    $("#rec").text(text);
 }
 
 $(document).ready(function() {
@@ -29,7 +31,7 @@ $(document).ready(function() {
         }
     });
     $("#rec").click(function(event) {
-        switchRecognition();
+        speechRecognition.switch();
     });
     $("#rowButton").click(function() {
         $("#myTable").append("<tr><td>Beer</td><td>$ 20.00 </td></tr>");
