@@ -21,7 +21,7 @@ export function updateRec(text) {
     $("#rec").text(text);
 }
 
-var speechRecognition = new SpeechRecognition(updateRec, setInput);
+var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
 
 
 $(document).ready(function() {

@@ -1,7 +1,4 @@
-import { network } from './setupWebsite';
-
-
-export function SpeechRecognition(updateHandler, resultHandler) {
+export function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
     this.recognition = new webkitSpeechRecognition();
     this.isSpeaking = false;
 
@@ -14,7 +11,7 @@ export function SpeechRecognition(updateHandler, resultHandler) {
             text += event.results[i][0].transcript;
         }
         resultHandler(text);
-        network.send(text);
+        queryHandler.send(text);
         this.isSpeaking = false;
     };
 
