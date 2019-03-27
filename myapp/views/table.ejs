@@ -1,0 +1,28 @@
+<table id="table" class="table table-striped table-sm table-borderless">
+    <thead>
+    <tr>
+        <td> Symbol </td>
+        <td> Market </td>
+        <td> Price </td>
+        <td> OpenPrice </td>
+        <td> DailyHigh </td>
+        <td> DailyLow </td>
+        <td> PointChangeToday </td>
+        <td> PercentChangeToday </td>
+    </tr>
+    </thead>
+    <tbody>
+    <%  results.forEach(function(result) { %>
+        <tr>
+            <td> <%= result.Symbol %> </td>
+            <td> <%= result.Market %> </td>
+            <td> <%= result.Price %> </td>
+            <td> <%= result.OpenPrice %> </td>
+            <td> <%= result.DailyHigh %> </td>
+            <td> <%= result.DailyLow %> </td>
+            <td> <%= result.PointChangeToday %> </td>
+            <td> <%= result.PercentChangeToday %> </td>
+        </tr>
+    <% }); %>
+    </tbody>
+</table>

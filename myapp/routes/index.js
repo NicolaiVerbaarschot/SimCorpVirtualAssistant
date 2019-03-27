@@ -19,14 +19,27 @@ function queryDB(res,query) {
     console.log("Connected!");
     con.query(query, function (err, data) {
       if (err) throw err;
-      res.render('client.ejs', {results: data});
+      console.log("made query");
+      //res.json(data);
+      res.render('table.ejs', {results: data});
     });
   });
 }
 
-router.get('/', function(req, res, next) {
-  //queryDB(res,"select * from Stocks");
+
+
+router.get('/api/books', function(req, res) {
   queryDB(res,"select * from Stocks where Price>1000");
+});
+
+router.get('/table',function (req,res) {
+  res.render('table.html');
+
+});
+
+router.get('/', function(req, res, next) {
+  res.render('client.ejs' , {result_from_database: "Datab2ase"});
+  //queryDB(res,"select * from Stocks where Price>1000");
 
 });
 console.log("first2");
