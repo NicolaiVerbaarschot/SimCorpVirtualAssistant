@@ -1,19 +1,3 @@
-var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
-var baseUrl = "https://api.api.ai/v1/";
-
-function setInput(text) {
-    $("#input").val(text);
-}
-
-function updateRec() {
-    $("#rec").text(recognition ? "Stop" : "Speak");
-}
-
-function setResponse(val) {
-    $("#response").text($("#response").text() + val + "\r\n");
-    $("#response").scrollTop($("#response")[0].scrollHeight);
-}
-
 function addRow() {
     $("#table").append("<tr>\n" +
         "<th scope=\"row\">1</th>\n" +
@@ -51,21 +35,7 @@ function clearSearch() {
     $('#table').DataTable().search("").draw();
 }
 
-
-function formatMultipleLineReply(response) {
-    var responseLines = response.split('#linebreak');			// split response by keyword #linebreak
-    var multiLineReply = "";									// create output variable
-    
-    for (var i = 0; i < responseLines.length - 1; i++) {		// append all but the last line with \n
-    multiLineReply += responseLines[i] + "\n ";
-    }
-    
-    multiLineReply += responseLines[responseLines.length - 1];	// append the last line
-    
-    return multiLineReply;										// return the result
-    }
-
-function action(data) {
+export function action(data) {
 
     let intent = data.result.action;
 

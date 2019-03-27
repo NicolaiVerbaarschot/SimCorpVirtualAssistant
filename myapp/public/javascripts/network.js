@@ -1,22 +1,14 @@
-var successHandler = function(data) {
-    var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
-    setResponse("Bot: " + reply);
-    action(data);
-}
+var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
+var baseUrl = "https://api.api.ai/v1/";
 
-var errorHandler = function() {
-    setResponse("Internal Server Error");
-}
+//var network = new Network(successHandler, errorHandler);
 
-var network = new Network(successHandler, errorHandler);
-
-function Network(successHandler, errorHandler) {
+export function Network(successHandler, errorHandler) {
     this.successHandler = successHandler; 
     this.errorHandler = errorHandler;
 }
 
 Network.prototype.send = function(value) {
-    setResponse("You: " + value);
     $.ajax({
         type: "POST",
         url: baseUrl + "query?v=20150910",
@@ -27,7 +19,7 @@ Network.prototype.send = function(value) {
         },
         data: JSON.stringify({ query: value, lang: "en", sessionId: "somerandomthing" }),
 
-        success: successHandler,
-        error: errorHandler
+        success: this.successHandler,
+        error: this.errorHandler
     });
 }

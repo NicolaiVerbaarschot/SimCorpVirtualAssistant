@@ -1,13 +1,45 @@
+import { Network } from './network';
+import { action } from './scripts';
+import { SpeechRecognition } from './speechRecognition'; 
+
+
+function setResponse(val) {
+    $("#response").text($("#response").text() + val + "\r\n");
+    $("#response").scrollTop($("#response")[0].scrollHeight);
+}
+
+var successHandler = function(data) {
+    var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
+    setResponse("Bot: " + reply);
+    action(data);
+}
+var errorHandler = function() {
+    setResponse("Internal Server Error");
+}
+export var network = new Network(successHandler, errorHandler);
+
+function setInput(text) {
+    $("#input").val(text);
+}
+
+export function updateRec(text) {
+    $("#rec").text(text);
+}
+
+var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
+
+
 $(document).ready(function() {
     $("#input").keypress(function(event) {
         if (event.which == 13) {
             event.preventDefault();
             var text = $("#input").val();
+            setResponse("You: " + text);
             network.send(text);
         }
     });
     $("#rec").click(function(event) {
-        switchRecognition();
+        speechRecognition.switch();
     });
     $("#rowButton").click(function() {
         $("#myTable").append("<tr><td>Beer</td><td>$ 20.00 </td></tr>");
@@ -44,3 +76,16 @@ $(document).ready(function() {
     $('.dataTables_length').addClass('bs-select');
 
 });
+
+function formatMultipleLineReply(response) {
+    var responseLines = response.split('#linebreak');			// split response by keyword #linebreak
+    var multiLineReply = "";									// create output variable
+    
+    for (var i = 0; i < responseLines.length - 1; i++) {		// append all but the last line with \n
+    multiLineReply += responseLines[i] + "\n ";
+    }
+    
+    multiLineReply += responseLines[responseLines.length - 1];	// append the last line
+    
+    return multiLineReply;										// return the result
+}
