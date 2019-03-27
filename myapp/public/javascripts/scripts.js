@@ -1,6 +1,3 @@
-export function setInput(text) {
-    $("#input").val(text);
-}
 
 export function setResponse(val) {
     $("#response").text($("#response").text() + val + "\r\n");

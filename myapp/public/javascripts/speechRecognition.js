@@ -1,9 +1,7 @@
 import { network } from './setupWebsite';
-import { setInput } from './scripts';
-import { runInThisContext } from 'vm';
 
 
-export function SpeechRecognition(updateHandler) {
+export function SpeechRecognition(updateHandler, resultHandler) {
     this.recognition = new webkitSpeechRecognition();
     this.isSpeaking = false;
 
@@ -15,7 +13,7 @@ export function SpeechRecognition(updateHandler) {
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             text += event.results[i][0].transcript;
         }
-        setInput(text);
+        resultHandler(text);
         network.send(text);
         this.isSpeaking = false;
     };

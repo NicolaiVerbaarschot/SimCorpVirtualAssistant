@@ -8,18 +8,21 @@ var successHandler = function(data) {
     setResponse("Bot: " + reply);
     action(data);
 }
-
 var errorHandler = function() {
     setResponse("Internal Server Error");
 }
-
 export var network = new Network(successHandler, errorHandler);
 
-var speechRecognition = new SpeechRecognition(updateRec);
+function setInput(text) {
+    $("#input").val(text);
+}
 
 export function updateRec(text) {
     $("#rec").text(text);
 }
+
+var speechRecognition = new SpeechRecognition(updateRec, setInput);
+
 
 $(document).ready(function() {
     $("#input").keypress(function(event) {
