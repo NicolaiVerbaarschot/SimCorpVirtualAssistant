@@ -101,6 +101,8 @@
     </div>
     <form>
         <button type="button" id="HButton"> Fetch Database </button>
+        <input type="text" value="select * from Stocks where Price>1000" id="queryText" required
+               minlength="4" maxlength="80" size="100">
     </form>
 
 
@@ -112,13 +114,17 @@
 <script>
     $(document).ready(function () {
         var my_div = $("#holder");
+        //var query = $("#queryText").text();
+
         $("#HButton").on("click", function () {
 
+            var query = document.getElementById("queryText").value;
+            console.log("query: " + query);
             $.ajax({
-                url: "/api/query"
+                url: "/api/:"+query
             })
                 .done(function( data ) {
-                    $('#holder').html(data.toString());
+                    my_div.html(data.toString());
                 });
         });
     });

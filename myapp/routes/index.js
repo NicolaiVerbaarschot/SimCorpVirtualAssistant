@@ -28,8 +28,10 @@ function queryDB(res,query) {
 
 
 
-router.get('/api/query', function(req, res) {
-  queryDB(res,"select * from Stocks where Price>1000");
+router.get('/api/:query', function(req, res) {
+  var query = req.params.query;
+  console.log("query: " + query);
+  queryDB(res,query);
 });
 
 router.get('/table',function (req,res) {
@@ -38,8 +40,7 @@ router.get('/table',function (req,res) {
 });
 
 router.get('/', function(req, res, next) {
-  res.render('client.ejs' , {result_from_database: "Datab2ase"});
-  //queryDB(res,"select * from Stocks where Price>1000");
+  res.render('client.ejs' , {result_from_database: ""});
 
 });
 console.log("first2");
