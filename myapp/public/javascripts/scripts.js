@@ -1,9 +1,3 @@
-
-export function setResponse(val) {
-    $("#response").text($("#response").text() + val + "\r\n");
-    $("#response").scrollTop($("#response")[0].scrollHeight);
-}
-
 function addRow() {
     $("#table").append("<tr>\n" +
         "<th scope=\"row\">1</th>\n" +

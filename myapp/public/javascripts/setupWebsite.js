@@ -1,7 +1,12 @@
 import { Network } from './network';
 import { action } from './scripts';
-import { setResponse} from './scripts';
 import { SpeechRecognition } from './speechRecognition'; 
+
+
+function setResponse(val) {
+    $("#response").text($("#response").text() + val + "\r\n");
+    $("#response").scrollTop($("#response")[0].scrollHeight);
+}
 
 var successHandler = function(data) {
     var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
