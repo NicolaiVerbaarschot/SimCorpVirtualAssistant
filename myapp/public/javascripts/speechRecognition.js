@@ -1,15 +1,14 @@
 import { network } from './setupWebsite';
 import { setInput } from './scripts';
-
-var recognition;
-export var isSpeaking = false;
+import { updateRec } from './setupWebsite';
 
 
-function startRecognition(comletionHandler) {
+export var recognition;
+
+function startRecognition() {
     recognition = new webkitSpeechRecognition();
     recognition.onstart = function(event) {
-        isSpeaking = true
-        comletionHandler()
+        updateRec();
     };
     recognition.onresult = function(event) {
         var text = "";
@@ -22,24 +21,23 @@ function startRecognition(comletionHandler) {
     };
     recognition.onend = function() {
         stopRecognition();
-        comletionHandler();
     };
     recognition.lang = "en-US";
     recognition.start();
 }
 
-function stopRecognition(comletionHandler) {
+function stopRecognition() {
     if (recognition) {
         recognition.stop();
         recognition = null;
-        isSpeaking = false 
     }
+    updateRec();
 }
 
-export function switchRecognition(comletionHandler) {
+export function switchRecognition() {
     if (recognition) {
-        stopRecognition(comletionHandler);
+        stopRecognition();
     } else {
-        startRecognition(comletionHandler);
+        startRecognition();
     }
 }

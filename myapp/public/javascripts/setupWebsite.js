@@ -1,7 +1,7 @@
 import { Network } from './network';
 import { action } from './scripts';
 import { setResponse} from './scripts';
-import { switchRecognition, isSpeaking } from './speechRecognition'; 
+import { recognition, switchRecognition } from './speechRecognition'; 
 
 var successHandler = function(data) {
     var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
@@ -13,8 +13,11 @@ var errorHandler = function() {
     setResponse("Internal Server Error");
 }
 
-
 export var network = new Network(successHandler, errorHandler);
+
+export function updateRec() {
+    $("#rec").text(recognition ? "Stop!!" : "Speak!!");
+}
 
 $(document).ready(function() {
     $("#input").keypress(function(event) {
@@ -26,9 +29,7 @@ $(document).ready(function() {
         }
     });
     $("#rec").click(function(event) {
-        switchRecognition(function() {
-            $("#rec").text(isSpeaking ? "Stop" : "Speak");
-        });
+        switchRecognition();
     });
     $("#rowButton").click(function() {
         $("#myTable").append("<tr><td>Beer</td><td>$ 20.00 </td></tr>");
