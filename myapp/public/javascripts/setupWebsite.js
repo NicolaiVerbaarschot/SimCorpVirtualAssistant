@@ -5,7 +5,7 @@ $(document).ready(function() {
             url: "/api/"+query
         })
             .done(function( data ) {
-                $("#holder").html(data.toString());
+                $("#databaseContainer").html(data.toString());
             });
     });
     $("#input").keypress(function(event) {
