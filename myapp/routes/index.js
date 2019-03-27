@@ -12,21 +12,23 @@ var con = mysql.createConnection({
   database: "StockMarket"
 });
 
-var result;
 
-
-router.get('/', function(req, res, next) {
-  con.connect(function(err) {
+function queryDB(res,query) {
+  con.connect(function (err) {
     if (err) throw err;
     console.log("Connected!");
-    con.query("select * from Stocks", function (err, data) {
+    con.query(query, function (err, data) {
       if (err) throw err;
-      res.render('client.ejs',{results:data});
-      console.log(data[2].Symbol)
+      res.render('client.ejs', {results: data});
     });
   });
-  console.log("rendering");
+}
+
+router.get('/', function(req, res, next) {
+  //queryDB(res,"select * from Stocks");
+  queryDB(res,"select * from Stocks where Price>1000");
 
 });
 console.log("first2");
 module.exports = router;
+
