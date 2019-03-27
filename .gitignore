@@ -190,3 +190,6 @@ typings/
 .history
 
 # End of https://www.gitignore.io/api/node,macos,visualstudiocode
+
+# Ignore dist folder created by parcel
+dist

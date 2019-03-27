@@ -1,9 +1,15 @@
-var recognition;
+import { network } from './setupWebsite';
+import { setInput } from './scripts';
 
-function startRecognition() {
+var recognition;
+export var isSpeaking = false;
+
+
+function startRecognition(comletionHandler) {
     recognition = new webkitSpeechRecognition();
     recognition.onstart = function(event) {
-        updateRec();
+        isSpeaking = true
+        comletionHandler()
     };
     recognition.onresult = function(event) {
         var text = "";
@@ -16,23 +22,24 @@ function startRecognition() {
     };
     recognition.onend = function() {
         stopRecognition();
+        comletionHandler();
     };
     recognition.lang = "en-US";
     recognition.start();
 }
 
-function stopRecognition() {
+function stopRecognition(comletionHandler) {
     if (recognition) {
         recognition.stop();
         recognition = null;
+        isSpeaking = false 
     }
-    updateRec();
 }
 
-function switchRecognition() {
+export function switchRecognition(comletionHandler) {
     if (recognition) {
-        stopRecognition();
+        stopRecognition(comletionHandler);
     } else {
-        startRecognition();
+        startRecognition(comletionHandler);
     }
 }
