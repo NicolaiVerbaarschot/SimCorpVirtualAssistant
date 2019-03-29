@@ -6,10 +6,10 @@ const router = express.Router();
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "toor",
-  database: "StockMarket"
+  host: "remotemysql.com",
+  user: "yiZaQZM5Nm",
+  password: "L3YF0CxQf7",
+  database: "yiZaQZM5Nm"
 });
 
 

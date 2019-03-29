@@ -1,7 +1,6 @@
 
 CREATE DATABASE StockMarket;
 USE StockMarket;
-drop TABLE Stocks;
 create table Stocks (
   Symbol VARCHAR(6),
   Market VARCHAR(8),
@@ -26,3 +25,4 @@ INSERT Stocks (Symbol, Market, Price, OpenPrice, DailyHigh, DailyLow) VALUE
 
 
 select * from Stocks;
+
