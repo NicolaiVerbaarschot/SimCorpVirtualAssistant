@@ -101,14 +101,15 @@ function reset() {
 }
 
 function action(data) {
-
+    // get intent
     let intent = data.result.action;
 
+    // exit if action cannot be executed
     if (data.result.actionIncomplete) return;
 
     // TODO: Make robust
 
-    // Get parameters
+    // get parameters
     let stockAttribute =  data.result.parameters["StockAttribute"];
     let searchString = data.result.parameters["searchString"];
     let groupString = data.result.parameters["attribute"];
@@ -152,7 +153,18 @@ function action(data) {
 
 // ---------------------------------------------- Aux. Functions ---------------------------------------------- //
 
-// TODO: Refactor and move to separate file
+function copyQueryObject(queryObject) {
+    return {
+        columns: queryObject.columns,
+        filter: queryObject.filter,
+        sort: queryObject.sort,
+        order: queryObject.order,
+        group: queryObject.group,
+        search: queryObject.search
+    };
+}
+
+// TODO move to external file
 function queryParser(queryObject) {
     var query = "SELECT " + queryObject.columns + " FROM Stocks"; // Re-arranging
 
@@ -203,17 +215,3 @@ function queryParser(queryObject) {
 
     return query;
 }
-
-function copyQueryObject(queryObject) {
-    return {
-        columns: queryObject.columns,
-        filter: queryObject.filter,
-        sort: queryObject.sort,
-        order: queryObject.order,
-        group: queryObject.group,
-        search: queryObject.search
-    };
-}
-
-
-
