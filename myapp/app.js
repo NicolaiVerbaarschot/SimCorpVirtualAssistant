@@ -1,8 +1,11 @@
 var express = require('express');
 var path = require('path');
+var cors = require('cors')
 var indexRouter = require('./routes/index');
 
 var app = express();
+
+app.use(cors())
 
 // view engine setup to make it possible to render plain html
 app.set('views', path.join(__dirname, 'views'));

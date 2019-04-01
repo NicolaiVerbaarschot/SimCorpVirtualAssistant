@@ -33,9 +33,10 @@ $(document).ready(function() {
     $("#HButton").on("click", function () {
         var query = $("#queryText").val();
         $.ajax({
-            url: "/api/"+query
+            url: "http://localhost:3000/api/"+query
         })
             .done(function( data ) {
+                console.log(data)
                 $("#databaseContainer").html(data.toString());
             });
     });
