@@ -9,6 +9,7 @@ function addRow() {
         "<td>816.45B</td>\n" +
         "<td>1.69 %</td>\n" +
         "</tr>");
+
 }
 
 function removeRow() {
@@ -49,6 +50,7 @@ export function action(data) {
     switch (intent) {
         case "input.addRow":
             addRow();
+
             break;
         case "input.deleteRow":
             removeRow();

@@ -30,6 +30,16 @@ var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
 
 
 $(document).ready(function() {
+    $("#HButton").on("click", function () {
+        var query = $("#queryText").val();
+        $.ajax({
+            url: "http://localhost:3000/api/"+query
+        })
+            .done(function( data ) {
+                console.log(data)
+                $("#databaseContainer").html(data.toString());
+            });
+    });
     $("#input").keypress(function(event) {
         if (event.which == 13) {
             event.preventDefault();
