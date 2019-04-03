@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node app.js",
     "devMac": "node app.js | npx parcel views/client.html",
     "devWindows": "start node app.js && start npx parcel views/client.html"
   },

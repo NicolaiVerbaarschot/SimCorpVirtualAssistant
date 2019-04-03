@@ -1,4 +1,4 @@
-export function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
+function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
     this.recognition = new webkitSpeechRecognition();
     this.isSpeaking = false;
     var self = this; // The most hacky solution ever

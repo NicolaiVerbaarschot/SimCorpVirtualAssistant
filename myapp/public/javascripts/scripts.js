@@ -73,7 +73,7 @@ function reset() {
     queryObjectStack = [baseQueryObject];
 }
 
-export function action(data) {
+function action(data) {
     // get intent
     let intent = data.result.action;
 

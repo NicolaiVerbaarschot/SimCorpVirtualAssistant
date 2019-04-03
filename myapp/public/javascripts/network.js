@@ -3,7 +3,7 @@ var baseUrl = "https://api.api.ai/v1/";
 
 //var network = new Network(successHandler, errorHandler);
 
-export function Network(successHandler, errorHandler) {
+function Network(successHandler, errorHandler) {
     this.successHandler = successHandler; 
     this.errorHandler = errorHandler;
 }
