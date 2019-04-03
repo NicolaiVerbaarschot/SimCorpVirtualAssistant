@@ -1,38 +1,37 @@
-var recognition;
+export function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
+    this.recognition = new webkitSpeechRecognition();
+    this.isSpeaking = false;
+    var self = this; // The most hacky solution ever
 
-function startRecognition() {
-    recognition = new webkitSpeechRecognition();
-    recognition.onstart = function(event) {
-        updateRec();
-    };
-    recognition.onresult = function(event) {
+    this.recognition.onstart = function(_) {
+        console.log("on start: " + self.isSpeaking);
+        updateHandler("Stop");
+    }
+    this.recognition.onresult = function(event) {
         var text = "";
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             text += event.results[i][0].transcript;
         }
-        setInput(text);
-        network.send(text);
-        stopRecognition();
+        resultHandler(text);
+        queryHandler.send(text);
+        console.log("on result: " + self.isSpeaking);
     };
-    recognition.onend = function() {
-        stopRecognition();
-    };
-    recognition.lang = "en-US";
-    recognition.start();
-}
 
-function stopRecognition() {
-    if (recognition) {
-        recognition.stop();
-        recognition = null;
+    this.recognition.onend = function(_) {
+        updateHandler("Speak");
+        self.isSpeaking = false; 
+        console.log("on end: " + self.isSpeaking);
     }
-    updateRec();
+    this.recognition.lang = "en-US";
 }
 
-function switchRecognition() {
-    if (recognition) {
-        stopRecognition();
+SpeechRecognition.prototype.switch = function() {
+    console.log("switching: " + this.isSpeaking);
+    if(this.isSpeaking) {
+        this.isSpeaking = false;
+        this.recognition.stop();
     } else {
-        startRecognition();
+        this.isSpeaking = true; 
+        this.recognition.start();
     }
 }
