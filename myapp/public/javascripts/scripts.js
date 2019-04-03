@@ -12,32 +12,6 @@ var baseQueryObject = {
 
 var queryObjectStack = [baseQueryObject];
 
-function setInput(text) {
-    $("#input").val(text);
-}
-
-function updateRec() {
-    $("#rec").text(recognition ? "Stop" : "Speak");
-}
-
-function setResponse(val) {
-    $("#response").text($("#response").text() + val + "\r\n");
-    $("#response").scrollTop($("#response")[0].scrollHeight);
-}
-
-function formatMultipleLineReply(response) {
-    var responseLines = response.split('#linebreak');			// split response by keyword #linebreak
-    var multiLineReply = "";									// create output variable
-
-    for (var i = 0; i < responseLines.length - 1; i++) {		// append all but the last line with \n
-        multiLineReply += responseLines[i] + "\n ";
-    }
-
-    multiLineReply += responseLines[responseLines.length - 1];	// append the last line
-
-    return multiLineReply;										// return the result
-}
-
 // ---------------------------------------------- Table Operations ---------------------------------------------- //
 
 // TODO: If we use more string attributes in the DB, this would have to be changed. Not ideal, could be implemented smarter
@@ -85,7 +59,6 @@ function filterTable(stockAttribute, threshold, higherLower) {
     let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
     newQuery.filter = [[stockAttribute, threshold, boolHL]];
     queryObjectStack.push(newQuery);
-
 }
 
 function undo() {
@@ -100,7 +73,7 @@ function reset() {
     queryObjectStack = [baseQueryObject];
 }
 
-function action(data) {
+export function action(data) {
     // get intent
     let intent = data.result.action;
 

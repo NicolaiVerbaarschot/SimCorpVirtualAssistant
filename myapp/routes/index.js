@@ -39,7 +39,7 @@ router.get('/table',function (req,res) {
 });
 
 router.get('/', function(req, res, next) {
-  res.render('client.ejs' , {result_from_database: ""});
+  res.render('client.html' , {result_from_database: ""});
 
 });
 
