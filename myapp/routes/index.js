@@ -33,19 +33,12 @@ router.get('/api/:query', function(req, res) {
   queryDB(res,req.params.query);
 });
 
-router.get('/table',function (req,res) {
-  res.render('table.html');
-
-});
-
 router.get('/', function(req, res, next) {
   res.render('client.html' , {result_from_database: ""});
-
 });
 
 router.get('/graph', function(req, res, next) {
   res.render('graph.html');
-
 });
 
 module.exports = router;

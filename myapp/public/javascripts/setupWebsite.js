@@ -1,3 +1,4 @@
+
 function setResponse(val) {
     $("#response").text($("#response").text() + val + "\r\n");
     $("#response").scrollTop($("#response")[0].scrollHeight);
@@ -7,10 +8,12 @@ var successHandler = function(data) {
     var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
     setResponse("Bot: " + reply);
     action(data);
-}
+};
+
 var errorHandler = function() {
     setResponse("Internal Server Error");
-}
+};
+
 var network = new Network(successHandler, errorHandler);
 
 function setInput(text) {
@@ -23,8 +26,8 @@ function updateRec(text) {
 
 var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
 
-
 $(document).ready(function() {
+
     $("#HButton").on("click", function () {
         var query = $("#queryText").val();
         $.ajax({
@@ -35,51 +38,27 @@ $(document).ready(function() {
                 $("#databaseContainer").html(data.toString());
             });
     });
+
+    // TODO: Prevent crash from incorrectly formed query upon enter key submission
+    $("#queryText").keypress(function (e) {
+        if (e.which == 13) {
+            $("#HButton").click();
+            return false;
+        }
+    });
+
     $("#input").keypress(function(event) {
         if (event.which == 13) {
-            event.preventDefault();
             var text = $("#input").val();
             setResponse("You: " + text);
             network.send(text);
+            return false;
         }
     });
-    $("#rec").click(function(event) {
+
+    $("#rec").click(function() {
         speechRecognition.switch();
     });
-    $("#rowButton").click(function() {
-        $("#myTable").append("<tr><td>Beer</td><td>$ 20.00 </td></tr>");
-    });
-
-    $( "#addRow" ).click(function() {
-        addRow();
-    });
-
-    $( "#removeRow" ).click(function() {
-        removeRow();
-    });
-
-    $( "#showHideTable" ).click(function() {
-        toggleTable();
-    });
-
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
-    $( "#populate" ).click(function() {
-        $("tbody").each(function(elem,index){
-            var arr = $.makeArray($("tr",this).detach());
-            arr.reverse();
-            $(this).append(arr);
-        });
-    });
-
-
-    $('#table').DataTable({
-        "ordering": true // false to disable sorting (or any other option)
-    });
-    $('.dataTables_length').addClass('bs-select');
-
 });
 
 function formatMultipleLineReply(response) {

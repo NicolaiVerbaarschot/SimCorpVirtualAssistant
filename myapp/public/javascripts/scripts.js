@@ -1,6 +1,3 @@
-var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
-var baseUrl = "https://api.api.ai/v1/";
-
 var baseQueryObject = {
     columns: "*",
     filter: [],
@@ -35,7 +32,7 @@ function sortTable(stockAttribute) {
 
 function reverseTable() {
     let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
-    if (queryObjectStack[queryObjectStack.length-1].order == "DESC") {
+    if (queryObjectStack[queryObjectStack.length-1].order === "DESC") {
         newQuery.order = "";
     } else {
         newQuery.order = "DESC";
@@ -77,6 +74,9 @@ function drawGraph() {
     window.open(
         'graph','popUpWindow','height=300,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
 }
+
+
+
 
 
 function action(data) {
