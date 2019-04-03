@@ -73,6 +73,12 @@ function reset() {
     queryObjectStack = [baseQueryObject];
 }
 
+function drawGraph() {
+    window.open(
+        'graph','popUpWindow','height=300,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+}
+
+
 function action(data) {
     // get intent
     let intent = data.result.action;
@@ -114,6 +120,9 @@ function action(data) {
             break;
         case "reset":
             reset();
+            break;
+        case "visualizeData":
+            drawGraph();
             break;
     }
 
