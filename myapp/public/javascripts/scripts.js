@@ -70,13 +70,13 @@ function reset() {
     queryObjectStack = [baseQueryObject];
 }
 
-function drawGraph() {
-    let width = 800;
-    let height = 800;
-    var left = (screen.width/2)-(width/2);
-    var top = (screen.height/2)-(height/2);
-    window.open('','popUpWindow','height='+height+',width='+width+',left='+left+',top='+top+',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
-}
+// function drawGraph() {
+//     let width = 800;
+//     let height = 800;
+//     var left = (screen.width/2)-(width/2);
+//     var top = (screen.height/2)-(height/2);
+//     window.open('','popUpWindow','height='+height+',width='+width+',left='+left+',top='+top+',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+// }
 
 
 function action(data) {
@@ -122,7 +122,7 @@ function action(data) {
             reset();
             break;
         case "visualizeData":
-            drawGraph();
+            // drawGraph();
             break;
     }
 

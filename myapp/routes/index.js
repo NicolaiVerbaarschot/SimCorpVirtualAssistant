@@ -50,9 +50,6 @@ router.get('/', function(req, res, next) {
   res.render('client.html' , {result_from_database: ""});
 });
 
-router.get('/graph', function(req, res, next) {
-  res.render('graph.ejs');
-});
 
 module.exports = router;
 

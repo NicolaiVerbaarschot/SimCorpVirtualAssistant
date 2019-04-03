@@ -1,23 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+ <canvas id="myChart"></canvas>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
-    <title>Graph</title>
-
-</head>
-
-<body>
-
-    <canvas id="myChart"></canvas>
-
-</body>
-
+ <%  results.forEach(function(result) { %>
+        <% console.log(result) %>
+         <% for(var attributeName in result){%>
+             <% console.log(result[attributeName]) %>
+             <p> <%= result[attributeName] %> </p>
+         <%}%>
+        <% console.log("") %>
+ <% }); %>
 <script>
+    var results = "<%= results %>";
+    console.log(results);
+
+    // results.forEach(function(result) {
+    //     console.log("\n");
+    //     for (var attributeName in result) {
+    //         console.log(result[attributeName]);
+    //     }
+    // });
+
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -28,8 +29,8 @@
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
                 label: 'My First dataset',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgb(32,100,121)',
+                borderColor: 'rgb(32,100,121)',
                 data: [0, 10, 5, 2, 20, 30, 45]
             }]
         },
@@ -39,3 +40,4 @@
     });
 
 </script>
+

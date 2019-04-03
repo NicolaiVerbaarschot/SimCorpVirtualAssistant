@@ -29,13 +29,22 @@ var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
 $(document).ready(function() {
 
     $("#VisualizeButton").on("click", function () {
+
+        let width = 800;
+        let height = 800;
+        var left = (screen.width/2)-(width/2);
+        var top = (screen.height/2)-(height/2);
+
         var query = $("#queryText").val();
+
+
+
         $.ajax({
             url: "http://localhost:3000/api/graph/"+query
         })
             .done(function( data ) {
                 console.log(data)
-                $("#databaseContainer").html(data.toString());
+                $("#graphContainer").html(data.toString());
             });
     });
 
