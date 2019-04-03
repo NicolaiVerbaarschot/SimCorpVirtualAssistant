@@ -71,12 +71,12 @@ function reset() {
 }
 
 function drawGraph() {
-    window.open(
-        'graph','popUpWindow','height=300,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+    let width = 800;
+    let height = 800;
+    var left = (screen.width/2)-(width/2);
+    var top = (screen.height/2)-(height/2);
+    window.open('','popUpWindow','height='+height+',width='+width+',left='+left+',top='+top+',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
 }
-
-
-
 
 
 function action(data) {

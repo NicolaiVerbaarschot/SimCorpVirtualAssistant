@@ -21,7 +21,7 @@ function makeConnectionToDB() {
 }
 makeConnectionToDB();
 
-function queryDB(res,query) {
+function queryDBTable(res,query) {
   con.query(query, function (err, data) {
     if (err) throw err;
     console.log("made query: "+query);
@@ -29,8 +29,21 @@ function queryDB(res,query) {
   });
 }
 
-router.get('/api/:query', function(req, res) {
-  queryDB(res,req.params.query);
+function queryDBGraph(res,query) {
+  con.query(query, function (err, data) {
+    if (err) throw err;
+    console.log("made query: "+query);
+    res.render('graph.ejs', {results: data});
+  });
+}
+
+
+router.get('/api/graph/:query', function(req, res) {
+  queryDBGraph(res,req.params.query);
+});
+
+router.get('/api/table/:query', function(req, res) {
+  queryDBTable(res,req.params.query);
 });
 
 router.get('/', function(req, res, next) {
@@ -38,7 +51,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/graph', function(req, res, next) {
-  res.render('graph.html');
+  res.render('graph.ejs');
 });
 
 module.exports = router;

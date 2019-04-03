@@ -28,10 +28,21 @@ var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
 
 $(document).ready(function() {
 
+    $("#VisualizeButton").on("click", function () {
+        var query = $("#queryText").val();
+        $.ajax({
+            url: "http://localhost:3000/api/graph/"+query
+        })
+            .done(function( data ) {
+                console.log(data)
+                $("#databaseContainer").html(data.toString());
+            });
+    });
+
     $("#HButton").on("click", function () {
         var query = $("#queryText").val();
         $.ajax({
-            url: "http://localhost:3000/api/"+query
+            url: "http://localhost:3000/api/table/"+query
         })
             .done(function( data ) {
                 console.log(data)
