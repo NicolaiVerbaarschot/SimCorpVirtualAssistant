@@ -9,6 +9,8 @@
     <% Object.keys(results[0]).forEach(function(attributeName){%>
         graphLabels.push("<%= attributeName.toString() %>");
     <%});%>
+    graphLabels.shift();
+    graphLabels.shift();
 
 
 
