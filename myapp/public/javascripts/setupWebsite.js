@@ -37,13 +37,10 @@ $(document).ready(function() {
 
         var query = $("#queryText").val();
 
-
-
         $.ajax({
             url: "http://localhost:3000/api/graph/"+query
         })
             .done(function( data ) {
-                console.log(data)
                 $("#graphContainer").html(data.toString());
             });
     });
@@ -54,7 +51,6 @@ $(document).ready(function() {
             url: "http://localhost:3000/api/table/"+query
         })
             .done(function( data ) {
-                console.log(data)
                 $("#databaseContainer").html(data.toString());
             });
     });

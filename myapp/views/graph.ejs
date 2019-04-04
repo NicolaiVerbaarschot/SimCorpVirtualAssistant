@@ -1,24 +1,37 @@
- <canvas id="myChart"></canvas>
 
- <%  results.forEach(function(result) { %>
-        <% console.log(result) %>
-         <% for(var attributeName in result){%>
-             <% console.log(result[attributeName]) %>
-             <p> <%= result[attributeName] %> </p>
-         <%}%>
-        <% console.log("") %>
- <% }); %>
+<canvas id="myChart"></canvas>
+
 <script>
-    var results = "<%= results %>";
-    console.log(results);
 
-    // results.forEach(function(result) {
-    //     console.log("\n");
-    //     for (var attributeName in result) {
-    //         console.log(result[attributeName]);
-    //     }
-    // });
+    //////////////// This section exchanges serverside ejs parameters to clientside javascript variables
+    var graphLabels = [];
 
+    <% Object.keys(results[0]).forEach(function(attributeName){%>
+        graphLabels.push("<%= attributeName.toString() %>");
+    <%});%>
+
+
+
+    var results = [];
+    var resultRecord = [];
+
+    entry = "<%= results %>";
+    console.log(entry);
+
+    <%  results.forEach(function(result) { %>
+        <% for(var attributeName in result){%>
+            resultRecord.push("<%= result[attributeName] %>");
+        <%}%>
+            results.push(resultRecord);
+            resultRecord = [];
+    <% }); %>
+
+    var rawDataTemp = results[0];
+    var dataTemp = rawDataTemp.slice(2,rawDataTemp.length);
+    // END SECTION ////////////////
+
+
+    // Create Graph
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -26,18 +39,17 @@
 
         // The data for our dataset
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: graphLabels,
             datasets: [{
                 label: 'My First dataset',
                 backgroundColor: 'rgb(32,100,121)',
                 borderColor: 'rgb(32,100,121)',
-                data: [0, 10, 5, 2, 20, 30, 45]
+                data: dataTemp
             }]
         },
 
         // Configuration options go here
         options: {}
     });
-
 </script>
 
