@@ -15,6 +15,9 @@ app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public/javascripts')));
 
+
+app.use('jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
+
 app.use('/', indexRouter);
 
 app.listen(3000, function() {console.log(`listening at the moment!`)});

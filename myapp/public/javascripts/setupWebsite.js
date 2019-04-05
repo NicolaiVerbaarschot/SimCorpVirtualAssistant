@@ -21,7 +21,7 @@ function setInput(text) {
 }
 
 function updateRec(text) {
-    $("#rec").text(text);
+    $("#rec").html(text);
 }
 
 var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
@@ -35,7 +35,7 @@ $(document).ready(function() {
         var left = (screen.width/2)-(width/2);
         var top = (screen.height/2)-(height/2);
 
-        var query = $("#queryText").val();
+        var query = $("#queryTextForGraph").val();
 
         $.ajax({
             url: "http://localhost:3000/api/graph/"+query
@@ -59,6 +59,12 @@ $(document).ready(function() {
     $("#queryText").keypress(function (e) {
         if (e.which == 13) {
             $("#HButton").click();
+            return false;
+        }
+    });
+    $("#queryTextForGraph").keypress(function (e) {
+        if (e.which == 13) {
+            $("#VisualizeButton").click();
             return false;
         }
     });

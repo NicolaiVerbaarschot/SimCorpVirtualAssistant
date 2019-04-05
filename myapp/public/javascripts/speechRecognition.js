@@ -5,7 +5,7 @@ function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
 
     this.recognition.onstart = function(_) {
         console.log("on start: " + self.isSpeaking);
-        updateHandler("Stop");
+        updateHandler("<i class=\"fas fa-microphone-slash\"></i>");
     }
     this.recognition.onresult = function(event) {
         var text = "";
@@ -18,7 +18,7 @@ function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
     };
 
     this.recognition.onend = function(_) {
-        updateHandler("Speak");
+        updateHandler("<i class=\"fas fa-microphone\"></i>");
         self.isSpeaking = false; 
         console.log("on end: " + self.isSpeaking);
     }

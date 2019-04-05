@@ -128,6 +128,7 @@ function action(data) {
 
     // copy the query into the query field
     $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length-1]));
+    $("#queryTextForGraph").val(queryParser(queryObjectStack[queryObjectStack.length-1]));
 
     // execute the query
     $("#HButton").click();

@@ -50,6 +50,19 @@ router.get('/', function(req, res, next) {
   res.render('client.html' , {result_from_database: ""});
 });
 
+router.get('/docs', function(req, res, next) {
+  res.render('docs.html');
+});
+
+router.get('/about', function(req, res, next) {
+  res.render('about.html');
+});
+
+router.get('/features', function(req, res, next) {
+  res.render('features.html');
+});
+
+
 
 module.exports = router;
 
