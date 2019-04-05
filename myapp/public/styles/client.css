@@ -54,7 +54,10 @@ body {
 .sidenav {
     background-color: #22c9fc;
     position: relative;
-    height: 100vh;
+    height: auto;
+    padding-bottom: 20px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
     box-shadow: inset 0px 0px 55px -31px rgba(0,0,0,0.75);
 }
 
@@ -84,9 +87,9 @@ body {
         margin-top: 20px;
         background-color: #22c9fc;
         position: relative;
-        height: 100vh;
-        border-top-left-radius:10px;
-        border-top-right-radius:10px;
+        height: auto;
+        padding-bottom: 20px;
+        border-radius: 10px;
         box-shadow: inset 0px 0px 55px -31px rgba(0,0,0,0.75);
     }
 }
