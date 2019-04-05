@@ -14,19 +14,16 @@ function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
         }
         resultHandler(text);
         queryHandler.send(text);
-        console.log("on result: " + self.isSpeaking);
     };
 
     this.recognition.onend = function(_) {
         updateHandler("Speak");
         self.isSpeaking = false; 
-        console.log("on end: " + self.isSpeaking);
     }
     this.recognition.lang = "en-US";
 }
 
 SpeechRecognition.prototype.switch = function() {
-    console.log("switching: " + this.isSpeaking);
     if(this.isSpeaking) {
         this.isSpeaking = false;
         this.recognition.stop();

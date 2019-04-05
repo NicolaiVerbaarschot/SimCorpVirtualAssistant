@@ -126,11 +126,6 @@ function action(data) {
             break;
     }
 
-    // copy the query into the query field
-    $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length-1]));
-
-    // execute the query
-    $("#HButton").click();
 }
 
 // ---------------------------------------------- Aux. Functions ---------------------------------------------- //

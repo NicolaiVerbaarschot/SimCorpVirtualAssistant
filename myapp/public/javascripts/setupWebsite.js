@@ -22,7 +22,7 @@ function updateRec(text) {
 }
 
 var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
-
+var queryManager = new QueryManager();
 
 $(document).ready(function() {
     $("#HButton").on("click", function () {
@@ -39,8 +39,9 @@ $(document).ready(function() {
         if (event.which == 13) {
             event.preventDefault();
             var text = $("#input").val();
+            queryManager.manageInput(text);
             setResponse("You: " + text);
-            network.send(text);
+            //network.send(text);
         }
     });
     $("#rec").click(function(event) {
