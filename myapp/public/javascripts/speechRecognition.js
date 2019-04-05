@@ -1,4 +1,4 @@
-function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
+function SpeechRecognition(updateHandler, resultHandler) {
     this.recognition = new webkitSpeechRecognition();
     this.isSpeaking = false;
     var self = this; // The most hacky solution ever
@@ -13,7 +13,6 @@ function SpeechRecognition(updateHandler, resultHandler, queryHandler) {
             text += event.results[i][0].transcript;
         }
         resultHandler(text);
-        queryHandler.send(text);
     };
 
     this.recognition.onend = function(_) {

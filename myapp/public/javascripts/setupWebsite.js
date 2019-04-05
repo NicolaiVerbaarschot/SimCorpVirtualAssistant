@@ -11,7 +11,7 @@ var successHandler = function(data) {
 var errorHandler = function() {
     setResponse("Internal Server Error");
 }
-var network = new Network(successHandler, errorHandler);
+
 
 function setInput(text) {
     $("#input").val(text);
@@ -21,7 +21,7 @@ function updateRec(text) {
     $("#rec").text(text);
 }
 
-var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
+var speechRecognition = new SpeechRecognition(updateRec, setInput);
 var queryManager = new QueryManager();
 
 $(document).ready(function() {

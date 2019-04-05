@@ -1,15 +1,5 @@
-function QueryManager() {
+function QueryManager() {}
 
-    var errorHandler = function() {
-        console.log("network error happened");
-    }
-
-    var successHandler = function(data) {
-        console.log("this is a normal success");
-    }
-
-    this.network = Network(successHandler, errorHandler);
-}
 
 QueryManager.prototype.manageInput = function(input) {
     
@@ -24,7 +14,6 @@ QueryManager.prototype.manageInput = function(input) {
         });
     });
 }
-
 let sendAsync = async function(value) {
     let result; 
     try {
