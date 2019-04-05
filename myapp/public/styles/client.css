@@ -14,7 +14,6 @@ html {
 
 body {
     height:100vh;
-    /*font-family: Product Sans;*/
     font-family: Product Sans;
 }
 
@@ -49,7 +48,7 @@ body {
 .container-fluid {
     padding-left: 100px;
     padding-right: 100px;
-    height: calc(100vh - 60px);
+    height: calc(100vh);
 }
 
 .sidenav {
@@ -78,4 +77,18 @@ body {
     padding-left: 50px;
     padding-right: 50px;
 }
+
+
+@media (max-width: 576px) {
+    .sidenav {
+        margin-top: 20px;
+        background-color: #22c9fc;
+        position: relative;
+        height: calc(100vh);
+        border-top-left-radius:10px;
+        border-top-right-radius:10px;
+        box-shadow: inset 0px 0px 55px -31px rgba(0,0,0,0.75);
+    }
+}
+
 
