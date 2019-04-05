@@ -1,12 +1,25 @@
+html {
+    height:100vh;
+}
+
+body {
+    height:100vh;
+}
+
+/*.navbar {*/
+/*    height: 60px;*/
+/*}*/
+
 .container-fluid {
     padding-left: 100px;
     padding-right: 100px;
+    height: calc(100vh - 60px);
 }
 
 .sidenav {
     background-color: #d4d4dd;
     position: relative;
-    height: 500px;
+    height: calc(100vh - 60px);
 }
 
 
