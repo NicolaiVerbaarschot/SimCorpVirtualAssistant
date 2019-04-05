@@ -13,48 +13,87 @@
     <script src="network.js"></script>
     <script src="setupWebsite.js"></script>
     <script src="scripts.js"></script>
-    <script>
-        $(function(){
-            $("#includedContent").load("views/table.ejs");
-        });
-    </script>
-
-    <!-- Datatable script -->
-<!--    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>-->
-
-    <!-- Latest compiled and minified JavaScript -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <!-- Datatable styling-->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!--Custom Styles-->
+    <link rel="stylesheet" type="text/css" href="../styles/client.css">
 
     <!-- Graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
-
 
 </head>
 
 <body>
 
-<!-- Body container -->
-<div class="container">
 
-    <!-- Global header -->
-    <div class="jumbotron" style="margin-bottom: 5px">
-        <h1>Simcorp Virtual Assistant</h1>
-        <p>This webpage was created with the intent of illustrating basic grid operations, initiated by a virtual assistant through use of natural spoken language.</p>
+
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #263541;">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="#">Features</a>
+            <a class="nav-item nav-link" href="#">Pricing</a>
+            <a class="nav-item nav-link disabled" href="#">Disabled</a>
+        </div>
     </div>
+</nav>
 
 
-    <!-- Assistant Div -->
-    <div class="row" style="margin-bottom: 15px">
 
-        <div class="col-lg-6">
-            <label style="font-size: 24px;">Assistant</label>
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-8 text-left">
+
+            <br>
+            <h1>Database</h1>
+
+            <form>
+                <button type="button" id="VisualizeButton"> Generate Graph </button>
+                <input type="text" value="" id="queryTextForGraph" required
+                       minlength="4" maxlength="80" size="100">
+            </form>
+
+            <div id="graphContainer"></div>
+
+            <form>
+                <button type="button" id="HButton"> Fetch Database </button>
+                <input type="text" value="select * from Stocks" id="queryText" required
+                       minlength="4" maxlength="80" size="100">
+            </form>
+
+            <div id="databaseContainer"></div>
+
+
+        </div>
+        <div class="col-sm-4 sidenav">
+
+            <br>
+            <h1>Assistant</h1>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="button">Button</button>
+                </div>
+                <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+            </div>
+
             <div class="input-group" style="margin-bottom: 15px">
                 <span class="input-group-btn">
                     <button class="btn btn-secondary" type="button" id="rec">Speak</button>
@@ -64,37 +103,19 @@
             <div class="form-group">
                 <textarea class="form-control" id="response" rows="5"></textarea>
             </div>
-        </div>
 
-        <div class="col-lg-6">
-            <img src="images/IMG_0429.jpg" style="width: 100%;">
+
 
         </div>
-
     </div>
-
-    <h1>Database</h1>
-
-    <form>
-        <button type="button" id="VisualizeButton"> Generate Graph </button>
-        <input type="text" value="" id="queryTextForGraph" required
-               minlength="4" maxlength="80" size="100">
-    </form>
-
-    <div id="graphContainer"></div>
-
-    <form>
-        <button type="button" id="HButton"> Fetch Database </button>
-        <input type="text" value="select * from Stocks" id="queryText" required
-               minlength="4" maxlength="80" size="100">
-    </form>
-
-    <div id="databaseContainer"></div>
-
-
-
-
 </div>
+
+
+
+
+
+
+
 
 
 </body>

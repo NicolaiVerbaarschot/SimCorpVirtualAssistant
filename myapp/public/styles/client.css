@@ -1,0 +1,27 @@
+.container-fluid {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.sidenav {
+    background-color: #d4d4dd;
+    position: relative;
+}
+
+
+.div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wrapper-right {
+    background-color: #d4d4dd;
+    position: relative;
+}
+
+.container-fluid-sidebar {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
