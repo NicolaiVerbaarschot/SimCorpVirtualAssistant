@@ -9,6 +9,11 @@ var baseQueryObject = {
 
 var queryObjectStack = [baseQueryObject];
 
+var columnPositions = ["Symbol", "Market", "Price", "OpenPrice", "DailyHigh", "DailyLow", "PointChangeToday", "PercentChangeToday"];
+var modColumns = columnPositions.slice();
+//TODO: can these column names be fetched from the database? Would make the program a lot more robust. The column names
+//TODO: in DB, DialogFlow, and here have to be consistent!
+
 // ---------------------------------------------- Table Operations ---------------------------------------------- //
 
 // TODO: If we use more string attributes in the DB, this would have to be changed. Not ideal, could be implemented smarter
@@ -46,6 +51,12 @@ function groupTable(columnName) {
     queryObjectStack.push(newQuery);
 }
 
+function ungroup() {
+    let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
+    newQuery.group = "";
+    queryObjectStack.push(newQuery);
+}
+
 function filterTable(stockAttribute, threshold, higherLower) {
     let boolHL = false;
 
@@ -78,6 +89,84 @@ function reset() {
 //     window.open('','popUpWindow','height='+height+',width='+width+',left='+left+',top='+top+',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
 // }
 
+function hideColumns(columnNames) {
+
+    // modify column names to be shown (remove selected columns from modColumns
+    columnNames.forEach(function (column) {
+       if (modColumns.indexOf(column) > -1) {
+           modColumns.splice(modColumns.indexOf(column), 1);
+       }
+    });
+
+    // parse string from modColumns into SQL syntax
+    let sqlString = "";
+
+    modColumns.forEach(function (column) {
+       sqlString += column + ", ";
+    });
+
+    sqlString = sqlString.substr(0, sqlString.length - 2);
+
+    // create query object
+    let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
+    newQuery.columns = sqlString;
+    queryObjectStack.push(newQuery);
+}
+
+function showColumns(columnNames) {
+    let standardPos = -1;       // this variable will hold the standard position of the column
+    let insertIndex = -1;       // this variable will hold the insertion position of the column
+
+    // iterate over all columns contained in the argument list
+    columnNames.forEach(function (column) {
+
+        // only add columns that are not contained in the current table.
+        if (modColumns.indexOf(column) === -1) {
+            standardPos = columnPositions.indexOf(column);  // get the standard position of the current column
+            insertIndex = -1;                               // set insertion index to -1
+
+            // iterate over all columns currently shown in the table. When a column is encountered that is usually
+            // positioned to the right of the current column in question, save that index.
+            for (let i = 0; i < modColumns.length; i++) {
+                if (columnPositions.indexOf(modColumns[i]) >= standardPos && insertIndex === -1) {
+                    insertIndex = i;
+                }
+            }
+
+            // insert the column as the last column if the index has not been updated
+            if (insertIndex === -1) {
+                modColumns.push(column);
+            }
+            // insert the column at the insertion index
+            else {
+                modColumns.splice(insertIndex, 0, column);
+            }
+        }
+    });
+
+    // parse string from modColumns into SQL syntax
+    let sqlString = "";
+
+    modColumns.forEach(function (column) {
+        sqlString += column + ", ";
+    });
+
+    sqlString = sqlString.substr(0, sqlString.length - 2);
+
+    // create query object
+    let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
+    newQuery.columns = sqlString;
+    queryObjectStack.push(newQuery);
+}
+
+function showAllColumns() {
+    modColumns = columnPositions.slice();
+
+    let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
+    newQuery.columns = "*";
+    queryObjectStack.push(newQuery);
+
+}
 
 function action(data) {
     // get intent
@@ -112,6 +201,9 @@ function action(data) {
         case "groupTable":
             groupTable(groupString);
             break;
+        case "ungroup":
+            ungroup();
+            break;
         case "filterTable":
             filterTable(stockAttribute, filterThreshold, higherLower);
             break;
@@ -123,6 +215,15 @@ function action(data) {
             break;
         case "visualizeData":
             // drawGraph();
+            break;
+        case "hideColumn":
+            hideColumns(stockAttribute);
+            break;
+        case "showColumn":
+            showColumns(stockAttribute);
+            break;
+        case "showAllColumns":
+            showAllColumns(stockAttribute);
             break;
     }
 
