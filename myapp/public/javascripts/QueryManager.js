@@ -14,12 +14,19 @@ QueryManager.prototype.manageInput = function(input) {
     var sendAsyncInSequence = function(subqueries, currentIndex) {
 
         sendAsync(subqueries[currentIndex]).then((data) => {
-            console.log(currentIndex)
-            console.log(data)
-
+            //TODO: Refactor action to be given as argument
+            action(data)
+            
             if (currentIndex == subqueries.length - 1) {
-                // last elem
-                console.log("updating UI")
+                // last elem. Update UI
+                var reply = formatMultipleLineReply(data.result.fulfillment.speech);
+                setResponse("Bot: " + reply);
+                
+                // copy the query into the query field
+                $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length-1]));
+
+                // execute the query
+                $("#HButton").click();
             } else {
                 // Recursive 
                 sendAsyncInSequence(subqueries, currentIndex + 1)
