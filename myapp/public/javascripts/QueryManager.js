@@ -2,17 +2,24 @@ function QueryManager() {}
 
 
 QueryManager.prototype.manageInput = function(input) {
-    
-    // Split input based on 'and'. 
-    //If no 'and' is detected, 'subqueries' will be [input]
-    var subqueries = input.split("and");
 
-    // send each query to DF as a promise
-    subqueries.forEach(subquery => {
-        sendAsync(subquery).then( (data) => {
-            console.log(data);
-        });
-    });
+    var sendInChain = function(subqueries, currentIndex) {
+
+        sendAsync(subqueries[currentIndex]).then((data) => {
+            console.log(currentIndex)
+            console.log(data)
+
+            if (currentIndex == subqueries.length - 1) {
+                // last elem
+                console.log("updating UI")
+            } else {
+                // Recursive 
+                something(subqueries, currentIndex + 1)
+            }
+        })
+    }
+
+    sendInChain(subqueries, 0);
 }
 let sendAsync = async function(value) {
     let result; 
