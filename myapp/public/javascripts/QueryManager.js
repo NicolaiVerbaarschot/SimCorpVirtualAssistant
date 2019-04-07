@@ -1,9 +1,17 @@
 function QueryManager() {}
 
-
 QueryManager.prototype.manageInput = function(input) {
+    
+    if (input == "") {
+        console.log("ERROR: QueryManager cannot handle empty input")
+        return
+    }
+    // Split input based on 'and'. 
+    //If no 'and' is detected, 'subqueries' will be [input]
+    var subqueries = input.split("and");
 
-    var sendInChain = function(subqueries, currentIndex) {
+
+    var sendAsyncInSequence = function(subqueries, currentIndex) {
 
         sendAsync(subqueries[currentIndex]).then((data) => {
             console.log(currentIndex)
@@ -14,12 +22,12 @@ QueryManager.prototype.manageInput = function(input) {
                 console.log("updating UI")
             } else {
                 // Recursive 
-                something(subqueries, currentIndex + 1)
+                sendAsyncInSequence(subqueries, currentIndex + 1)
             }
         })
     }
 
-    sendInChain(subqueries, 0);
+    sendAsyncInSequence(subqueries, 0);
 }
 let sendAsync = async function(value) {
     let result; 

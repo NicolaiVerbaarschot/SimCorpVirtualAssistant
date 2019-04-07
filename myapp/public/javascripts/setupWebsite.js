@@ -39,6 +39,7 @@ $(document).ready(function() {
         if (event.which == 13) {
             event.preventDefault();
             var text = $("#input").val();
+            if (text == "") return 
             queryManager.manageInput(text);
             setResponse("You: " + text);
             //network.send(text);
