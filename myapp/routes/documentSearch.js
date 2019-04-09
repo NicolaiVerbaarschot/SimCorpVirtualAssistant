@@ -1,25 +1,43 @@
 var Fuse = require('fuse.js');
 
-var books = [{
-    title: "Old Man's War fiction",
-    author: 'John X',
-    tags: ['war']
+var documents = [{
+    // Versions Document
+    title: 'Versions',
+    section: 'Vivan',
+    body: 'Vivan was the first chat bot to be implemented.',
+    tags: ['vivan']
 }, {
-    title: 'Right Ho Jeeves',
-    author: 'P.D. Mans',
-    tags: ['fiction', 'war']
-}];
+    title: 'Versions',
+    section: 'Vivo',
+    body: 'Vivan was the second chat bot to be implemented.',
+    tags: ['vito']
+},
+    // Website Layout Document
+    {
+    title: 'Website Layout',
+    section: 'Assistant',
+    body: 'The assistant can be found in the upper right corner',
+    tags: ['assistant', 'layout']
+}, {
+    title: 'Website Layout',
+    section: 'Queries',
+    body: 'The queries can be found in the top left corner',
+    tags: ['queries', 'layout']
+    }];
 
 var options = {
     keys: [{
         name: 'title',
-        weight: 0.3
+        weight: 0.4
     }, {
-        name: 'author',
+        name: 'section',
         weight: 0.7
+    },{
+        name: 'body',
+        weight: 0.3
     }]
 };
 
-var fuse = new Fuse(books, options);
+var fuse = new Fuse(documents, options);
 
 exports.fuse = fuse;

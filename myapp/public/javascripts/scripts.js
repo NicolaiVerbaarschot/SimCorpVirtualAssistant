@@ -164,16 +164,13 @@ function showAllColumns() {
 
 }
 
-// Define action functions
 function sendDocumentSearchStringToFuse(documentSearchString) {
-
     $.ajax({
         url: "http://localhost:3000/api/search/"+documentSearchString
     })
         .done(function( data ) {
             $("#fuseContainer").html(data.toString());
         });
-
 }
 
 function action(data) {

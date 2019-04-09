@@ -39,7 +39,8 @@ function queryDBGraph(res,query) {
   });
 }
 
-function fuseTest(res,query) {
+//TODO: handle unmatched queries
+function fuseQuery(res,query) {
   var fuse = documentSearch.fuse;
   var fuseResponse = fuse.search(query);
   console.log("made search: "+query);
@@ -47,7 +48,7 @@ function fuseTest(res,query) {
 }
 
 router.get('/api/search/:query', function(req, res) {
-  fuseTest(res,req.params.query);
+  fuseQuery(res,req.params.query);
 });
 
 router.get('/api/graph/:query', function(req, res) {

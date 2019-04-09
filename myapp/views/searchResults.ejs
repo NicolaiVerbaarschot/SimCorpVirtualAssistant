@@ -1,5 +1,2 @@
-
-
-<%  results.forEach(function(result) { %>
-    <p><%= result.title %> : <%= result.author %> </p>
-<% }); %>
+<h5>Retrieved content from <strong><%= results[0]['title'] %></strong>, section <strong><%= results[0]['section'] %></strong></h5>
+<p><%= results[0]['body'] %></p>
