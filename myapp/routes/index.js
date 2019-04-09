@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+var Fuse = require('fuse.js');
 /* GET home page. */
 
 var mysql = require('mysql');
@@ -37,6 +37,41 @@ function queryDBGraph(res,query) {
   });
 }
 
+function fuseTest(res,query) {
+
+  var books = [{
+    title: "Old Man's War fiction",
+    author: 'John X',
+    tags: ['war']
+  }, {
+    title: 'Right Ho Jeeves',
+    author: 'P.D. Mans',
+    tags: ['fiction', 'war']
+  }];
+
+  var options = {
+    keys: [{
+      name: 'title',
+      weight: 0.3
+    }, {
+      name: 'author',
+      weight: 0.7
+    }]
+  };
+  var fuse = new Fuse(books, options);
+  var fuseResponse = fuse.search('Man');
+
+  fuseResponse.forEach(function (result) {
+    console.log(result);
+  });
+
+  res.render('searchResults.ejs', {results: fuseResponse});
+
+}
+
+router.get('/api/search/:query', function(req, res) {
+  fuseTest(res,req.params.query);
+});
 
 router.get('/api/graph/:query', function(req, res) {
   queryDBGraph(res,req.params.query);
