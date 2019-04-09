@@ -51,7 +51,7 @@ $(document).ready(function() {
     });
 
     $("#fuse").on("click", function () {
-        var query = "test";
+        var query = "man";
         $.ajax({
             url: "http://localhost:3000/api/search/"+query
         })

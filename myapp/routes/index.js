@@ -41,7 +41,8 @@ function queryDBGraph(res,query) {
 
 function fuseTest(res,query) {
   var fuse = documentSearch.fuse;
-  var fuseResponse = fuse.search('Man');
+  var fuseResponse = fuse.search(query);
+  console.log("made search: "+query);
   res.render('searchResults.ejs', {results: fuseResponse});
 }
 

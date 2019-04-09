@@ -164,7 +164,20 @@ function showAllColumns() {
 
 }
 
+// Define action functions
+function sendDocumentSearchStringToFuse(documentSearchString) {
+
+    $.ajax({
+        url: "http://localhost:3000/api/search/"+documentSearchString
+    })
+        .done(function( data ) {
+            $("#fuseContainer").html(data.toString());
+        });
+
+}
+
 function action(data) {
+
     // get intent
     let intent = data.result.action;
 
@@ -179,6 +192,7 @@ function action(data) {
     let groupString = data.result.parameters["attribute"];
     let filterThreshold = data.result.parameters["number"];
     let higherLower = data.result.parameters["higherLower"];
+    let documentSearchString = data.result.parameters["any"];
 
     // match intent to corresponding action
     switch (intent) {
@@ -223,6 +237,8 @@ function action(data) {
         case "showAllColumns":
             showAllColumns(stockAttribute);
             break;
+        case "documentSearch":
+            sendDocumentSearchStringToFuse(documentSearchString);
     }
 
     // copy the query into the query field
