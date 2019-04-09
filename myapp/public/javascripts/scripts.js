@@ -81,13 +81,9 @@ function reset() {
     queryObjectStack = [baseQueryObject];
 }
 
-// function drawGraph() {
-//     let width = 800;
-//     let height = 800;
-//     var left = (screen.width/2)-(width/2);
-//     var top = (screen.height/2)-(height/2);
-//     window.open('','popUpWindow','height='+height+',width='+width+',left='+left+',top='+top+',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
-// }
+function drawGraph() {
+
+}
 
 function hideColumns(columnNames) {
 
@@ -214,7 +210,9 @@ function action(data) {
             reset();
             break;
         case "visualizeData":
-            // drawGraph();
+            // TODO: Refactor following case for additional query support. Possibly with seperate query stack
+            $("#queryTextForGraph").val("SELECT * FROM StocksByPriceOverTime;");
+            $("#VisualizeButton").click();
             break;
         case "hideColumn":
             hideColumns(stockAttribute);
@@ -229,10 +227,10 @@ function action(data) {
 
     // copy the query into the query field
     $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length-1]));
-    $("#queryTextForGraph").val(queryParser(queryObjectStack[queryObjectStack.length-1]));
 
     // execute the query
     $("#HButton").click();
+
 }
 
 // ---------------------------------------------- Aux. Functions ---------------------------------------------- //
