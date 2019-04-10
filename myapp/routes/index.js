@@ -27,6 +27,7 @@ function queryDBTable(res,query) {
   con.query(query, function (err, data) {
     if (err) throw err;
     console.log("made query: "+query);
+    console.log(data);
     res.render('table.ejs', {results: data});
   });
 }

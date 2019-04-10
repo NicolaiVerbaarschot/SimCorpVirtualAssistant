@@ -4,14 +4,17 @@
     align-items: stretch;
     margin-top: 0px;
     padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
 
 #sidebar {
     background: #eaeaea;
     min-width: 250px;
     max-width: 250px;
-    min-height: 100vh;
+    height: calc(100vh - 55px);
     transition: all 0.3s;
+    overflow: scroll;
 }
 #sidebar.active {
     margin-left: -250px;
@@ -56,19 +59,18 @@ a, a:hover, a:focus {
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: rgba(0, 0, 0, 0.98);
-    background: #c8c8c8;
+    background: #eaeaea;
 
 }
+
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #e1e1e1;
+    background: #d4d4d4;
 }
 
-
-
 .container-fluid {
-    margin: 3px 20px;
+    margin: 0px 20px;
     padding: 20px;
     width: auto;
 }
@@ -76,10 +78,11 @@ ul ul a {
 .sidenav-child {
     background-color: #f6f6f6;
     position: relative;
-    height: auto;
+    height: calc(100vh - 150px);
     margin-top: 20px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: inset 0px 0px 55px -31px rgba(0,0,0,0.15);
     width: auto;
+    overflow: scroll;
 }

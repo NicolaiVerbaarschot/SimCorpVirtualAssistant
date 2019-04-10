@@ -6,12 +6,12 @@
 }
 
 html {
-    height:100vh;
+    height: calc(100vh - 55px);
 
 }
 
 body {
-    height:100vh;
+    height: calc(100vh - 55px);
     font-family: Product Sans;
 }
 
@@ -57,7 +57,7 @@ strong {
 .container-fluid {
     padding-left: 100px;
     padding-right: 100px;
-    height: calc(100vh);
+    height: calc(100vh - 55px);
 }
 
 .sidenav-child {
@@ -74,6 +74,7 @@ strong {
 
 .navbar {
     background-color: #3d4d5c;
+    height: 55px;
 }
 
 .div {

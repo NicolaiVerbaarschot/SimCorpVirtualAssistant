@@ -41,3 +41,4 @@ var options = {
 var fuse = new Fuse(documents, options);
 
 exports.fuse = fuse;
+exports.documents = documents;
