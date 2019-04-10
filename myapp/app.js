@@ -23,6 +23,8 @@ app.use(express.static(path.join(__dirname, 'public/javascripts')));
 app.use('jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 
 app.use('/', indexRouter);
 app.use('/users',intentMatcherRouter);

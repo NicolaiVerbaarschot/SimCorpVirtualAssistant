@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET users listing. */
 router.post('/', function(req, res, next) {
     console.log("inside intentMatcher");
-    console.log(req);
+    console.log(req.body);
     //console.log(res);
 });
 
