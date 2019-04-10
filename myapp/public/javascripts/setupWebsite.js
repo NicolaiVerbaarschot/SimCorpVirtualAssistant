@@ -31,7 +31,7 @@ $(document).ready(function() {
         var query = $("#queryTextForGraph").val();
 
         $.ajax({
-            url: "http://localhost:3000/api/graph/"+query
+            url: "http://localhost:8080/api/graph/"+query
         })
             .done(function( data ) {
                 $("#graphContainer").html(data.toString());
@@ -41,7 +41,7 @@ $(document).ready(function() {
     $("#HButton").on("click", function () {
         var query = $("#queryText").val();
         $.ajax({
-            url: "http://localhost:3000/api/table/"+query
+            url: "http://localhost:8080/api/table/"+query
         })
             .done(function( data ) {
                 $("#databaseContainer").html(data.toString());
@@ -51,7 +51,7 @@ $(document).ready(function() {
     $("#fuse").on("click", function () {
         var query = "man";
         $.ajax({
-            url: "http://localhost:3000/api/search/"+query
+            url: "http://localhost:8080/api/search/"+query
         })
             .done(function( data ) {
                 $("#fuseContainer").html(data.toString());
