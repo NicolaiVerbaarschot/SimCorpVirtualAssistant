@@ -175,7 +175,7 @@ function action(data) {
 
     // get parameters
     let stockAttribute =  data.result.parameters["StockAttribute"];
-    let searchString = data.result.parameters["searchString"];
+    let searchString = data.result.parameters["any"];
     let groupString = data.result.parameters["attribute"];
     let filterThreshold = data.result.parameters["number"];
     let higherLower = data.result.parameters["higherLower"];
