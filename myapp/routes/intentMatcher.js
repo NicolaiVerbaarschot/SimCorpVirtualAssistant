@@ -3,9 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-    console.log("inside intentMatcher");
-    console.log(req.body);
-    //console.log(res);
+    console.log("Intent is : " + req.body.queryResult.intent.displayName);
 });
 
 module.exports = router;
