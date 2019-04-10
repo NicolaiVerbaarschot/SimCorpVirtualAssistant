@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+// var Fuse = require('fuse.js');
+var documentSearch = require('./documentSearch');
 
 /* GET home page. */
 
@@ -25,6 +27,7 @@ function queryDBTable(res,query) {
   con.query(query, function (err, data) {
     if (err) throw err;
     console.log("made query: "+query);
+    console.log(data);
     res.render('table.ejs', {results: data});
   });
 }
@@ -37,6 +40,17 @@ function queryDBGraph(res,query) {
   });
 }
 
+//TODO: handle unmatched queries
+function fuseQuery(res,query) {
+  var fuse = documentSearch.fuse;
+  var fuseResponse = fuse.search(query);
+  console.log("made search: "+query);
+  res.render('searchResults.ejs', {results: fuseResponse});
+}
+
+router.get('/api/search/:query', function(req, res) {
+  fuseQuery(res,req.params.query);
+});
 
 router.get('/api/graph/:query', function(req, res) {
   queryDBGraph(res,req.params.query);

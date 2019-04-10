@@ -30,11 +30,6 @@ $(document).ready(function() {
 
     $("#VisualizeButton").on("click", function () {
 
-        let width = 800;
-        let height = 800;
-        var left = (screen.width/2)-(width/2);
-        var top = (screen.height/2)-(height/2);
-
         var query = $("#queryTextForGraph").val();
 
         $.ajax({
@@ -52,6 +47,16 @@ $(document).ready(function() {
         })
             .done(function( data ) {
                 $("#databaseContainer").html(data.toString());
+            });
+    });
+
+    $("#fuse").on("click", function () {
+        var query = "man";
+        $.ajax({
+            url: "http://localhost:3000/api/search/"+query
+        })
+            .done(function( data ) {
+                $("#fuseContainer").html(data.toString());
             });
     });
 
