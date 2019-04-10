@@ -1,19 +1,23 @@
-<table id="table" class="table table-striped table-sm table-borderless">
-    <thead>
-        <tr>
-            <%console.log(Object.keys(results[0]).join(","))%>
-            <% Object.keys(results[0]).forEach(function(attributeName){%>
-                <td> <%= attributeName.toString() %></td>
-            <%});%>
-        </tr>
-    </thead>
-    <tbody>
-        <%  results.forEach(function(result) { %>
+<%if (results.length > 0) {%>
+    <table id="table" class="table table-striped table-sm table-borderless">
+        <thead>
             <tr>
-                <% for(var attributeName in result){%>
-                    <td> <%= result[attributeName] %> </td>
-                <%}%>
+                <%console.log(Object.keys(results[0]).join(","))%>
+                <% Object.keys(results[0]).forEach(function(attributeName){%>
+                    <td> <%= attributeName.toString() %></td>
+                <%});%>
             </tr>
-        <% }); %>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <%  results.forEach(function(result) { %>
+                <tr>
+                    <% for(var attributeName in result){%>
+                        <td> <%= result[attributeName] %> </td>
+                    <%}%>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<%}else{ %>
+    <p> Your query did not yield any results. Please update your search and filter parameters.</p>
+<%}%>
