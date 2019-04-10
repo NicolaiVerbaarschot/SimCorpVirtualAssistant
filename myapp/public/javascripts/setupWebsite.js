@@ -18,70 +18,74 @@ function setInput(text) {
 }
 
 function updateRec(text) {
-    $("#rec").text(text);
+    $("#rec").html(text);
 }
 
 var speechRecognition = new SpeechRecognition(updateRec, setInput);
 var queryManager = new QueryManager();
 
 $(document).ready(function() {
+
+    $("#VisualizeButton").on("click", function () {
+
+        var query = $("#queryTextForGraph").val();
+
+        $.ajax({
+            url: "http://localhost:3000/api/graph/"+query
+        })
+            .done(function( data ) {
+                $("#graphContainer").html(data.toString());
+            });
+    });
+
     $("#HButton").on("click", function () {
         var query = $("#queryText").val();
         $.ajax({
-            url: "http://localhost:3000/api/"+query
+            url: "http://localhost:3000/api/table/"+query
         })
             .done(function( data ) {
-                console.log(data)
                 $("#databaseContainer").html(data.toString());
             });
     });
+
+    $("#fuse").on("click", function () {
+        var query = "man";
+        $.ajax({
+            url: "http://localhost:3000/api/search/"+query
+        })
+            .done(function( data ) {
+                $("#fuseContainer").html(data.toString());
+            });
+    });
+
+    // TODO: Prevent crash from incorrectly formed query upon enter key submission
+    $("#queryText").keypress(function (e) {
+        if (e.which == 13) {
+            $("#HButton").click();
+            return false;
+        }
+    });
+    $("#queryTextForGraph").keypress(function (e) {
+        if (e.which == 13) {
+            $("#VisualizeButton").click();
+            return false;
+        }
+    });
+
     $("#input").keypress(function(event) {
         if (event.which == 13) {
             event.preventDefault();
             var text = $("#input").val();
-            if (text == "") return 
+            if (text == "") return
             queryManager.manageInput(text);
             setResponse("You: " + text);
             //network.send(text);
         }
     });
-    $("#rec").click(function(event) {
+
+    $("#rec").click(function() {
         speechRecognition.switch();
     });
-    $("#rowButton").click(function() {
-        $("#myTable").append("<tr><td>Beer</td><td>$ 20.00 </td></tr>");
-    });
-
-    $( "#addRow" ).click(function() {
-        addRow();
-    });
-
-    $( "#removeRow" ).click(function() {
-        removeRow();
-    });
-
-    $( "#showHideTable" ).click(function() {
-        toggleTable();
-    });
-
-    $( "#sortBtn" ).click(function() {
-        $( "#stockTitle" ).click();
-    });
-
-    $( "#populate" ).click(function() {
-        $("tbody").each(function(elem,index){
-            var arr = $.makeArray($("tr",this).detach());
-            arr.reverse();
-            $(this).append(arr);
-        });
-    });
-
-
-    $('#table').DataTable({
-        "ordering": true // false to disable sorting (or any other option)
-    });
-    $('.dataTables_length').addClass('bs-select');
-
 });
 
 function formatMultipleLineReply(response) {

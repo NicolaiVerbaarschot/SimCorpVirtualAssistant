@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+// var Fuse = require('fuse.js');
+var documentSearch = require('./documentSearch');
 
 /* GET home page. */
 
@@ -21,32 +23,59 @@ function makeConnectionToDB() {
 }
 makeConnectionToDB();
 
-function queryDB(res,query) {
+function queryDBTable(res,query) {
   con.query(query, function (err, data) {
     if (err) throw err;
     console.log("made query: "+query);
+    console.log(data);
     res.render('table.ejs', {results: data});
   });
 }
 
-router.get('/api/:query', function(req, res) {
-  queryDB(res,req.params.query);
+function queryDBGraph(res,query) {
+  con.query(query, function (err, data) {
+    if (err) throw err;
+    console.log("made query: "+query);
+    res.render('graph.ejs', {results: data});
+  });
+}
+
+//TODO: handle unmatched queries
+function fuseQuery(res,query) {
+  var fuse = documentSearch.fuse;
+  var fuseResponse = fuse.search(query);
+  console.log("made search: "+query);
+  res.render('searchResults.ejs', {results: fuseResponse});
+}
+
+router.get('/api/search/:query', function(req, res) {
+  fuseQuery(res,req.params.query);
 });
 
-router.get('/table',function (req,res) {
-  res.render('table.html');
+router.get('/api/graph/:query', function(req, res) {
+  queryDBGraph(res,req.params.query);
+});
 
+router.get('/api/table/:query', function(req, res) {
+  queryDBTable(res,req.params.query);
 });
 
 router.get('/', function(req, res, next) {
   res.render('client.html' , {result_from_database: ""});
-
 });
 
-router.get('/graph', function(req, res, next) {
-  res.render('graph.html');
-
+router.get('/docs', function(req, res, next) {
+  res.render('docs.html');
 });
+
+router.get('/about', function(req, res, next) {
+  res.render('about.html');
+});
+
+router.get('/features', function(req, res, next) {
+  res.render('features.html');
+});
+
 
 module.exports = router;
 

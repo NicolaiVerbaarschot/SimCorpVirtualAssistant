@@ -6,7 +6,16 @@
     <title>Team Dream</title>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <!-- Our script -->
     <script src="scripts.js"></script>
@@ -14,100 +23,127 @@
     <script src="speechRecognition.js"></script>
     <script src="network.js"></script>
     <script src="setupWebsite.js"></script>
-    <script>
-        $(function(){
-            $("#includedContent").load("views/table.ejs");
-        });
-    </script>
 
-    <!-- Datatable script -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <!--Custom Styles-->
+    <link rel="stylesheet" type="text/css" href="../styles/client.css">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--Icons-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Datatable styling-->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-
-
+    <!-- Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 </head>
 
 <body>
 
-<!-- Body container -->
-<div class="container">
 
-    <!-- Global header -->
-    <div class="jumbotron" style="margin-bottom: 5px">
-        <h1>Simcorp Virtual Assistant</h1>
-        <p>This webpage was created with the intent of illustrating basic grid operations, initiated by a virtual assistant through use of natural spoken language.</p>
+
+<!--Navbar-->
+<nav class="navbar navbar-expand-sm navbar-dark">
+    <a class="navbar-brand" href="https://www.simcorp.com/">SimCorp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="features">Features</a>
+            <a class="nav-item nav-link" href="docs">Docs</a>
+            <a class="nav-item nav-link" href="about">About</a>
+
+        </div>
     </div>
+</nav>
 
-    <!-- Button Group -->
-    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-bottom: 25px">
-        <div class="btn-group mr-2" role="group" aria-label="First group" style="margin-bottom: 3px">
-            <button type="button" class="btn btn-secondary" id="showHideTable" style="margin-bottom: 1px">Show/Hide Table</button>
-            <button type="button" class="btn btn-secondary" id="addRow" style="margin-bottom: 1px">Add Row</button>
-            <button type="button" class="btn btn-secondary" id="removeRow" style="margin-bottom: 1px">Remove Row</button>
-            <div class="btn-group" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a class="dropdown-item" href="#">Dropdown link</a>
-                    <a class="dropdown-item" href="#">Dropdown link</a>
+
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-md-8 text-left">
+
+            <br>
+
+            <div class="content-container-left">
+                <h1>Queries</h1>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-secondary" type="button" id="VisualizeButton">Graph Query</button>
+                    </div>
+                    <input type="text" class="form-control" id="queryTextForGraph" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-secondary" type="button" id="HButton">Table Query</button>
+                    </div>
+                    <input type="text" class="form-control" id="queryText" value="select * from Stocks" aria-label="" aria-describedby="basic-addon1">
                 </div>
             </div>
-            <button type="button" class="btn btn-secondary" id="sortBtn" style="margin-bottom: 1px">Sort</button>
-        </div>
-        <div class="btn-group mr-2" role="group" aria-label="Second group" style="margin-bottom: 3px">
-            <button type="button" class="btn btn-secondary" style="margin-bottom: 1px" id="populate">Populate</button>
-            <button type="button" class="btn btn-secondary" style="margin-bottom: 1px">Load</button>
-            <button type="button" class="btn btn-secondary" style="margin-bottom: 1px">Refresh</button>
-            <button type="button" class="btn btn-secondary" style="margin-bottom: 1px">Clear</button>
-        </div>
-    </div>
 
-    <!-- Assistant Div -->
-    <div class="row" style="margin-bottom: 15px">
+            <br>
 
-        <div class="col-lg-6">
-            <label style="font-size: 24px;">Assistant</label>
-            <div class="input-group" style="margin-bottom: 15px">
-                        <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button" id="rec">Speak</button>
-                        </span>
-                <input type="text" class="form-control" id="input" placeholder="Start typing...">
+            <div class="content-container-left">
+            <h1>Database</h1>
+            <div id="databaseContainer"></div>
             </div>
-            <div class="form-group">
-                <textarea class="form-control" id="response" rows="5"></textarea>
+
+            <br>
+
+            <div class="content-container-left">
+                <h1>Search</h1>
+                <div id="fuseContainer"></div>
             </div>
-        </div>
 
-        <div class="col-lg-6">
-
-            <img src="../images/IMG_0429.jpg" style="width: 100%;">
 
         </div>
+        <div class="col-md-4 sidenav">
+
+            <div class="sidenav-child">
+
+                <br>
+                <div class="content-container-right">
+                    <h1>Assistant</h1>
+
+                    <div class="form-group">
+                        <textarea class="form-control" id="response" rows="10"></textarea>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-secondary" type="button" id="rec"><i class="fas fa-microphone"></i></button>
+                        </div>
+                        <input type="text" class="form-control" id="input" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="content-container-right">
+                    <h1>Visualization</h1>
+                    <div id="graphContainer"></div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
 
     </div>
-
-    <h1>Database</h1>
-    <div id="databaseContainer">
-
-    </div>
-    <form>
-        <button type="button" id="HButton"> Fetch Database </button>
-        <input type="text" value="select * from Stocks where Price>1000" id="queryText" required
-               minlength="4" maxlength="80" size="100">
-    </form>
-
-
 </div>
+
+
+
+
+
 
 
 </body>
