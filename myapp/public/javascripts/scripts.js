@@ -166,7 +166,7 @@ function showAllColumns() {
 
 function sendDocumentSearchStringToFuse(documentSearchString) {
     $.ajax({
-        url: "http://localhost:3000/api/search/"+documentSearchString
+        url: "http://localhost:8080/api/search/"+documentSearchString
     })
         .done(function( data ) {
             $("#fuseContainer").html(data.toString());

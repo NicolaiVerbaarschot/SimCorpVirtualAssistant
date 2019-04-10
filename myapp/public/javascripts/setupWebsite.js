@@ -53,7 +53,7 @@ $(document).ready(function() {
     $("#fuse").on("click", function () {
         var query = "man";
         $.ajax({
-            url: "http://localhost:3000/api/search/"+query
+            url: "http://localhost:8080/api/search/"+query
         })
             .done(function( data ) {
                 $("#fuseContainer").html(data.toString());

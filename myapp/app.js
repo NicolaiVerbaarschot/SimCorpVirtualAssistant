@@ -30,6 +30,6 @@ app.use('/', indexRouter);
 app.use('/users',intentMatcherRouter);
 
 
-app.listen(3000, function() {console.log(`listening at the moment!`)});
+app.listen(8080, function() {console.log(`listening at the moment!`)});
 
 module.exports = app;
