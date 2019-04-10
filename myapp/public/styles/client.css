@@ -48,7 +48,7 @@ strong {
 }
 .content-container-right {
     overflow: hidden;
-    background-color: #e4e4ee;
+    background-color: #eaeaea;
     padding: 5px 15px 1px 15px;
     border-radius:10px;
     box-shadow: 0px 0px 18px -4px rgba(0,0,0,0.67);
@@ -83,7 +83,7 @@ strong {
 }
 
 .wrapper-right {
-    background-color: #d4d4dd;
+    background-color: #eaeaea;
     position: relative;
 }
 
