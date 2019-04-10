@@ -1,7 +1,11 @@
 var express = require('express');
 var path = require('path');
 var cors = require('cors');
+
+
 var indexRouter = require('./routes/index');
+var intentMatcherRouter = require('./routes/intentMatcher');
+
 
 var app = express();
 
@@ -18,8 +22,12 @@ app.use(express.static(path.join(__dirname, 'public/javascripts')));
 
 app.use('jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
-app.use('/', indexRouter);
+app.use(express.json());
 
-app.listen(3000, function() {console.log(`listening at the moment!`)});
+app.use('/', indexRouter);
+app.use('/users',intentMatcherRouter);
+
+
+app.listen(8080, function() {console.log(`listening at the moment!`)});
 
 module.exports = app;
