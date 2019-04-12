@@ -1,3 +1,6 @@
+var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
+var baseUrl = "https://api.api.ai/v1/";
+
 var baseQueryObject = {
     columns: "*",
     filter: [],
@@ -178,7 +181,17 @@ function drawBarDiagram(stockAttribute) {
         });
 }
 
+function sendDocumentSearchStringToFuse(documentSearchString) {
+    $.ajax({
+        url: "http://localhost:8080/api/search/"+documentSearchString
+    })
+        .done(function( data ) {
+            $("#fuseContainer").html(data.toString());
+        });
+}
+
 function action(data) {
+
     // get intent
     let intent = data.result.action;
 
@@ -193,6 +206,7 @@ function action(data) {
     let groupString = data.result.parameters["attribute"];
     let filterThreshold = data.result.parameters["number"];
     let higherLower = data.result.parameters["higherLower"];
+    let documentSearchString = data.result.parameters["any"];
 
     // match intent to corresponding action
     switch (intent) {
@@ -235,13 +249,10 @@ function action(data) {
         case "drawBarDiagram":
             drawBarDiagram(stockAttribute);
             break;
+        case "documentSearch":
+            sendDocumentSearchStringToFuse(documentSearchString);
     }
 
-    // copy the query into the query field
-    $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length-1]));
-
-    // execute the query
-    $("#HButton").click();
 
 }
 

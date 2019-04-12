@@ -1,4 +1,3 @@
-
 function setResponse(val) {
     $("#response").text($("#response").text() + val + "\r\n");
     $("#response").scrollTop($("#response")[0].scrollHeight);
@@ -8,13 +7,11 @@ var successHandler = function(data) {
     var reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
     setResponse("Bot: " + reply);
     action(data);
-};
-
+}
 var errorHandler = function() {
     setResponse("Internal Server Error");
-};
+}
 
-var network = new Network(successHandler, errorHandler);
 
 function setInput(text) {
     $("#input").val(text);
@@ -24,7 +21,8 @@ function updateRec(text) {
     $("#rec").html(text);
 }
 
-var speechRecognition = new SpeechRecognition(updateRec, setInput, network);
+var speechRecognition = new SpeechRecognition(updateRec, setInput);
+var queryManager = new QueryManager();
 
 $(document).ready(function() {
 
@@ -33,7 +31,7 @@ $(document).ready(function() {
         var query = $("#queryTextForGraph").val();
 
         $.ajax({
-            url: "http://localhost:3000/api/graph/"+query
+            url: "http://localhost:8080/api/graph/"+query
         })
             .done(function( data ) {
                 $("#graphContainer").html(data.toString());
@@ -43,10 +41,20 @@ $(document).ready(function() {
     $("#HButton").on("click", function () {
         var query = $("#queryText").val();
         $.ajax({
-            url: "http://localhost:3000/api/table/"+query
+            url: "http://localhost:8080/api/table/"+query
         })
             .done(function( data ) {
                 $("#databaseContainer").html(data.toString());
+            });
+    });
+
+    $("#fuse").on("click", function () {
+        var query = "man";
+        $.ajax({
+            url: "http://localhost:8080/api/search/"+query
+        })
+            .done(function( data ) {
+                $("#fuseContainer").html(data.toString());
             });
     });
 
@@ -66,10 +74,12 @@ $(document).ready(function() {
 
     $("#input").keypress(function(event) {
         if (event.which == 13) {
+            event.preventDefault();
             var text = $("#input").val();
+            if (text == "") return
+            queryManager.manageInput(text);
             setResponse("You: " + text);
-            network.send(text);
-            return false;
+            //network.send(text);
         }
     });
 
