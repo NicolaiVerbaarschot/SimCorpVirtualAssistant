@@ -59,6 +59,15 @@ INSERT StocksByPriceOverTime (Symbol, Market,PriceDayMinus1, PriceDayMinus2, Pri
 
 
 
+
+
+
+
+
+
+
+
+
 CREATE TABLE IF NOT EXISTS DB_Data (
     Symbol VARCHAR(4),
     Type VARCHAR(5),
@@ -71,6 +80,12 @@ CREATE TABLE IF NOT EXISTS DB_Data (
     Dirty_Value_PC INT,
     Dirty_Value_RC INT
 );
+
+
+
+
+
+
 INSERT INTO DB_Data VALUES
     ('SUQJ','Bond',3903,'DKK',146,569838,'2038-05-04 00:00:00',21058,13718,4470),
     ('IIUZ','Bond',920,'DKK',469,431480,'2024-01-02 00:00:00',34739,14062,26288),
