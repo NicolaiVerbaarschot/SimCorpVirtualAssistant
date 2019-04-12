@@ -17,6 +17,7 @@ app.engine('html', require('ejs').renderFile);
 
 //setup dir to search through when looking for files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/images')));
 app.use(express.static(path.join(__dirname, 'public/javascripts')));
 
 

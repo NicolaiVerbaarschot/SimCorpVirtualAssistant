@@ -81,6 +81,9 @@
                         <a href="#databaseDocumentation">Database</a>
                     </li>
                     <li>
+                        <a href="#searchDocumentation">Document Search</a>
+                    </li>
+                    <li>
                         <a href="#visualizationDocumentation">Visualization</a>
                     </li>
                 </ul>
@@ -95,12 +98,6 @@
                         <a href="#nlpDocumentation">Natural Language Proccessing</a>
                     </li>
                     <li>
-                        <a href="#nodejsDocumentation">Node.js</a>
-                    </li>
-                    <li>
-                        <a href="#dialogFlowDocumentation">DialogFlow</a>
-                    </li>
-                    <li>
                         <a href="#documentSearchDocumentation">Document Search</a>
                     </li>
                 </ul>
@@ -108,6 +105,12 @@
             <li>
                 <a href="#page3Submenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Dependencies</a>
                 <ul class="collapse list-unstyled" id="page3Submenu">
+                    <li>
+                        <a href="#dialogFlowDocumentation">DialogFlow</a>
+                    </li>
+                    <li>
+                        <a href="#nodejsDocumentation">Node.js</a>
+                    </li>
                     <li>
                         <a href="#chartjsDocumentation">Chart.js</a>
                     </li>
@@ -155,31 +158,32 @@
                 <br>
 
                 <h1>Website</h1>
-                <p></p>
+                <p>Provided below is an image of the virtual assistant home page. Below that are descriptions of the various page elements.</p>
+                <img src="websiteScreenshot.png" alt="Website Screenshot" style="width: 100%">
                 <div class="documentation-subtitle-holder" id="navigationBarDocumentation">
                     <h3>Navigation Bar</h3>
-                    <h4>Home</h4>
-                    <p></p>
-                    <h4>Docs</h4>
-                    <p></p>
-                    <h4>About</h4>
-                    <p></p>
+                    <p>The navigation bar is located at the top of the homepage, and is persitant accross all sub-pages. It contains links to other pages in the following order; The SimCorp website, the assistant homepage, the documentation, and the about page. </p>
+
                 </div>
                 <div class="documentation-subtitle-holder" id="assistantDocumentation">
                     <h3>Assistant</h3>
-                    <p></p>
+                    <p>The assistant element of the page is located in the top right. It provides a simple input field where the user can type textual input to be sent to the DialogFlow Bot. This text, as well as the response from the bot are logged in the text field above. There is also a buttons tied to the input field that enables text to speech.</p>
                 </div>
                 <div class="documentation-subtitle-holder" id="queryDocumentation">
                     <h3>Queries</h3>
-                    <p></p>
+                    <p>The query element is located in the top left. It consists of two sepereate input fields, for graph and table queries respectively. Queries can be typed manually but the assistant can also be used to enact graph and table queries.</p>
                 </div>
                 <div class="documentation-subtitle-holder" id="databaseDocumentation">
                     <h3>Database</h3>
-                    <p></p>
+                    <p>The database element is located below the query element, and displays table query results. It is also possible to preform grid operations through the assistant, that will live update in database element.</p>
+                </div>
+                <div class="documentation-subtitle-holder" id="searchDocumentation">
+                    <h3>Document Search</h3>
+                    <p>The search element is located below the database element, and is responsible for displaying search results from this documentation. Searchs are requested through the assistant, and the response is formatted and served into this element.</p>
                 </div>
                 <div class="documentation-subtitle-holder" id="visualizationDocumentation">
                     <h3>Visualization</h3>
-                    <p></p>
+                    <p>The visualization element is located below the assistant element. It display graphs upon request. Like the databse element, these requests can be entered as SQL queries directly in the query element, but can also be enacted through dialog with the assistant.</p>
                 </div>
 
                 <br>
@@ -187,26 +191,27 @@
                 <br>
 
                 <h1>Features</h1>
-                <p></p>
+                <p>Vito ships chalk-full of a healthy set of features. Many of them were originally introduced in Vivan, but there are also come that are completely new! The following provides an overview of Vitos most significant features.</p>
                 <div class="documentation-subtitle-holder" id="gridOperationDocumentation">
                     <h3>Grid Operations & Database Integration</h3>
-                    <p></p>
+                    <p>Grid operations were part of the basic set of requirements met by Vivan. Upon development of Vito, some more advanced grid operations were added. Here is a list of all the grid operations currently supported by Vito:</p>
+                    <ul>
+                        <li>Sorting</li>
+                        <li>Grouping</li>
+                        <li>Showing/hiding columns</li>
+                        <li>Reversing the table order</li>
+                        <li>Table search</li>
+                    </ul>
+                    <p>Furthermore, Vito is integrated with a remote SQL server which is used to store all of the data that can be shown in the graph. In fact, all the grid operations are actually implemented as different SQL queries. When a user specifies a grouping, a valid SQL query is formed where the data will be ordered accordingly.</p>
+
                 </div>
                 <div class="documentation-subtitle-holder" id="nlpDocumentation">
                     <h3>Natural Language Processing</h3>
-                    <p></p>
-                </div>
-                <div class="documentation-subtitle-holder" id="nodejsDocumentation">
-                    <h3>Node.js</h3>
-                    <p></p>
-                </div>
-                <div class="documentation-subtitle-holder" id="dialogFlowDocumentation">
-                    <h3>DialogFlow</h3>
-                    <p></p>
+                    <p>Vito is capable of natural language processing. This is a requirement for the ability to interact with the assisant through natural language, be that typed or spoken. Dialogflow, the host of the assistant, uses machine learning techniques coupled with developer defined training phrases to be able to resolve an intent from any given input.</p>
                 </div>
                 <div class="documentation-subtitle-holder" id="documentSearchDocumentation">
                     <h3>Document Search</h3>
-                    <p></p>
+                    <p>It is possible to search Vitos documentation pages via the assistant. Search strings are matched to either document titles, headers, or body content; Each with respective weights, and the results are displayed on the homepage.</p>
                 </div>
 
                 <br>
@@ -214,14 +219,22 @@
                 <br>
 
                 <h1>Dependencies</h1>
-                <p></p>
+                <p>Vito depends on various third party products and frameworks. Without these dependencies, Vito would not be alive and kicing today! These dependecies, together with the function they serve, are briefly mentioned in the following sections.</p>
+                <div class="documentation-subtitle-holder" id="dialogFlowDocumentation">
+                    <h3>DialogFLow</h3>
+                    <p>DialogFlow is a Google product used for creating chat bots. It is with DialogFLow, that Vito has been built and trained.</p>
+                </div>
+                <div class="documentation-subtitle-holder" id="nodejsDocumentation">
+                    <h3>Node.js</h3>
+                    <p>Node.js is a framework for back-end web architecture. It allows for rapid, asynchronous, server-side computations, that allow Vito to respond and enact actions more quickly and efficiently. Node.js was first introduted in Vivan Node, hence the name.</p>
+                </div>
                 <div class="documentation-subtitle-holder" id="chartjsDocumentation">
                     <h3>Chart.js</h3>
-                    <p></p>
+                    <p>Chart.js is a lightweight framework for generating charts and diagrams in HTML and Javascript. It is used to make Vitos visualizations</p>
                 </div>
                 <div class="documentation-subtitle-holder" id="fusejsDocumentation">
                     <h3>Fuse.js</h3>
-                    <p></p>
+                    <p>Fuse.js is another lightweight framework that provides fuzzy matching capabilities. It currently serves as the backbone for document search.</p>
                 </div>
                 <div style="height: 70vh;"></div> <!--For allowing scroll past the bottom of the content-->
 
