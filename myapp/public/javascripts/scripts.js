@@ -1,5 +1,6 @@
 var accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
 var baseUrl = "https://api.api.ai/v1/";
+var localHost = "http://localhost:8080/";
 
 var baseQueryObject = {
     columns: "*",
@@ -84,10 +85,6 @@ function reset() {
     queryObjectStack = [baseQueryObject];
 }
 
-function drawGraph() {
-
-}
-
 function hideColumns(columnNames) {
 
     // modify column names to be shown (remove selected columns from modColumns
@@ -167,9 +164,23 @@ function showAllColumns() {
 
 }
 
+function drawBarDiagram(stockAttribute) {
+    let queryObject = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
+    queryObject.columns = "Symbol, " + stockAttribute;
+    let query = queryParser(queryObject);
+
+    $("#queryTextForGraph").val(query);
+    $.ajax({
+        url: localHost + "api/graph/" + query
+    })
+        .done(function( data ) {
+            $("#graphContainer").html(data.toString());
+        });
+}
+
 function sendDocumentSearchStringToFuse(documentSearchString) {
     $.ajax({
-        url: "http://localhost:8080/api/search/"+documentSearchString
+        url: localHost + "api/search/" + documentSearchString
     })
         .done(function( data ) {
             $("#fuseContainer").html(data.toString());
@@ -223,11 +234,6 @@ function action(data) {
         case "reset":
             reset();
             break;
-        case "visualizeData":
-            // TODO: Refactor following case for additional query support. Possibly with seperate query stack
-            $("#queryTextForGraph").val("SELECT * FROM StocksByPriceOverTime;");
-            $("#VisualizeButton").click();
-            break;
         case "hideColumn":
             hideColumns(stockAttribute);
             break;
@@ -236,6 +242,9 @@ function action(data) {
             break;
         case "showAllColumns":
             showAllColumns(stockAttribute);
+            break;
+        case "drawBarDiagram":
+            drawBarDiagram(stockAttribute);
             break;
         case "documentSearch":
             sendDocumentSearchStringToFuse(documentSearchString);
