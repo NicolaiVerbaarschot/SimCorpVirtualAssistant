@@ -168,6 +168,7 @@ function showAllColumns() {
 }
 
 function drawBarDiagram(stockAttribute) {
+    alert("function hit");
     let queryObject = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
     queryObject.columns = "Symbol, " + stockAttribute;
     let query = queryParser(queryObject);
