@@ -177,22 +177,25 @@ function sendDocumentSearchStringToFuse(documentSearchString) {
 }
 
 function action(data) {
+    console.log("inside action");
 
     // get intent
-    let intent = data.result.action;
+    let intent = data.queryResult.action;
 
     // exit if action cannot be executed
-    if (data.result.actionIncomplete) return;
+    //FIX: should use queryResult.allRequiredParamsCollected
+    if (!(Object.keys(data.queryResult.parameters).every(x => !(x === "")))) return;
 
+    console.log("parameters all initialised");
     // TODO: Make robust
 
     // get parameters
-    let stockAttribute =  data.result.parameters["StockAttribute"];
-    let searchString = data.result.parameters["any"];
-    let groupString = data.result.parameters["attribute"];
-    let filterThreshold = data.result.parameters["number"];
-    let higherLower = data.result.parameters["higherLower"];
-    let documentSearchString = data.result.parameters["any"];
+    let stockAttribute =  data.queryResult.parameters["StockAttribute"];
+    let searchString = data.queryResult.parameters["any"];
+    let groupString = data.queryResult.parameters["attribute"];
+    let filterThreshold = data.queryResult.parameters["number"];
+    let higherLower = data.queryResult.parameters["higherLower"];
+    let documentSearchString = data.queryResult.parameters["any"];
 
     // match intent to corresponding action
     switch (intent) {

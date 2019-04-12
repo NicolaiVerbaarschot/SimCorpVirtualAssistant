@@ -15,11 +15,14 @@ QueryManager.prototype.manageInput = function(input) {
 
         sendAsync(subqueries[currentIndex]).then((data) => {
             //TODO: Refactor action to be given as argument
-            action(data)
+            console.log("inside queryManager");
+            console.log(data);
+            newVar = data;
+            action(data);
             
             if (currentIndex == subqueries.length - 1) {
                 // last elem. Update UI
-                var reply = formatMultipleLineReply(data.result.fulfillment.speech);
+                var reply = formatMultipleLineReply(data.queryResult.fulfillmentText);
                 setResponse("Bot: " + reply);
                 
                 // copy the query into the query field
@@ -36,7 +39,7 @@ QueryManager.prototype.manageInput = function(input) {
 
     sendAsyncInSequence(subqueries, 0);
 }
-let sendAsync = async function(value) {
+let sendAsync2 = async function(value) {
     let result; 
     try {
         result = await $.ajax({
@@ -49,7 +52,6 @@ let sendAsync = async function(value) {
             },
             data: JSON.stringify({ query: value, lang: "en", sessionId: "somerandomthing" }),
         });
-
         return result;
 
     } catch (error) {
@@ -57,13 +59,13 @@ let sendAsync = async function(value) {
     }
 }
 
+let newVar;
 
-let sendAsync2 = async function(value) {
+let sendAsync = async function(value) {
     let result;
-    console.log("welcome");
 
-    const DIALOG_FLOW_TOKEN = "ya29.c.El7pBnzc0fQxXmlhmcMqT69C52hoKsNHNRI4yIfINmrxUXKW603cI8eDiQYyW2Hd0-1ih7rJIIcIcBbW-orwe8p22-7pf8FTsTl1xRz756l-ty-7FG2Z28ZZqOk_Q1-U";
-
+    //TODO token should be fetched with "~: gcloud auth print-access-token"
+    const DIALOG_FLOW_TOKEN = "ya29.c.El7pBlmlfr-s0teXdEPgf5mZVqNJ8padT53rjTeNlb0LnBX_Vbh_F4teSdKdFY-KsCDnAuc__5yAad1-o4siaXUmMXx_Nd6OEsKKnqmhf3wzULpgpZzjN3sGyl1b7i9l"
     const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2";
     const YOUR_PROJECT_ID = "firstbot-d1b5b";
     const SESSION_ID = "SomeOtherRandomThing";
@@ -82,7 +84,7 @@ let sendAsync2 = async function(value) {
             },
             data: JSON.stringify({"queryInput": {"text": {"text": value, "languageCode": "en"}}}),
         });
-        console.log(result);
+        console.log(result.queryResult.intent.displayName);
         return result;
 
     } catch (error) {
