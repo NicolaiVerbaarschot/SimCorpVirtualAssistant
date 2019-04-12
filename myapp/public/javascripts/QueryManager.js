@@ -39,33 +39,32 @@ QueryManager.prototype.manageInput = function(input) {
 
     sendAsyncInSequence(subqueries, 0);
 }
-let sendAsyncOld = async function(value) {
-    let result; 
-    try {
-        result = await $.ajax({
-            type: "POST",
-            url: baseUrl + "query?v=20150910",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-                "Authorization": "Bearer " + accessToken
-            },
-            data: JSON.stringify({ query: value, lang: "en", sessionId: "somerandomthing" }),
-        });
-        return result;
-
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-let newVar;
 
 let sendAsync = async function(value) {
     let result;
+    // Imports the Google Cloud client library.
+    const {Storage} = require('@google-cloud/storage');
 
-    //TODO token should be fetched with "~: gcloud auth print-access-token"
-    const DIALOG_FLOW_TOKEN = "ya29.c.El7pBlmlfr-s0teXdEPgf5mZVqNJ8padT53rjTeNlb0LnBX_Vbh_F4teSdKdFY-KsCDnAuc__5yAad1-o4siaXUmMXx_Nd6OEsKKnqmhf3wzULpgpZzjN3sGyl1b7i9l"
+    // Instantiates a client. Explicitly use service account credentials by
+    // specifying the private key file. All clients in google-cloud-node have this
+    // helper, see https://github.com/GoogleCloudPlatform/google-cloud-node/blob/master/docs/authentication.md
+    const storage = new Storage({
+        projectId: 'project-id',
+        keyFilename: '/routes/firstbot-d1b5b-e44bae98475c.json',
+    });
+    storage.
+
+        //TODO token should be fetched with "~: gcloud auth print-access-token".
+        //      1: install and initialize the Cloud SDK https://cloud.google.com/sdk/docs/
+        //      2: run:
+        //           cd myapp
+        //           gcloud auth activate-service-account --key-file routes/firstbot-d1b5b-e44bae98475c.json
+        //           gcloud auth print-access-token
+        //       copy token and insert here:
+        //       do this every hour.. #OMG
+        // When this has been moved to backend. server can make this call.
+    const DIALOG_FLOW_TOKEN2 = "ya29.c.El7pBlmlfr-s0teXdEPgf5mZVqNJ8padT53rjTeNlb0LnBX_Vbh_F4teSdKdFY-KsCDnAuc__5yAad1-o4siaXUmMXx_Nd6OEsKKnqmhf3wzULpgpZzjN3sGyl1b7i9l"
+    const DIALOG_FLOW_TOKEN = $(gcloud auth application-default print-access-token);
     const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2";
     const YOUR_PROJECT_ID = "firstbot-d1b5b";
     const SESSION_ID = "SomeOtherRandomThing";

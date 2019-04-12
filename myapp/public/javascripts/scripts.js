@@ -188,6 +188,7 @@ function action(queryResult) {
     console.log("parameters all initialised");
 
     // get parameters
+    //TODO use parameters where needed instead of initialising empty attributes?
     let stockAttribute =  queryResult.parameters["StockAttribute"];
     let searchString = queryResult.parameters["any"];
     let groupString = queryResult.parameters["attribute"];
