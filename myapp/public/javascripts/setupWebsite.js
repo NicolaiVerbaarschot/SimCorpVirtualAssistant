@@ -30,11 +30,6 @@ $(document).ready(function() {
 
     $("#VisualizeButton").on("click", function () {
 
-        let width = 800;
-        let height = 800;
-        var left = (screen.width/2)-(width/2);
-        var top = (screen.height/2)-(height/2);
-
         var query = $("#queryTextForGraph").val();
 
         $.ajax({

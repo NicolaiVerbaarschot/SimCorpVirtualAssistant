@@ -164,6 +164,20 @@ function showAllColumns() {
 
 }
 
+function drawBarDiagram(stockAttribute) {
+    let queryObject = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
+    queryObject.columns = "Symbol, " + stockAttribute;
+    let query = queryParser(queryObject);
+
+    $("#queryTextForGraph").val(query);
+    $.ajax({
+        url: "http://localhost:3000/api/graph/"+query
+    })
+        .done(function( data ) {
+            $("#graphContainer").html(data.toString());
+        });
+}
+
 function action(data) {
     // get intent
     let intent = data.result.action;
@@ -209,11 +223,6 @@ function action(data) {
         case "reset":
             reset();
             break;
-        case "visualizeData":
-            // TODO: Refactor following case for additional query support. Possibly with seperate query stack
-            $("#queryTextForGraph").val("SELECT * FROM StocksByPriceOverTime;");
-            $("#VisualizeButton").click();
-            break;
         case "hideColumn":
             hideColumns(stockAttribute);
             break;
@@ -222,6 +231,9 @@ function action(data) {
             break;
         case "showAllColumns":
             showAllColumns(stockAttribute);
+            break;
+        case "drawBarDiagram":
+            drawBarDiagram(stockAttribute);
             break;
     }
 

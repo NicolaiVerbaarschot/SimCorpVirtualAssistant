@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const dataVisualisation = require('../public/javascripts/dataVisualisation');
+
 /* GET home page. */
 
 var mysql = require('mysql');
@@ -32,8 +34,9 @@ function queryDBTable(res,query) {
 function queryDBGraph(res,query) {
   con.query(query, function (err, data) {
     if (err) throw err;
+    let modifiedData = dataVisualisation(data);
     console.log("made query: "+query);
-    res.render('graph.ejs', {results: data});
+    res.render('graph.ejs', {results: modifiedData});
   });
 }
 
