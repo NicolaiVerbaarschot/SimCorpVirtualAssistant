@@ -63,8 +63,8 @@ let sendAsync = async function(value) {
         //       copy token and insert here:
         //       do this every hour.. #OMG
         // When this has been moved to backend. server can make this call.
-    const DIALOG_FLOW_TOKEN2 = "ya29.c.El7pBlmlfr-s0teXdEPgf5mZVqNJ8padT53rjTeNlb0LnBX_Vbh_F4teSdKdFY-KsCDnAuc__5yAad1-o4siaXUmMXx_Nd6OEsKKnqmhf3wzULpgpZzjN3sGyl1b7i9l"
-    const DIALOG_FLOW_TOKEN = $(gcloud auth application-default print-access-token);
+    const DIALOG_FLOW_TOKEN = "ya29.c.El7pBlmlfr-s0teXdEPgf5mZVqNJ8padT53rjTeNlb0LnBX_Vbh_F4teSdKdFY-KsCDnAuc__5yAad1-o4siaXUmMXx_Nd6OEsKKnqmhf3wzULpgpZzjN3sGyl1b7i9l"
+    const DIALOG_FLOW_TOKEN2 = $(gcloud auth application-default print-access-token);
     const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2";
     const YOUR_PROJECT_ID = "firstbot-d1b5b";
     const SESSION_ID = "SomeOtherRandomThing";
