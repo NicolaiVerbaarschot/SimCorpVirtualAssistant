@@ -56,3 +56,36 @@ let sendAsync = async function(value) {
         console.log(error)
     }
 }
+
+
+let sendAsync2 = async function(value) {
+    let result;
+    console.log("welcome");
+
+    const DIALOG_FLOW_TOKEN = "ya29.c.El7pBnzc0fQxXmlhmcMqT69C52hoKsNHNRI4yIfINmrxUXKW603cI8eDiQYyW2Hd0-1ih7rJIIcIcBbW-orwe8p22-7pf8FTsTl1xRz756l-ty-7FG2Z28ZZqOk_Q1-U";
+
+    const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2";
+    const YOUR_PROJECT_ID = "firstbot-d1b5b";
+    const SESSION_ID = "SomeOtherRandomThing";
+    const URL = `${DIALOG_FLOW_API_ROOT_URL}/projects/${YOUR_PROJECT_ID}/agent/sessions/${SESSION_ID}:detectIntent`;
+
+    console.log(URL);
+
+    try {
+        result = await $.ajax({
+            type: "POST",
+            url: URL,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                "Authorization": "Bearer " + DIALOG_FLOW_TOKEN
+            },
+            data: JSON.stringify({"queryInput": {"text": {"text": value, "languageCode": "en"}}}),
+        });
+        console.log(result);
+        return result;
+
+    } catch (error) {
+        console.log(error)
+    }
+};
