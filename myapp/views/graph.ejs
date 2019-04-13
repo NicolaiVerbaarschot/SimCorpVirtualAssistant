@@ -4,48 +4,20 @@
 <script>
     Chart.defaults.global.legend.display = false;
 
-    //////////////// This section exchanges serverside ejs parameters to clientside javascript variables
-    var graphLabels = [];
-
-    <% Object.keys(results[0]).forEach(function(attributeName){%>
-        graphLabels.push("<%= attributeName.toString() %>");
-    <%});%>
-    graphLabels.shift();
-    graphLabels.shift();
-
-    var results = [];
-    var resultRecord = [];
-
-    entry = "<%= results %>";
-    console.log(entry);
-
-    <%  results.forEach(function(result) { %>
-        <% for(var attributeName in result){%>
-            resultRecord.push("<%= result[attributeName] %>");
-        <%}%>
-            results.push(resultRecord);
-            resultRecord = [];
-    <% }); %>
-
-    var rawDataTemp = results[0];
-    var dataTemp = rawDataTemp.slice(2,rawDataTemp.length);
-    // END SECTION ////////////////
-
-
     // Create Graph
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
-        type: 'line',
+        type: 'bar',
 
         // The data for our dataset \\TODO: Change label
         data: {
-            labels: graphLabels,
+            labels: <%- JSON.stringify(results[0]) %>,
             datasets: [{
-                label: 'Placeholder Label',
+                label: <%- JSON.stringify(results[2]) %>,
                 backgroundColor: 'rgb(30,194,251)',
                 borderColor: 'rgba(53,68,82,0.98)',
-                data: dataTemp
+                data: <%- JSON.stringify(results[1]) %>
             }]
         },
 
