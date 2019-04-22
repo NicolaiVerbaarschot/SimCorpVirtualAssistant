@@ -1,71 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>jQuery UI AutoComplete : Showing Details of the Selected Option using ui Object</title>
+    <title>Superuser Interface</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
 
-<!--    &lt;!&ndash;     Latest compiled and minified CSS&ndash;&gt;-->
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
 
-<!--    &lt;!&ndash; Latest compiled and minified JavaScript &ndash;&gt;-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
 <!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>-->
 <!--    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
-<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-<!--    &lt;!&ndash;Custom Styles&ndash;&gt;-->
-<!--    <link rel="stylesheet" type="text/css" href="../styles/client.css">-->
+    <!-- Our Scripts -->
 
+<!--    <script src="jQuery_ui_Custom.js"></script>-->
+    <script src="superuser.js"></script>
 
-
-
-
-    <script src="http://code.jquery.com/jquery-2.1.3.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/jquery.easy-autocomplete.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/easy-autocomplete.min.css" integrity="sha256-fARYVJfhP7LIqNnfUtpnbujW34NsfC4OJbtc37rK2rs=" crossorigin="anonymous" />
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/easy-autocomplete.themes.min.css" integrity="sha256-kK9BInVvQN0PQuuyW9VX2I2/K4jfEtWFf/dnyi2C0tQ=" crossorigin="anonymous" />-->
-    <link rel="stylesheet" type="text/css" href="styles/superUser.css">
-
-<!--    <script>-->
-<!--        $(document).ready(function() {-->
-<!--            var cCities = ["Chicago", "California", "Chennai", "Cambridge", "Colombo", "Cairo"];-->
-
-<!--            $( "#autoSuggest" ).autocomplete({-->
-<!--                source: cCities,-->
-<!--                select: function(event, ui) {-->
-
-<!--                    var TABKEY = 9;-->
-<!--                    this.value = ui.item.value;-->
-
-<!--                    if (event.keyCode == TABKEY) {-->
-<!--                        event.preventDefault();-->
-<!--                        this.value = this.value + " ";-->
-<!--                        $('#autoSuggest').focus();-->
-<!--                    }-->
-
-<!--                    return false;-->
-<!--                }-->
-<!--            });-->
+    <!--Custom Styles-->
+    <link rel="stylesheet" type="text/css" href="../styles/client.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
-<!--            function showLabel(event, ui) {-->
-<!--                $('#cityLabel').text(ui.item.label)-->
-<!--            }-->
-
-<!--            $(document).on('keydown', function(event) {-->
-<!--                if (event.keyCode == 9) {   //tab pressed-->
-<!--                    event.preventDefault(); // stops its action-->
-<!--                }-->
-<!--            });-->
-
-
-<!--        });-->
-<!--    </script>-->
-
-
+    <link rel="stylesheet" type="text/css" href="styles/superuser.css">
 
 </head>
 <body>
@@ -78,8 +39,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link" href="">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link active" href="superuser">Superuser</a>
+            <a class="nav-item nav-link" href="/">Home</a>
+            <a class="nav-item nav-link active" href="superuser">Superuser<span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="docs">Docs</a>
             <a class="nav-item nav-link" href="about">About</a>
 
@@ -88,34 +49,54 @@
     </div>
 </nav>
 
+<div class="superuser-content-container">
+
+    <div class="superuser-content-wrapper">
+
+        <div class="superuser-content-output-container">
+            test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>test text
+            test text<br>
 
 
-<input id="example-mail"/>
 
-<script>
-    var options = {
-        url: "resources/people.json",
+        </div>
 
-        getValue: "name",
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span>$ ~</span>
+            </div>
+            <input id="tags" class="form-control">
+        </div>
 
-        template: {
-            type: "description",
-            fields: {
-                description: "email"
-            }
-        },
 
-        list: {
-            match: {
-                enabled: true
-            }
-        },
+    </div>
 
-        theme: "plate-dark"
-    };
 
-    $("#example-mail").easyAutocomplete(options);
-</script>
+</div>
 
 </body>
+
 </html>
