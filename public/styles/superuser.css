@@ -31,6 +31,7 @@ body {
 
 .input-group {
     width: 100%;
+
 }
 
 .input-group-prepend {
@@ -55,8 +56,36 @@ body {
     -webkit-box-shadow: none !important;
 }
 
+.ui-menu {
+    background: #c4c4c4;
+    border-radius: 5px;
+    font-family: "Fira Code";
+    font-size: 14px;
+    border-color: transparent;
+    outline-color: transparent;
+    width: auto !important;
+    box-shadow: 0px 0px 28px -7px rgba(0,0,0,0.37);
+}
+.ui-widget.ui-widget-content {
+    border-color: transparent;
+}
 
+.ui-menu .ui-menu-item-wrapper:hover, .ui-menu .ui-menu-item-wrapper.ui-state-active {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    background-color: transparent;
+    border-color: transparent;
+}
 
+#buffer-for-drop-shadow {
+    position: absolute;
+    height: 70px;
+    width: 100%;
+    bottom: 0;
+    left:0;
+    box-shadow: 0px 0px 37px 1px rgba(0,0,0,0.1);
+}
 
 
 
