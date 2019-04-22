@@ -66,6 +66,10 @@ router.get('/', function(req, res) {
   res.render('client.html' , {result_from_database: ""});
 });
 
+router.get('/superuser', function(req, res) {
+  res.render('superuser.html');
+});
+
 router.get('/docs', function(req, res) {
   res.render('docs.html');
 });
