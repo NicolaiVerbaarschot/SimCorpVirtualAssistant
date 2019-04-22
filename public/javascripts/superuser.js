@@ -1,3 +1,4 @@
+
 var keycode = $.ui.keyCode = {
     BACKSPACE: 8,
     COMMA: 188,
@@ -19,28 +20,8 @@ var keycode = $.ui.keyCode = {
 
 $( function() {
     var availableTags = [
-        "ActionScript",
-        "AppleScript",
-        "Asp",
-        "BASIC",
-        "C",
-        "C++",
-        "Clojure",
-        "COBOL",
-        "ColdFusion",
-        "Erlang",
-        "Fortran",
-        "Groovy",
-        "Haskell",
-        "Java",
-        "JavaScript",
-        "Lisp",
-        "Perl",
-        "PHP",
-        "Python",
-        "Ruby",
-        "Scala",
-        "Scheme"
+        "help",
+        "tableQuery"
     ];
     function split( val ) {
         return val.split( /,\s*/ );
@@ -49,23 +30,28 @@ $( function() {
         return split( term ).pop();
     }
 
-    $( "#tags" )
+    $( "#superuserInput" )
     // don't navigate away from the field on tab when selecting an item
         .on( "keydown", function( event ) {
 
-            if (event.keyCode === $.ui.keyCode.ENTER) {
-                const command = $("#tags").val();
-                console.log(command);
+            const input = $("#superuserInput");
+            const output = $("#superuserResults");
+
+            if (event.keyCode === $.ui.keyCode.ENTER && !$('.ui-menu').is(':visible') && input.val() !== "") {
+                const command = input.val();
+
+                output.append("\n" + command + ":");
 
                 $.ajax({
                     url: "http://localhost:8080/api/superuser/"+command
                 })
                     .done(function( data ) {
-                        $("#superuserResults").append("\n");
-                        $("#superuserResults").append(data.toString());
+                        output.append("\n");
+                        output.append(data.toString());
                         const objDiv = document.getElementById("superuserResults");
                         objDiv.scrollTop = objDiv.scrollHeight;
                     });
+                input.val("");
             }
 
             // Prevent tab default behaviour when focused on input field
@@ -93,7 +79,7 @@ $( function() {
                 terms.push( ui.item.value );
                 // add placeholder to get the comma-and-space at the end
                 terms.push( "" );
-                this.value = terms.join( ", " );
+                this.value = terms.join( " " );
                 return false;
             }
         });
@@ -101,3 +87,4 @@ $( function() {
 
 
 } );
+

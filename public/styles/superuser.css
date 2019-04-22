@@ -29,6 +29,22 @@ body {
     overflow: scroll;
 }
 
+#output-container-vertical-spanner {
+    height: calc(100% - 175px);
+
+}
+
+p.output-text {
+    white-space: normal;
+    display: inline;
+    box-sizing: content-box;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
 .input-group {
     width: 100%;
 
@@ -44,7 +60,7 @@ body {
     white-space:pre-wrap;
 }
 
-#tags {
+#superuserInput {
     width: 20%;
     background-color: white;
     font-size: 14px;
@@ -52,7 +68,7 @@ body {
     outline: none;
     -webkit-box-shadow: none !important;
 }
-#tags:focus {
+#superuserInput:focus {
     font-family: "Fira Code";
     font-size: 14px;
     outline: none;
