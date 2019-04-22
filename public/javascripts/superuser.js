@@ -53,6 +53,21 @@ $( function() {
     // don't navigate away from the field on tab when selecting an item
         .on( "keydown", function( event ) {
 
+            if (event.keyCode === $.ui.keyCode.ENTER) {
+                const command = $("#tags").val();
+                console.log(command);
+
+                $.ajax({
+                    url: "http://localhost:8080/api/superuser/"+command
+                })
+                    .done(function( data ) {
+                        $("#superuserResults").append("\n");
+                        $("#superuserResults").append(data.toString());
+                        const objDiv = document.getElementById("superuserResults");
+                        objDiv.scrollTop = objDiv.scrollHeight;
+                    });
+            }
+
             // Prevent tab default behaviour when focused on input field
             if ( event.keyCode === $.ui.keyCode.TAB) {
                 event.preventDefault();

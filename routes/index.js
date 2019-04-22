@@ -3,6 +3,7 @@ const router = express.Router();
 
 const documentSearch = require('../public/javascripts/documentSearch');
 const dataVisualisation = require('../public/javascripts/dataVisualisation');
+const superuserCommandHandler = require('../public/javascripts/superuserCommandHandler');
 
 /* GET home page. */
 
@@ -49,6 +50,15 @@ function fuseQuery(res,query) {
   console.log("made search: "+query);
   res.render('searchResults.ejs', {results: fuseResponse});
 }
+
+function superuserCommand(res,command) {
+  const commandOutput = superuserCommandHandler.handler(command);
+  res.render("superuserResults.ejs", {results: commandOutput});
+}
+
+router.get('/api/superuser/:query', function(req, res) {
+  superuserCommand(res,req.params.query);
+});
 
 router.get('/api/search/:query', function(req, res) {
   fuseQuery(res,req.params.query);

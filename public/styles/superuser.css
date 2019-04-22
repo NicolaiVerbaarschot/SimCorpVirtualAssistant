@@ -40,6 +40,10 @@ body {
     vertical-align: center;
 }
 
+#superuserResults {
+    white-space:pre-wrap;
+}
+
 #tags {
     width: 20%;
     background-color: white;
