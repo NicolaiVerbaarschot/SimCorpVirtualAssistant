@@ -101,7 +101,7 @@ const documents = [{
     }, {
         title: 'Dependencies',
         section: 'Node.js',
-        body: 'Node.js is a framework for back-end web architecture. It allows for rapid, asynchronous, server-side computations, that allow Vito to respond and enact actions more quickly and efficiently. Node.js was first introduted in Vivan Node, hence the name.',
+        body: 'Node.js is a framework for back-end appWeb architecture. It allows for rapid, asynchronous, server-side computations, that allow Vito to respond and enact actions more quickly and efficiently. Node.js was first introduted in Vivan Node, hence the name.',
         tags: ['dependency', 'node', 'node.js']
     }, {
         title: 'Dependencies',

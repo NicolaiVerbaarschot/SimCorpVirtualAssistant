@@ -3,8 +3,8 @@ var path = require('path');
 var cors = require('cors');
 
 
-var indexRouter = require('./routes/index');
-var intentMatcherRouter = require('./routes/intentMatcher');
+var indexRouter = require('./appApi');
+var intentMatcherRouter = require('./appApi/modules/intentMatcher');
 
 
 var app = express();
@@ -16,9 +16,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 
 //setup dir to search through when looking for files
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public/images')));
-app.use(express.static(path.join(__dirname, 'public/javascripts')));
+app.use(express.static(path.join(__dirname, 'appWeb')));
+// app.use(express.static(path.join(__dirname, 'public/images')));
+// app.use(express.static(path.join(__dirname, 'public/javascripts')));
 
 
 // app.use('jquery', express.static(__dirname + '/node_modules/jquery/dist/'));

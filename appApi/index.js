@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
-const database = require(path.resolve(__dirname, "./databaseModule"));
-const documentSearch = require(path.resolve(__dirname, '../public/javascripts/documentSearch'));
-const superuserCommandHandler = require(path.resolve(__dirname, '../public/javascripts/superuserCommandHandler'));
+const database = require(path.resolve(__dirname, "./modules/databaseModule"));
+const documentSearch = require(path.resolve(__dirname, '../appWeb/javascripts/documentSearch'));
+const superuserCommandHandler = require(path.resolve(__dirname, '../appWeb/javascripts/superuserCommandHandler'));
 
 const router = express.Router();
 
@@ -35,19 +35,19 @@ router.get('/api/table/:query', function(req, res) {
 });
 
 router.get('/', function(req, res) {
-  res.render('client.html' , {result_from_database: ""});
+  res.render(path.resolve(__dirname, '../appWeb/views/static/client.html') , {result_from_database: ""});
 });
 
 router.get('/superuser', function(req, res) {
-  res.render('superuser.html');
+  res.render(path.resolve(__dirname, '../appWeb/views/static/superuser.html'));
 });
 
 router.get('/docs', function(req, res) {
-  res.render('docs.html');
+  res.render(path.resolve(__dirname, '../appWeb/views/static/docs.html'));
 });
 
 router.get('/about', function(req, res) {
-  res.render('about.html');
+  res.render(path.resolve(__dirname, '../appWeb/views/static/about.html'));
 });
 
 module.exports = router;

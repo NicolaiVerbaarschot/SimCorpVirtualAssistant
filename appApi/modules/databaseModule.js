@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 const mysql = require('mysql');
-const dataVisualisation = require('../public/javascripts/dataVisualisation');
+const dataVisualisation = require('../../appWeb/javascripts/dataVisualisation');
 
 
 
@@ -26,7 +27,7 @@ var ExportObject = {
     queryDBTable: function(res,query) {
         con.query(query, function (err, data) {
             if (err) throw err;
-            res.render('table.ejs', {results: data}); // TODO: Use Aync/Await to send data to index.js and render there
+            res.render(path.resolve(__dirname, '../../appWeb/views/dynamic/table.ejs'), {results: data}); // TODO: Use Aync/Await to send data to index.js and render there
         });
     },
 
