@@ -10,13 +10,13 @@ const router = express.Router();
 
 router.get('/api/superuser/:query', function(req, res) {
   const commandOutput = superuserCommandHandler.handler(req.params.query);
-  res.render('superuserResults.ejs', {results: commandOutput});
+  res.render('superuserTemplate.ejs', {results: commandOutput});
 });
 
 router.get('/api/search/:query', function(req, res) {
   const fuse = documentSearch.fuse;
   const fuseResponse = fuse.search(req.params.query);
-  res.render('searchResults.ejs', {results: fuseResponse});
+  res.render('searchTemplate.ejs', {results: fuseResponse});
 });
 
 router.get('/api/graph/:query', function(req, res) {

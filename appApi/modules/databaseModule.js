@@ -25,7 +25,7 @@ var ExportObject = {
     queryDBTable: function(res,query) {
         con.query(query, function (err, data) {
             if (err) throw err;
-            res.render('table.ejs', {results: data}); // TODO: Use Aync/Await to send data to index.js and render there
+            res.render('tableTemplate.ejs', {results: data}); // TODO: Use Aync/Await to send data to index.js and render there
         });
     },
 
@@ -33,7 +33,7 @@ var ExportObject = {
         con.query(query, function (err, data) {
             if (err) throw err;
             let modifiedData = visualisationModule.formatData(data);
-            res.render('graph.ejs', {results: modifiedData});
+            res.render('graphTemplate.ejs', {results: modifiedData});
         });
     }
 };
