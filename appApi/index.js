@@ -9,8 +9,7 @@ const router = express.Router();
 function fuseQuery(res,query) {
   const fuse = documentSearch.fuse;
   const fuseResponse = fuse.search(query);
-  console.log("made search: "+query);
-  res.render('searchResults.ejs', {results: fuseResponse});
+  res.render(path.resolve(__dirname, '../appWeb/views/dynamic/searchResults.ejs'), {results: fuseResponse});
 }
 
 function superuserCommand(res,command) {
