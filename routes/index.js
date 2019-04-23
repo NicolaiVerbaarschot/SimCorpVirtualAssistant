@@ -1,49 +1,11 @@
 const express = require('express');
+const path = require('path');
+const database = require(path.resolve(__dirname, "./databaseModule"));
+const documentSearch = require(path.resolve(__dirname, '../public/javascripts/documentSearch'));
+const superuserCommandHandler = require(path.resolve(__dirname, '../public/javascripts/superuserCommandHandler'));
+
 const router = express.Router();
 
-const documentSearch = require('../public/javascripts/documentSearch');
-const dataVisualisation = require('../public/javascripts/dataVisualisation');
-const superuserCommandHandler = require('../public/javascripts/superuserCommandHandler');
-
-/* GET home page. */
-
-const mysql = require('mysql');
-
-const con = mysql.createConnection({
-  host: "remotemysql.com",
-  user: "yiZaQZM5Nm",
-  password: "L3YF0CxQf7",
-  database: "yiZaQZM5Nm"
-});
-
-
-function makeConnectionToDB() {
-  con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected to Database!");
-  });
-}
-makeConnectionToDB();
-
-function queryDBTable(res,query) {
-  con.query(query, function (err, data) {
-    if (err) throw err;
-    console.log("made query: "+query);
-    console.log(data);
-    res.render('table.ejs', {results: data});
-  });
-}
-
-function queryDBGraph(res,query) {
-  con.query(query, function (err, data) {
-    if (err) throw err;
-    let modifiedData = dataVisualisation(data);
-    console.log("made query: "+query);
-    res.render('graph.ejs', {results: modifiedData});
-  });
-}
-
-//TODO: handle unmatched queries
 function fuseQuery(res,query) {
   const fuse = documentSearch.fuse;
   const fuseResponse = fuse.search(query);
@@ -65,11 +27,11 @@ router.get('/api/search/:query', function(req, res) {
 });
 
 router.get('/api/graph/:query', function(req, res) {
-  queryDBGraph(res,req.params.query);
+  database.functions.queryDBGraph(res,req.params.query);
 });
 
 router.get('/api/table/:query', function(req, res) {
-  queryDBTable(res,req.params.query);
+  database.functions.queryDBTable(res,req.params.query);
 });
 
 router.get('/', function(req, res) {

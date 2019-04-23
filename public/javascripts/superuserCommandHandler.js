@@ -1,4 +1,5 @@
 
+
 function handleSuperuserCommand(command) {
 
     // Splitting input into command and arguments
@@ -32,7 +33,7 @@ function handleSuperuserCommand(command) {
 
 
     function commandTableQuery() {
-
+    //    make query directly || checkout: https://stackoverflow.com/questions/38946943/calling-express-route-internally-from-inside-nodejs
     }
 
     function commandGraphQuery() {
