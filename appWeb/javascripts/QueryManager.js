@@ -38,7 +38,7 @@ QueryManager.prototype.manageInput = function(input) {
 };
 
 const sendAsync = async function(value) {
-    let result; 
+    let result;
     try {
         result = await $.ajax({
             type: "POST",

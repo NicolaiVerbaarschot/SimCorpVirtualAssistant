@@ -194,9 +194,7 @@ function action(data) {
 
     // exit if action cannot be executed
     if (data.result.actionIncomplete) return;
-
-    // TODO: Make robust
-
+    
     // get parameters
     let stockAttribute =  data.result.parameters["StockAttribute"];
     let searchString = data.result.parameters["any"];
