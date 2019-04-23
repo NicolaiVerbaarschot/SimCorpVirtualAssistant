@@ -9,8 +9,10 @@ const router = express.Router();
 
 
 router.get('/api/superuser/:query', function(req, res) {
-  const commandOutput = superuserCommandHandler.handler(req.params.query);
-  res.render('superuserTemplate.ejs', {results: commandOutput});
+  const commandOutput = superuserCommandHandler.handler(req.params.query, res);
+  if (req.params.query.replace(/ .*/,'') !== "tableQuery") // TODO: Perhaps we should unify methods to render to the superuser output
+    res.render('superuserTemplate.ejs', {results: commandOutput});
+
 });
 
 router.get('/api/search/:query', function(req, res) {

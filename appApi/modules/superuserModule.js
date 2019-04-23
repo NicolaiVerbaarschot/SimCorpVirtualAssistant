@@ -1,6 +1,6 @@
+const database = require('./databaseModule');
 
-
-function handleSuperuserCommand(command) {
+function handleSuperuserCommand(command, res) {
 
     // Splitting input into command and arguments
     const commandArgumentArray = command.split(/ (.*)/);
@@ -32,7 +32,7 @@ function handleSuperuserCommand(command) {
 
 
     function commandTableQuery() {
-    //    make query directly || checkout: https://stackoverflow.com/questions/38946943/calling-express-route-internally-from-inside-nodejs
+        database.functions.queryTableSuperuser(res, commandArgument);
     }
 
     function commandGraphQuery() {

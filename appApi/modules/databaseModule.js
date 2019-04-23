@@ -1,4 +1,3 @@
-const path = require('path');
 const mysql = require('mysql');
 const visualisationModule = require('./dataVisualisationModule');
 
@@ -34,6 +33,13 @@ var ExportObject = {
             if (err) throw err;
             let modifiedData = visualisationModule.formatData(data);
             res.render('graphTemplate.ejs', {results: modifiedData});
+        });
+    },
+
+    queryTableSuperuser: function(res,query) {
+        con.query(query, function (err, data) {
+            if (err) throw err;
+            res.render('tableTemplate.ejs', {results: data});
         });
     }
 };
