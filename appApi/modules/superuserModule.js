@@ -13,7 +13,6 @@ function handleSuperuserCommand(command) {
     }
 
 
-
     var returnString;
 
 

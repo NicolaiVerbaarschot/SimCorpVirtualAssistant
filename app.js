@@ -3,7 +3,7 @@ var path = require('path');
 var cors = require('cors');
 
 
-var indexRouter = require('./appApi');
+var indexRouter = require('./appApi/index');
 var intentMatcherRouter = require('./appApi/modules/intentMatcher');
 var app = express();
 
