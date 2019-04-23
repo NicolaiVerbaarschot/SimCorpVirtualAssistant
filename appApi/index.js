@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
 const database = require(path.resolve(__dirname, "./modules/databaseModule"));
-const documentSearch = require(path.resolve(__dirname, '../appWeb/javascripts/documentSearch'));
-const superuserCommandHandler = require(path.resolve(__dirname, '../appWeb/javascripts/superuserCommandHandler'));
+const documentSearch = require(path.resolve(__dirname, "./modules/documentSearch"));
+const superuserCommandHandler = require(path.resolve(__dirname, "./modules/superuserModule"));
 
 const router = express.Router();
 

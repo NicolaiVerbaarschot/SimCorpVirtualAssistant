@@ -4,7 +4,6 @@ function SpeechRecognition(updateHandler, resultHandler) {
     let self = this; // The most hacky solution ever
 
     this.recognition.onstart = function(_) {
-        console.log("on start: " + self.isSpeaking);
         updateHandler("<i class=\"fas fa-microphone-slash\"></i>");
     };
 

@@ -1,5 +1,5 @@
 
-module.exports = function (data) {
+function formatDataForVisualization(data) {
     let labels = [];
     let vals = [];
     let attribute = Object.keys(data[0])[1];
@@ -10,4 +10,6 @@ module.exports = function (data) {
     });
 
     return [labels, vals, attribute];
-};
+}
+
+module.exports.formatData = formatDataForVisualization;

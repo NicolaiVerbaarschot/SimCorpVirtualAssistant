@@ -1,8 +1,6 @@
-const express = require('express');
-const router = express.Router();
 const path = require('path');
 const mysql = require('mysql');
-const dataVisualisation = require('../../appWeb/javascripts/dataVisualisation');
+const visualisationModule = require('./dataVisualisationModule');
 
 
 
@@ -34,11 +32,11 @@ var ExportObject = {
     queryDBGraph: function(res,query) {
         con.query(query, function (err, data) {
             if (err) throw err;
-            let modifiedData = dataVisualisation(data);
+            let modifiedData = visualisationModule.formatData(data);
             res.render(path.resolve(__dirname, '../../appWeb/views/dynamic/graph.ejs'), {results: modifiedData});
         });
     }
 };
 
-exports.functions = ExportObject;
+module.exports.functions = ExportObject;
 
