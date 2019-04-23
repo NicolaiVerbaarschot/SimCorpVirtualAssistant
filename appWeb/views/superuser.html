@@ -4,24 +4,19 @@
     <title>Superuser Interface</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+    <!--Scripts: jQuery(autocompletecompatible), jQuery-ui, popper.js, bootstrap-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-<!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>-->
-<!--    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <!-- Our Scripts -->
-<!--    <script src="../../javascripts/superuserModule.js"></script>-->
+    <!--Local Scripts -->
     <script src="../javascripts/superuser.js"></script>
 
-    <!--Custom Styles-->
-    <link rel="stylesheet" type="text/css" href="../styles/client.css">
+    <!--Styles-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="../styles/client.css">
     <link rel="stylesheet" type="text/css" href="../styles/superuser.css">
 
 </head>
@@ -39,8 +34,6 @@
             <a class="nav-item nav-link active" href="superuser">Superuser<span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="docs">Docs</a>
             <a class="nav-item nav-link" href="about">About</a>
-
-
         </div>
     </div>
 </nav>
@@ -48,17 +41,11 @@
 <div id="buffer-for-drop-shadow"></div>
 
 <div class="superuser-content-container">
-
     <div class="superuser-content-wrapper">
-
         <div class="superuser-content-output-container" id="superuserResults">
-
             <div id="output-container-vertical-spanner"></div>
-
             <p class="output-text">Welcome to the superuser inteface! Here you can interact with the database through a set of commands. The console is fully equipped with autocomplete to increase efficiency. try typing 'help'
                 for list of all commands"</p>
-
-
         </div>
 
         <div class="input-group mb-3">
@@ -69,11 +56,7 @@
         </div>
 
     </div>
-
-
 </div>
-
-
 
 </body>
 

@@ -2,7 +2,6 @@
     <table id="table" class="table table-striped table-sm table-borderless">
         <thead>
             <tr>
-                <%console.log(Object.keys(results[0]).join(","))%>
                 <% Object.keys(results[0]).forEach(function(attributeName){%>
                     <td> <%= attributeName.toString() %></td>
                 <%});%>
