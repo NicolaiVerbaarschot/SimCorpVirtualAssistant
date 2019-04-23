@@ -171,7 +171,7 @@ function drawBarDiagram(stockAttribute) {
 
     $("#queryTextForGraph").val(query);
     $.ajax({
-        url: localHost + "appApi/graph/" + query
+        url: localHost + "api/graph/" + query
     })
         .done(function( data ) {
             $("#graphContainer").html(data.toString());
@@ -180,7 +180,7 @@ function drawBarDiagram(stockAttribute) {
 
 function sendDocumentSearchStringToFuse(documentSearchString) {
     $.ajax({
-        url: localHost + "appApi/search/" + documentSearchString
+        url: localHost + "api/search/" + documentSearchString
     })
         .done(function( data ) {
             $("#fuseContainer").html(data.toString());

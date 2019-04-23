@@ -35,8 +35,7 @@ var ExportObject = {
         con.query(query, function (err, data) {
             if (err) throw err;
             let modifiedData = dataVisualisation(data);
-            console.log("made query: "+query);
-            res.render('graph.ejs', {results: modifiedData});
+            res.render(path.resolve(__dirname, '../../appWeb/views/dynamic/graph.ejs'), {results: modifiedData});
         });
     }
 };
