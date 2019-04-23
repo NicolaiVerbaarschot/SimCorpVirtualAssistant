@@ -6,23 +6,17 @@ const superuserCommandHandler = require(path.resolve(__dirname, '../appWeb/javas
 
 const router = express.Router();
 
-function fuseQuery(res,query) {
-  const fuse = documentSearch.fuse;
-  const fuseResponse = fuse.search(query);
-  res.render(path.resolve(__dirname, '../appWeb/views/dynamic/searchResults.ejs'), {results: fuseResponse});
-}
 
-function superuserCommand(res,command) {
-  const commandOutput = superuserCommandHandler.handler(command);
-  res.render("superuserResults.ejs", {results: commandOutput});
-}
 
 router.get('/api/superuser/:query', function(req, res) {
-  superuserCommand(res,req.params.query);
+  const commandOutput = superuserCommandHandler.handler(req.params.query);
+  res.render(path.resolve(__dirname, '../appWeb/views/dynamic/superuserResults.ejs'), {results: commandOutput});
 });
 
 router.get('/api/search/:query', function(req, res) {
-  fuseQuery(res,req.params.query);
+  const fuse = documentSearch.fuse;
+  const fuseResponse = fuse.search(req.params.query);
+  res.render(path.resolve(__dirname, '../appWeb/views/dynamic/searchResults.ejs'), {results: fuseResponse});
 });
 
 router.get('/api/graph/:query', function(req, res) {
