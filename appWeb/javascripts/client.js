@@ -34,8 +34,8 @@ $(document).ready(function() {
         $.ajax({
             url: "http://localhost:8080/api/graph/"+query
         })
-            .done(function( data ) {
-                $("#graphContainer").html(data.toString());
+            .done(function( answer ) {
+                $("#graphContainer").html(answer.toString());
             });
     });
 

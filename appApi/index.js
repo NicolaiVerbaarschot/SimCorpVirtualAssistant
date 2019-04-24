@@ -5,6 +5,7 @@ const dialogflow = require(path.resolve(__dirname, "./modules/dialogflowInterfac
 const database = require(path.resolve(__dirname, "./modules/databaseModule"));
 const documentSearch = require(path.resolve(__dirname, "./modules/documentSearch"));
 const superuserCommandHandler = require(path.resolve(__dirname, "./modules/superuserModule"));
+const intentHandler = require(path.resolve(__dirname, "./modules/intentHandlerModule"));
 
 const router = express.Router();
 
@@ -21,7 +22,7 @@ router.get('/api/chatBotQueryManager/:query', function (req,res) {
     let query = req.params.query;
     dialogflow.send(query).then((data) => {
         console.log(data);
-        res.send(data);
+        res.send(data.answer);
     });
 });
 

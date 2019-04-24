@@ -45,9 +45,13 @@ async function postToDialogflow(value) {
         });
         console.log(data);
         let isKnowledgeAnswer = !data.alternativeQueryResults;
+        let allRequiredParamsPresent = data.queryResult.allRequiredParamsPresent;
+
         return {
             answer: data.queryResult.fulfillmentText,
-            action: isKnowledgeAnswer ? "Knowledge" : data.queryResult.action
+            action: isKnowledgeAnswer ? "Knowledge" : data.queryResult.action,
+            allRequiredParamsPresent : allRequiredParamsPresent,
+            parameters: allRequiredParamsPresent ? data.queryResult.parameters : undefined
         };
 
     } catch (error) {
