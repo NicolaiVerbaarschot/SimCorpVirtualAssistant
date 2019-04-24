@@ -14,9 +14,10 @@ const router = express.Router();
 router.get('/api/chatBotQueryManager/:query', function (req,res) {
     let query = req.params.query;
     dialogflow.send(query).then((data) => {
-        let result = dialogflowHandler.resolve(data);
-        console.log(result);
-        res.send(result);
+        dialogflowHandler.resolve(data).then((result) => {
+            console.log(result);
+            res.send(result);
+        });
     });
 });
 
