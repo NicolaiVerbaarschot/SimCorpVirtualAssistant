@@ -5,10 +5,20 @@ const dialogflow = require(path.resolve(__dirname, "./modules/dialogflowInterfac
 const database = require(path.resolve(__dirname, "./modules/databaseModule"));
 const documentSearch = require(path.resolve(__dirname, "./modules/documentSearch"));
 const superuserCommandHandler = require(path.resolve(__dirname, "./modules/superuserModule"));
-const intentHandler = require(path.resolve(__dirname, "./modules/intentHandlerModule"));
+const dialogflowHandler = require(path.resolve(__dirname, "./modules/dialogflowResponseHandlerModule"));
 
 const router = express.Router();
 
+
+
+router.get('/api/chatBotQueryManager/:query', function (req,res) {
+    let query = req.params.query;
+    dialogflow.send(query).then((data) => {
+        let result = dialogflowHandler.resolve(data);
+        console.log(result);
+        res.send(result);
+    });
+});
 
 
 router.get('/api/superuser/:query', function(req, res) {
@@ -16,15 +26,6 @@ router.get('/api/superuser/:query', function(req, res) {
     if (req.params.query.replace(/ .*/,'') !== "tableQuery") // TODO: Perhaps we should unify methods to render to the superuser output
         res.render('superuserTemplate.ejs', {results: commandOutput});
 
-});
-
-router.get('/api/chatBotQueryManager/:query', function (req,res) {
-    let query = req.params.query;
-    dialogflow.send(query).then((data) => {
-        console.log(data);
-        let result = intentHandler(data);
-        res.send(data.answer);//result);
-    });
 });
 
 router.get('/api/search/:query', function(req, res) {

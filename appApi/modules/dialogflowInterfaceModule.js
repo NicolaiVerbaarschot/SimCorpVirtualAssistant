@@ -15,22 +15,20 @@ async function postToDialogflow(value) {
         keyFilename: '/routes/firstbot-d1b5b-e44bae98475c.json',
     });
 
-    const DIALOG_FLOW_TOKEN = "ya29.c.El71BueIjTqUmw6R6UrOuRnHA8rwUHrWvARgSTu5EfeX-ejSeO7S2sluyPk_C6eCuF0n6MfAw3VCH9O4hFo9c-tyfWrsP3QQU_1H_4fC-vTMgSBWr3hOA1T3PX8aTK1n";
+    const DIALOG_FLOW_TOKEN = "ya29.c.El71BipXFgdX28gmDfjhP5Qx78IXTLLr4GJwmrfA3hXXMI-99-qADsU8W_bm-b-B5vB7URA4U-Vn2B3v8vGq_wgPbx61_Ash5nXoUNiMSmMtdbrIIqCO0VS-HRj0E5oH";
     //TODO token should be fetched with "~: gcloud auth print-access-token".
-    //      1: install and initialize the Cloud SDK https://cloud.google.com/sdk/docs/
+    //      1: install and initialize the Cloud SDK https://cloud.google.com/sdk/docs/ (make sure to add commands to your PATH, it is mentioned in the instructions as optional)
     //      2: run:
     //           cd root of app
     //           gcloud auth activate-service-account --key-file appApi/firstbot-d1b5b-e44bae98475c.json
     //           gcloud auth print-access-token
     //       copy token and insert here:
-    //       do this every hour.. #OMG
+    //       do this every hour.. #OMG-Simon <- lol at the #OMG-Nicolai
     // const DIALOG_FLOW_TOKEN2 = $(gcloud auth application-default print-access-token);
     const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2beta1";
     const YOUR_PROJECT_ID = "firstbot-d1b5b";
     const SESSION_ID = "SomeOtherRandomThing";
     const URL = `${DIALOG_FLOW_API_ROOT_URL}/projects/${YOUR_PROJECT_ID}/agent/sessions/${SESSION_ID}:detectIntent`;
-
-    console.log(URL);
 
     try {
         let data = await najax({
@@ -43,7 +41,6 @@ async function postToDialogflow(value) {
             },
             data: JSON.stringify({"queryInput": {"text": {"text": value, "languageCode": "en"}}}),
         });
-        console.log(data);
         let isKnowledgeAnswer = !data.alternativeQueryResults;
         let allRequiredParamsPresent = data.queryResult.allRequiredParamsPresent;
 
@@ -51,7 +48,8 @@ async function postToDialogflow(value) {
             answer: data.queryResult.fulfillmentText,
             action: isKnowledgeAnswer ? "Knowledge" : data.queryResult.action,
             allRequiredParamsPresent : allRequiredParamsPresent,
-            parameters: allRequiredParamsPresent ? data.queryResult.parameters : undefined
+            parameters: allRequiredParamsPresent ? data.queryResult.parameters : undefined,
+            intentName: data.queryResult.intent.displayName
         };
 
     } catch (error) {
@@ -61,3 +59,4 @@ async function postToDialogflow(value) {
 }
 
 module.exports.send = postToDialogflow;
+
