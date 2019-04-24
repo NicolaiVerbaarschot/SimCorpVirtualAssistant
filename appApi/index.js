@@ -22,7 +22,8 @@ router.get('/api/chatBotQueryManager/:query', function (req,res) {
     let query = req.params.query;
     dialogflow.send(query).then((data) => {
         console.log(data);
-        res.send(data.answer);
+        let result = intentHandler(data);
+        res.send(data.answer);//result);
     });
 });
 

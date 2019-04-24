@@ -36,7 +36,7 @@ $(document).ready(function() {
         })
             .done(function( answer ) {
                 $("#graphContainer").html(answer.toString());
-            });
+            });//TODO switch case based (knowledge/newTable/newGraph)
     });
 
     $("#HButton").on("click", function () {

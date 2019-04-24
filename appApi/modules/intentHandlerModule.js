@@ -5,11 +5,11 @@ module.exports = function (chatBotQueryResult) {
     let action = chatBotQueryResult.action;
 
 
-    switch (action) {
-        case "searchTable":
-            searchTable(searchString);
-            break;
-    };
+    // switch (action) {
+    //     case "searchTable":
+    //         searchTable(searchString);
+    //         break;
+    // };
 
 
     return {
