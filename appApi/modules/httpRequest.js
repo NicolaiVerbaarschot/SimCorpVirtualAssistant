@@ -9,7 +9,7 @@ const https = require('https');
 
 module.exports.getJSON = (options, onResult) => {
     console.log('rest::getJSON');
-    const port = options.port == 443 ? https : http;
+    const port = options.port === 443 ? https : http;
 
     let output = '';
 
