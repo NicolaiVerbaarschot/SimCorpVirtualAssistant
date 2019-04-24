@@ -21,7 +21,8 @@ var keycode = $.ui.keyCode = {
 $( function() {
     var availableTags = [
         "help",
-        "tableQuery"
+        "tableQuery",
+        "graphQuery"
     ];
     function split( val ) {
         return val.split( / \s*/ );
@@ -36,6 +37,10 @@ $( function() {
 
             const input = $("#superuserInput");
             const output = $("#superuserResults");
+
+            if (input.val().includes("tableQuery")) {
+                availableTags = ["select"];
+            }
 
             if (event.keyCode === $.ui.keyCode.ENTER && !$('.ui-menu').is(':visible') && input.val() !== "") {
                 const command = input.val();
@@ -83,6 +88,10 @@ $( function() {
                 return false;
             }
         });
+
+
+
+
 
 
 
