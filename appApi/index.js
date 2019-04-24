@@ -12,13 +12,17 @@ const router = express.Router();
 
 
 router.get('/api/chatBotQueryManager/:query', function (req,res) {
-    let query = req.params.query;
-    dialogflow.send(query).then((data) => {
-        dialogflowHandler.resolve(data).then((result) => {
-            console.log(result);
-            res.send(result);
+
+    dialogflow.send(req.params.query)
+    .then((data) => {
+        console.log('1 ',data);
+        dialogflowHandler.resolve(data)
+    .then((result) => {
+        console.log('3 ',result);
+        res.send(result);
         });
     });
+
 });
 
 

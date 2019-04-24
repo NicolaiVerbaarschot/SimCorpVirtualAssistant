@@ -9,13 +9,17 @@ var resolvedResponseData = {
     newTable: undefined,
     newVisualisation: undefined
 };
-
-async function renderEjs(templateName) {
-    render.ejs(path.resolve(__dirname,'../ejsTemplates/'+templateName+'.ejs'), { results: ['test1','test2'] }, function(err, html){
-        if (err) throw err;
-        return html;
-    });
-}
+//
+// async function renderEjs(templateName) {
+//     render.ejs(path.resolve(__dirname,'../ejsTemplates/'+templateName+'.ejs'), { results: ['test1','test2'] })
+//         .then(function (html) {
+//             console.log(html);
+//             return html;
+//         })
+//         .catch(function (err) {
+//             throw err;
+//         });
+// }
 
 async function handleDialogflowResponse(response) {
 
@@ -24,31 +28,51 @@ async function handleDialogflowResponse(response) {
     resolvedResponseData.parameters = response.parameters;
     resolvedResponseData.answer = response.answer;
 
-    // Render ejs templates in case of applicable action type
-    switch (resolvedResponseData.actionType) {
 
-        case 'tableOP':
-            await renderEjs('testejs').then((html) => {
-                console.log("1");
-                console.log(html);
+
+    if (resolvedResponseData.actionType === 'tableOP') {
+        await render.ejs(path.resolve(__dirname,'../ejsTemplates/testejs.ejs'), { results: ['test1','test2'] })
+            .then(function (html) {
                 resolvedResponseData.newTable = html;
+                console.log('2 ', resolvedResponseData);
+                // return resolvedResponseData;
+            })
+            .catch(function (err) {
+                throw err;
             });
-            console.log("2");
-            return resolvedResponseData;
-
-        case 'graphOP':
-            render.ejs(path.resolve(__dirname,'../ejsTemplates/graphTemplate.ejs'), { results: '' }, function(err, html){
-                if (err) throw err;
-                resolvedResponseData.newVisualization = html;
-            });
-            return resolvedResponseData;
-
-        default:
-            return resolvedResponseData;
+        // renderEjs('testejs').then((html) => {
+        //     console.log("1");
+        //     console.log(html);
+        //     resolvedResponseData.newTable = html;
+        //     return resolvedResponseData;
+        // });
     }
+    return resolvedResponseData;
+    // Render ejs templates in case of applicable action type
+    // switch (resolvedResponseData.actionType) {
+    //
+    //     case 'tableOP':
+    //         renderEjs('testejs').then((html) => {
+    //             console.log("1");
+    //             console.log(html);
+    //             resolvedResponseData.newTable = html;
+    //             return resolvedResponseData;
+    //         });
+    //         break;
+    //
+    //     case 'graphOP':
+    //         render.ejs(path.resolve(__dirname,'../ejsTemplates/graphTemplate.ejs'), { results: '' }, function(err, html){
+    //             if (err) throw err;
+    //             resolvedResponseData.newVisualization = html;
+    //             return resolvedResponseData;
+    //         });
+    //         break;
+    //
+    //     default:
+    //         return resolvedResponseData;
+    // }
 
-    // console.log("2");
-    // return resolvedResponseData;
+
 }
 
 
