@@ -15,10 +15,9 @@ router.get('/api/chatBotQueryManager/:query', function (req,res) {
 
     dialogflow.send(req.params.query)
     .then((data) => {
-        console.log('1 ',data);
         dialogflowHandler.resolve(data)
     .then((result) => {
-        console.log('3 ',result);
+        console.log('index.js:20\n ',result);
         res.send(result);
         });
     });
