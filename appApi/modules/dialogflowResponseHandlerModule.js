@@ -1,3 +1,5 @@
+const render = require('consolidate');
+const path = require('path');
 
 var resolvedResponseData = {
     actionType: undefined,
@@ -9,16 +11,16 @@ var resolvedResponseData = {
 
 function handleDialogflowResponse(response) {
 
-    // resolve action type from intent name by splitting on underscore character
+    // Action type is resolved from intent name by splitting on underscore character
     resolvedResponseData.actionType = response.intentName.substring(0, response.intentName.indexOf('_'));
-
-    // Obtain parameters
     resolvedResponseData.parameters = response.parameters;
-
-    // Obtain answer
     resolvedResponseData.answer = response.answer;
 
-    // TODO: Implement handling of newTable and newVisualization
+    // TODO: Implement handling of newTable and
+    render.ejs(path.resolve(__dirname,'../ejsTemplates/superuserTemplate.ejs'), { results: 'tobi' }, function(err, html){
+        if (err) throw err;
+        console.log(html);
+    });
 
     return resolvedResponseData;
 }
@@ -27,10 +29,3 @@ function handleDialogflowResponse(response) {
 
 
 module.exports.resolve = handleDialogflowResponse;
-
-
-    // switch (action) {
-    //     case "searchTable":
-    //         searchTable(searchString);
-    //         break;
-    // };
