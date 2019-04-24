@@ -78,9 +78,16 @@ $(document).ready(function() {
             event.preventDefault();
             const text = $("#input").val();
             if (text === "") return;
-            queryManager.manageInput(text);
             setResponse("You: " + text);
-            //network.send(text);
+            $.ajax({
+                url: "http://localhost:8080/api/chatBotQueryManager/"+text
+            })
+                .done(function( data ) {
+                    console.log(data);
+                    let reply = data.toString(); //TODO is it reply
+                    setResponse("Bot: " + reply);
+                    //TODO act on action.
+                });
         }
     });
 
@@ -88,6 +95,7 @@ $(document).ready(function() {
         speechRecognition.switch();
     });
 });
+
 
 function formatMultipleLineReply(response) {
     const responseLines = response.split('#linebreak');			// split response by keyword #linebreak

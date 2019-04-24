@@ -15,6 +15,11 @@ router.get('/api/superuser/:query', function(req, res) {
 
 });
 
+router.get('/api/chatBotQueryManager/:query', function (req,res) {
+
+
+})
+
 router.get('/api/search/:query', function(req, res) {
   const fuse = documentSearch.fuse;
   const fuseResponse = fuse.search(req.params.query);
