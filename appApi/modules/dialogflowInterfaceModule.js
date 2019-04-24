@@ -4,7 +4,6 @@ const accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
 const baseUrl = "https://api.api.ai/v1/";
 
 async function postToDialogflow(value) {
-    let result;
     // Imports the Google Cloud client library.
     const {Storage} = require('@google-cloud/storage');
 
@@ -16,17 +15,16 @@ async function postToDialogflow(value) {
         keyFilename: '/routes/firstbot-d1b5b-e44bae98475c.json',
     });
 
+    const DIALOG_FLOW_TOKEN = "ya29.c.El71BhVUc9-XXJHXt_z2kkE8xh5kYnN2r1vLjFKoRfO1yHzm9mmxZg7uCBPN5TGMXDbhGHwkPl4Wt9eJmbjz6Sfw06nqCuqTtcfCg96qKx7f6R5Mzol1v3vI4U6Ps3AQ";
     //TODO token should be fetched with "~: gcloud auth print-access-token".
     //      1: install and initialize the Cloud SDK https://cloud.google.com/sdk/docs/
     //      2: run:
-    //           cd myapp
-    //           gcloud auth activate-service-account --key-file routes/firstbot-d1b5b-e44bae98475c.json
+    //           cd root of app
+    //           gcloud auth activate-service-account --key-file appApi/firstbot-d1b5b-e44bae98475c.json
     //           gcloud auth print-access-token
     //       copy token and insert here:
     //       do this every hour.. #OMG
-    // When this has been moved to backend. server can make this call.
-    const DIALOG_FLOW_TOKEN = "ya29.c.El71BvI7RCgni7YPJSud2DgJsok8ZNdWEgjlpvcOSJJyYyZDImv8eTjYisQiaY2ZNgFd2qujGBngiVRd2MzGTOeT9wsfI5cMzXSSqAizGEeSbnq0PIU29dXzwNCOqFYa";
-    //const DIALOG_FLOW_TOKEN2 = $(gcloud auth application-default print-access-token);
+    // const DIALOG_FLOW_TOKEN2 = $(gcloud auth application-default print-access-token);
     const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2beta1";
     const YOUR_PROJECT_ID = "firstbot-d1b5b";
     const SESSION_ID = "SomeOtherRandomThing";
@@ -35,7 +33,7 @@ async function postToDialogflow(value) {
     console.log(URL);
 
     try {
-        result = await najax({
+        let data = await najax({
             type: "POST",
             url: URL,
             contentType: "application/json; charset=utf-8",
@@ -45,19 +43,12 @@ async function postToDialogflow(value) {
             },
             data: JSON.stringify({"queryInput": {"text": {"text": value, "languageCode": "en"}}}),
         });
-        console.log(result.queryResult.action);
-
-        // let answer = result.queryResult.fulfillmentText;
-        // let action = result.queryResult.action;
-        // let sessionID = "";//data.sessionId;
-        //
-        // let result = {
-        //     answer: answer,
-        //     action: action,
-        //     sessionID: sessionID
-        // }// TODO send only necessary information
-
-        return result;
+        console.log(data);
+        let isKnowledgeAnswer = !data.alternativeQueryResults;
+        return {
+            answer: data.queryResult.fulfillmentText,
+            action: isKnowledgeAnswer ? "Knowledge" : data.queryResult.action
+        };
 
     } catch (error) {
         console.log(error)
