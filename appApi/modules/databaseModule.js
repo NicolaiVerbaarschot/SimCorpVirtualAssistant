@@ -1,8 +1,6 @@
 const mysql = require('mysql');
 const visualisationModule = require('./dataVisualisationModule');
 
-
-
 const con = mysql.createConnection({
     host: "remotemysql.com",
     user: "yiZaQZM5Nm",
@@ -29,11 +27,11 @@ var ExportObject = {
     },
 
     queryDBGraph: function(res,query) {
-
         con.query(query, function (err, data) {
             if (err) throw err;
             let modifiedData = visualisationModule.formatData(data);
-            res.render('graphTemplate.ejs', {results: modifiedData});
+
+            res.render('graphTemplate.ejs', {results: modifiedData, Chart: chart});
         });
     },
 };

@@ -10,7 +10,8 @@ const router = express.Router();
 
 router.get('/api/superuser/:query', function(req, res) {
   const commandOutput = superuserCommandHandler.handler(req.params.query, res);
-  if (req.params.query.replace(/ .*/,'') !== ("tableQuery" || "graphQuery")) // TODO: Perhaps we should unify methods to render to the superuser output
+  const commandCode = req.params.query.replace(/ .*/,''); // Get first word in string
+  if (["tableQuery", "graphQuery"].indexOf(commandCode) < 0) // check commandcode TODO: consider moving out of index.js
     res.render('superuserTemplate.ejs', {results: commandOutput});
 
 });

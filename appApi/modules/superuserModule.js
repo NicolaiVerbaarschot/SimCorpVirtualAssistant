@@ -35,7 +35,7 @@ function handleSuperuserCommand(command, res) {
     }
 
     function commandGraphQuery() {
-        database.functions.queryDBTable(res, commandArgument);
+        database.functions.queryDBGraph(res, commandArgument);
     }
 
     switch (commandCode) {
