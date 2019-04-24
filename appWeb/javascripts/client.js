@@ -84,9 +84,7 @@ $(document).ready(function() {
             })
                 .done(function( data ) {
                     console.log(data);
-                    let reply = data.toString(); //TODO is it reply
-                    setResponse("Bot: " + reply);
-                    //TODO act on action.
+                    queryManager.handleDialogflowResult(data);
                 });
         }
     });

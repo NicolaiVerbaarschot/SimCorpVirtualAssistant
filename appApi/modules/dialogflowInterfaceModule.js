@@ -17,6 +17,18 @@ async function postToDialogflow(value) {
             data: JSON.stringify({ query: value, lang: "en", sessionId: "somerandomthing" }),
         });
 
+        /*
+        let answer = data.result.fulfillment.speech.toString();
+        let action = data.result.action.toString();
+        let sessionID = data.sessionId.toString();
+        let result:{
+            "answer": answer,
+            action = action,
+            sessionID = sessionID
+        } TODO send only necessary information
+         */
+
+
         return result;
 
     } catch (error) {

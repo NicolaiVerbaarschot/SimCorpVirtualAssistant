@@ -1,5 +1,19 @@
 function QueryManager() {}
 
+
+
+QueryManager.prototype.handleDialogflowResult = function handleDialogflowResult(data) {
+// last elem. Update UI
+    const reply = formatMultipleLineReply(data.result.fulfillment.speech);
+    setResponse("Bot: " + reply);
+
+    // copy the query into the query field
+    $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length - 1]));
+
+    // execute the query
+    $("#HButton").click();
+};
+
 QueryManager.prototype.manageInput = function(input) {
     
     if (input === "") {
@@ -16,19 +30,11 @@ QueryManager.prototype.manageInput = function(input) {
         sendAsync(subqueries[currentIndex]).then((data) => {
             //TODO: Refactor action to be given as argument
             action(data);
-            
-            if (currentIndex === subqueries.length - 1) {
-                // last elem. Update UI
-                const reply = formatMultipleLineReply(data.result.fulfillment.speech);
-                setResponse("Bot: " + reply);
-                
-                // copy the query into the query field
-                $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length-1]));
 
-                // execute the query
-                $("#HButton").click();
+            if (currentIndex === subqueries.length - 1) {
+                handleDialogflowResult(data);
             } else {
-                // Recursive 
+                // Recursive
                 sendAsyncInSequence(subqueries, currentIndex + 1)
             }
         })
@@ -57,3 +63,5 @@ const sendAsync = async function(value) {
         console.log(error);
     }
 };
+
+

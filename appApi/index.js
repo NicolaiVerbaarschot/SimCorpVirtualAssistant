@@ -18,9 +18,11 @@ router.get('/api/superuser/:query', function(req, res) {
 });
 
 router.get('/api/chatBotQueryManager/:query', function (req,res) {
-    dialogflow.send(req.params.query).then((data) => {
+    let query = req.params.query;
+    dialogflow.send(query).then((data) => {
         console.log(data);
-    })
+        res.send(data);
+    });
 });
 
 router.get('/api/search/:query', function(req, res) {
