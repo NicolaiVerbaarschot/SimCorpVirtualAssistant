@@ -13,7 +13,7 @@ const baseQueryObject = {
 
 let queryObjectStack = [baseQueryObject];
 
-const columnPositions = ["Symbol", "Market", "Price", "OpenPrice", "DailyHigh", "DailyLow", "PointChangeToday", "PercentChangeToday"];
+const columnPositions = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
 let modColumns = columnPositions.slice();
 //TODO: can these column names be fetched from the database? Would make the program a lot more robust. The column names
 //TODO: in DB, DialogFlow, and here have to be consistent! - Do after refactor
@@ -23,7 +23,7 @@ let modColumns = columnPositions.slice();
 // TODO: If we use more string attributes in the DB, this would have to be changed. Not ideal, could be implemented smarter
 function searchTable(searchString) {
     let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
-    newQuery.search = "Market = '" + searchString + "' OR Symbol = '" + searchString + "'";
+    newQuery.search = "Symbol = '" + searchString + "' OR Type = '" + searchString + "' OR QC = '" + searchString + "'";
     queryObjectStack.push(newQuery);
 }
 
@@ -196,10 +196,11 @@ function action(data) {
     if (data.result.actionIncomplete) return;
     
     // get parameters
-    let stockAttribute =  data.result.parameters["StockAttribute"];
-    let searchString = data.result.parameters["any"];
-    let groupString = data.result.parameters["attribute"];
-    let filterThreshold = data.result.parameters["number"];
+    let columnName =  data.result.parameters["columnName"];
+    let numAttribute = data.result.parameters["numAttribute"];
+    let searchString = data.result.parameters["searchString"];
+    let groupString = data.result.parameters["stringAttribute"];
+    let filterThreshold = data.result.parameters["value"];
     let higherLower = data.result.parameters["higherLower"];
     let documentSearchString = data.result.parameters["any"];
 
@@ -212,7 +213,7 @@ function action(data) {
             clearSearch();
             break;
         case "sortBy":
-            sortTable(stockAttribute);
+            sortTable(columnName);
             break;
         case "reverseTable":
             reverseTable();
@@ -224,7 +225,7 @@ function action(data) {
             ungroup();
             break;
         case "filterTable":
-            filterTable(stockAttribute, filterThreshold, higherLower);
+            filterTable(numAttribute, filterThreshold, higherLower);
             break;
         case "undo":
             undo();
@@ -233,16 +234,16 @@ function action(data) {
             reset();
             break;
         case "hideColumn":
-            hideColumns(stockAttribute);
+            hideColumns(columnName);
             break;
         case "showColumn":
-            showColumns(stockAttribute);
+            showColumns(columnName);
             break;
         case "showAllColumns":
-            showAllColumns(stockAttribute);
+            showAllColumns(columnName);
             break;
         case "drawBarDiagram":
-            drawBarDiagram(stockAttribute);
+            drawBarDiagram(numAttribute);
             break;
         case "documentSearch":
             sendDocumentSearchStringToFuse(documentSearchString);
@@ -266,7 +267,7 @@ function copyQueryObject(queryObject) {
 
 // TODO move to external file
 function queryParser(queryObject) {
-    let query = "SELECT " + queryObject.columns + " FROM Stocks"; // Re-arranging
+    let query = "SELECT " + queryObject.columns + " FROM DB_Data"; // Re-arranging
 
     // Filter and Search
     let filterLength = queryObject.filter.length;
