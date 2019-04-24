@@ -30,13 +30,12 @@ function handleSuperuserCommand(command, res) {
         returnString = "Welcome!"
     }
 
-
     function commandTableQuery() {
-        database.functions.queryTableSuperuser(res, commandArgument);
+        database.functions.queryDBTable(res, commandArgument);
     }
 
     function commandGraphQuery() {
-
+        database.functions.queryDBTable(res, commandArgument);
     }
 
     switch (commandCode) {
