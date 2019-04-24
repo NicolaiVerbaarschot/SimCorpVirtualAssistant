@@ -16,7 +16,7 @@ let queryObjectStack = [baseQueryObject];
 const columnPositions = ["Symbol", "Market", "Price", "OpenPrice", "DailyHigh", "DailyLow", "PointChangeToday", "PercentChangeToday"];
 let modColumns = columnPositions.slice();
 //TODO: can these column names be fetched from the database? Would make the program a lot more robust. The column names
-//TODO: in DB, DialogFlow, and here have to be consistent!
+//TODO: in DB, DialogFlow, and here have to be consistent! - Do after refactor
 
 // ---------------------------------------------- Table Operations ---------------------------------------------- //
 
