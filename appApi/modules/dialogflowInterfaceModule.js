@@ -27,7 +27,7 @@ async function postToDialogflow(value) {
     // When this has been moved to backend. server can make this call.
     const DIALOG_FLOW_TOKEN = "ya29.c.El71BvI7RCgni7YPJSud2DgJsok8ZNdWEgjlpvcOSJJyYyZDImv8eTjYisQiaY2ZNgFd2qujGBngiVRd2MzGTOeT9wsfI5cMzXSSqAizGEeSbnq0PIU29dXzwNCOqFYa";
     //const DIALOG_FLOW_TOKEN2 = $(gcloud auth application-default print-access-token);
-    const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2";
+    const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2beta1";
     const YOUR_PROJECT_ID = "firstbot-d1b5b";
     const SESSION_ID = "SomeOtherRandomThing";
     const URL = `${DIALOG_FLOW_API_ROOT_URL}/projects/${YOUR_PROJECT_ID}/agent/sessions/${SESSION_ID}:detectIntent`;
