@@ -42,7 +42,11 @@ $( function() {
                 availableTags = ["select"];
             }
 
-            if (event.keyCode === $.ui.keyCode.ENTER && !$('.ui-menu').is(':visible') && input.val() !== "") {
+            // Hanldes whether enter selects suggestion or submits
+            if (event.keyCode === $.ui.keyCode.ENTER &&
+                (!$('.ui-menu').is(':visible') || !$(this).autocomplete("instance").menu.active)
+                && input.val() !== "") {
+
                 const command = input.val();
 
                 output.append("\n" + command + ":");
