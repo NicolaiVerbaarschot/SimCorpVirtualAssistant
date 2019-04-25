@@ -14,10 +14,10 @@ const templateMap = {
 };
 
 
-async function renderEjs(templateName) {
+async function renderEjs(templateName, parameters) {
 
     let htmlOuter;
-    await render.ejs(path.resolve(__dirname,'../ejsTemplates/'+templateName+'.ejs'), { results: ['test1','test2'] }) // TODO: implement parameter handling
+    await render.ejs(path.resolve(__dirname,'../ejsTemplates/'+templateName+'.ejs'), { results: parameters })
         .then(function (html) {
             htmlOuter = html;
         })
@@ -43,7 +43,7 @@ async function handleDialogflowResponse(response) {
 
     // Render ejs templates according to action type
     if (['tableOP','graphOP'].includes(actionType))
-        await renderEjs(templateMap[actionType]).then((html) => {
+        await renderEjs(templateMap[actionType], ['test1','test2']).then((html) => {
             resolvedResponseData[responseFieldMap[actionType]] = html;
         });
 

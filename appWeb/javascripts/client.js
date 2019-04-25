@@ -1,3 +1,9 @@
+
+// Reveals our api
+$.getScript('javascripts/api.js', function() {
+});
+
+
 function setResponse(val) {
     const response = $("#response");
     response.text(response.text() + val + "\r\n");
@@ -73,19 +79,16 @@ $(document).ready(function() {
         }
     });
 
+
     $("#input").keypress(function(event) {
         if (event.which === 13) {
             event.preventDefault();
             const text = $("#input").val();
             if (text === "") return;
             setResponse("You: " + text);
-            $.ajax({
-                url: "http://localhost:8080/api/chatBotQueryManager/"+text
-            })
-                .done(function( data ) {
-                    console.log(data);
-                    queryManager.handleDialogflowResult(data);
-                });
+            api.submitBotQuery(text).then((result) => {
+                console.log("client.js:90: ", result);
+            });
         }
     });
 
@@ -107,3 +110,4 @@ function formatMultipleLineReply(response) {
     
     return multiLineReply;										// return the result
 }
+
