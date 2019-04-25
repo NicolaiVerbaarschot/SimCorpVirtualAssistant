@@ -1,3 +1,5 @@
+$.getScript('javascripts/botQueryController.js', function() {
+});
 
 const api = {
 

@@ -4,6 +4,8 @@ $.getScript('javascripts/api.js', function() {
 });
 
 
+
+
 function setResponse(val) {
     const response = $("#response");
     response.text(response.text() + val + "\r\n");
@@ -29,7 +31,6 @@ function updateRec(text) {
 }
 
 const speechRecognition = new SpeechRecognition(updateRec, setInput);
-const queryManager = new QueryManager();
 
 $(document).ready(function() {
 
@@ -88,6 +89,8 @@ $(document).ready(function() {
             setResponse("You: " + text);
             api.submitBotQuery(text).then((result) => {
                 console.log("client.js:90: ", result);
+                bot_DOM_QueryController.handleDialogflowResult(result);
+
             });
         }
     });
