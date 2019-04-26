@@ -31,7 +31,7 @@ var ExportObject = {
             if (err) throw err;
             let modifiedData = visualisationModule.formatData(data);
 
-            res.render('graphTemplate.ejs', {results: modifiedData, Chart: chart});
+            res.render('graphTemplate.ejs', {results: modifiedData});
         });
     },
 };

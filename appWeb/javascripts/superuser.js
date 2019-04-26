@@ -19,16 +19,28 @@ var keycode = $.ui.keyCode = {
 };
 
 $( function() {
-    var availableTags = [
-        "help",
-        "tableQuery",
-        "graphQuery"
-    ];
+    var availableTags;
+    var columnTags = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"]
+    //TODO fetch from db - same as in main.js
+
     function split( val ) {
         return val.split( / \s*/ );
     }
+
     function extractLast( term ) {
         return split( term ).pop();
+    }
+
+    function getFirstWord (str) {
+        return str.split(" ")[0]
+    }
+
+    function updateTags(inputString) {
+        let firstWord = getFirstWord(inputString);
+        if (firstWord === "help") {return ["me please"];}
+        else if (firstWord === "tableQuery") {return ["SELECT"];}
+        else if (firstWord === "graphQuery") {return ["SELECT Symbol,"];}
+        else {return ["help", "tableQuery", "graphQuery"];}
     }
 
     $( "#superuserInput" )
@@ -38,11 +50,9 @@ $( function() {
             const input = $("#superuserInput");
             const output = $("#superuserResults");
 
-            if (input.val().includes("tableQuery")) {
-                availableTags = ["select"];
-            }
+            availableTags = updateTags(input.val());
 
-            // Hanldes whether enter selects suggestion or submits
+            // Handles whether enter selects suggestion or submits
             if (event.keyCode === $.ui.keyCode.ENTER &&
                 (!$('.ui-menu').is(':visible') || !$(this).autocomplete("instance").menu.active)
                 && input.val() !== "") {
@@ -68,7 +78,10 @@ $( function() {
                 event.preventDefault();
             }
         })
+
+        // taken from jquery api documentation
         .autocomplete({
+            autofocus: true,
             minLength: 0,
             source: function( request, response ) {
                 // delegate back to autocomplete, but extract the last term
@@ -92,12 +105,4 @@ $( function() {
                 return false;
             }
         });
-
-
-
-
-
-
-
 } );
-
