@@ -25,6 +25,8 @@ var ExportObject = {
         con.query(query, function (err, data) {
             if (err) throw err;
             res.render('tableTemplate.ejs', {results: data}); // TODO: Use Aync/Await to send data to index.js and render there
+                                                                // sure about that?
+
         });
     },
 

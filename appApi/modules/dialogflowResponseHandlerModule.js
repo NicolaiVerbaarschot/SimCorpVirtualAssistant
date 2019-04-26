@@ -1,5 +1,6 @@
 const render = require('consolidate');
 const path = require('path');
+const database = require(path.resolve(__dirname, "./modules/databaseModule"));
 
 const responseFieldMap = {
     textOP: '',
@@ -42,11 +43,18 @@ async function handleDialogflowResponse(response) {
     const actionType = response.intentName.substring(0, response.intentName.indexOf('_'));
     const parameters = ['test1','test2'];//TODO extract
 
+
     // Render ejs templates according to action type
-    if (['tableOP','graphOP'].includes(actionType))
+    if (['tableOP'].includes(actionType)){
+        let query = queryParser(queryObjectStack[queryObjectStack.length - 1]);
+        await database.functions.queryDBTable(res,req.params.query).then((html) => {
+            resolvedResponseData[responseFieldMap[actionType]] = html;
+        });
+    } else if (['graphOP'].includes(actionType)) {
         await renderEjs(templateMap[actionType],parameters ).then((html) => {
             resolvedResponseData[responseFieldMap[actionType]] = html;
         });
+    }
 
     // Define remaining properties
     resolvedResponseData.actionType = actionType;
