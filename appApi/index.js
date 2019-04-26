@@ -5,20 +5,20 @@ const dialogflow = require(path.resolve(__dirname, "./modules/dialogflowInterfac
 const database = require(path.resolve(__dirname, "./modules/databaseModule"));
 const documentSearch = require(path.resolve(__dirname, "./modules/documentSearch"));
 const superuserCommandHandler = require(path.resolve(__dirname, "./modules/superuserModule"));
-const dialogflowHandler = require(path.resolve(__dirname, "./modules/dialogflowResponseHandlerModule"));
+const dialogflowResponseHandler = require(path.resolve(__dirname, "./modules/dialogflowResponseHandlerModule"));
 
 const router = express.Router();
 
 
 router.get('/api/chatBotQueryManager/:query', function (req,res) {
     dialogflow.send(req.params.query)
-    .then((data) => {
-        dialogflowHandler.resolve(data)
-    .then((result) => {
-        console.log('index.js:20\n ',result);
-        res.send(result);
+        .then((data) => {
+            dialogflowResponseHandler.resolve(data)
+                .then((result) => {
+                    console.log('index.js:20\n ',result);
+                    res.send(result);
+                });
         });
-    });
 });
 
 router.get('/api/superuser/:query', function(req, res) {

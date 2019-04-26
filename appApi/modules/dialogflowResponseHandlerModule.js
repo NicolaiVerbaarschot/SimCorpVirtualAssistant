@@ -9,7 +9,7 @@ const responseFieldMap = {
 
 const templateMap = {
     textOP: 'testejs',
-    tableOP: 'testejs',
+    tableOP: 'testejs',//'tableTemplate',
     graphOP: 'graphTemplate'
 };
 
@@ -34,16 +34,17 @@ async function handleDialogflowResponse(response) {
         actionType: undefined,
         parameters: undefined,
         answer: undefined,
-        newTable: undefined,
+        newTable: undefined, //html
         newVisualisation: undefined
     };
 
     // Action type is resolved from intent name by splitting on underscore character
     const actionType = response.intentName.substring(0, response.intentName.indexOf('_'));
+    const parameters = ['test1','test2'];//TODO extract
 
     // Render ejs templates according to action type
     if (['tableOP','graphOP'].includes(actionType))
-        await renderEjs(templateMap[actionType], ['test1','test2']).then((html) => {
+        await renderEjs(templateMap[actionType],parameters ).then((html) => {
             resolvedResponseData[responseFieldMap[actionType]] = html;
         });
 
@@ -51,7 +52,6 @@ async function handleDialogflowResponse(response) {
     resolvedResponseData.actionType = actionType;
     resolvedResponseData.parameters = response.parameters;
     resolvedResponseData.answer = response.answer;
-
     return resolvedResponseData;
 }
 
