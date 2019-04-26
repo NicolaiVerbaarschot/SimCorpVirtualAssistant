@@ -42,11 +42,19 @@ async function handleDialogflowResponse(response) {
     const actionType = response.intentName.substring(0, response.intentName.indexOf('_'));
 
     // Render ejs templates according to action type
-    if (['tableOP','graphOP'].includes(actionType))
-        await renderEjs(templateMap[actionType], ['test1','test2']).then((html) => {
+    if (['tableOP'].includes(actionType)){
+        let query = "SELECT * FROM Stocks";//queryParser(queryObjectStack[queryObjectStack.length - 1]);
+        let data = database.functions.queryDBTable(undefined,query);
+        await renderEjs('tableTemplate', data)
+            .then((html) => {
+                resolvedResponseData[responseFieldMap[actionType]] = html;
+            });
+
+    } else if (['graphOP'].includes(actionType)) {
+        await renderEjs(templateMap[actionType],parameters ).then((html) => {
             resolvedResponseData[responseFieldMap[actionType]] = html;
         });
-
+    }
     // Define remaining properties
     resolvedResponseData.actionType = actionType;
     resolvedResponseData.parameters = response.parameters;
