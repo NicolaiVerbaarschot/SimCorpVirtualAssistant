@@ -58,18 +58,7 @@
 //     }
 // };
 
-var ExportObject = {
 
-    function copyQueryObject(queryObject){
-    return {
-        columns: queryObject.columns,
-        filter: queryObject.filter,
-        sort: queryObject.sort,
-        order: queryObject.order,
-        group: queryObject.group,
-        search: queryObject.search
-    };
-},
 
 
 const baseQueryObject = {
@@ -83,7 +72,19 @@ const baseQueryObject = {
 
 let queryObjectStack = [baseQueryObject];
 
-function queryParser(queryObject) {
+
+function copyQueryObject(queryObject){
+    return {
+        columns: queryObject.columns,
+        filter: queryObject.filter,
+        sort: queryObject.sort,
+        order: queryObject.order,
+        group: queryObject.group,
+        search: queryObject.search
+    };
+}
+
+function  queryParser(queryObject) {
     let query = "SELECT " + queryObject.columns + " FROM Stocks"; // Re-arranging
 
     // Filter and Search
@@ -133,4 +134,72 @@ function queryParser(queryObject) {
 
     return query;
 }
-};
+
+
+function getQueryFromAction(intentName,parameters) {
+
+    // get intent
+    let intent = data.result.action;
+
+    // exit if action cannot be executed
+    if (data.result.actionIncomplete) return;
+
+    // get parameters
+    let stockAttribute =  data.result.parameters["StockAttribute"];
+    let searchString = data.result.parameters["any"];
+    let groupString = data.result.parameters["attribute"];
+    let filterThreshold = data.result.parameters["number"];
+    let higherLower = data.result.parameters["higherLower"];
+    let documentSearchString = data.result.parameters["any"];
+
+    // match intent to corresponding action
+    switch (intent) {
+        case "searchTable":
+
+
+
+            break;
+        /*case "clearSearch":
+            clearSearch();
+            break;
+        case "sortBy":
+            sortTable(stockAttribute);
+            break;
+        case "reverseTable":
+            reverseTable();
+            break;
+        case "groupTable":
+            groupTable(groupString);
+            break;
+        case "ungroup":
+            ungroup();
+            break;
+        case "filterTable":
+            filterTable(stockAttribute, filterThreshold, higherLower);
+            break;
+        case "undo":
+            undo();
+            break;
+        case "reset":
+            reset();
+            break;
+        case "hideColumn":
+            hideColumns(stockAttribute);
+            break;
+        case "showColumn":
+            showColumns(stockAttribute);
+            break;
+        case "showAllColumns":
+            showAllColumns(stockAttribute);
+            break;
+        case "drawBarDiagram":
+            drawBarDiagram(stockAttribute);
+            break;
+        case "documentSearch":
+            sendDocumentSearchStringToFuse(documentSearchString);*/
+    }
+
+
+}
+
+module.exports.getQueryFromAction = getQueryFromAction;

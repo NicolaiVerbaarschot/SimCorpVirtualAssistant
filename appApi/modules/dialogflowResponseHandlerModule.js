@@ -42,13 +42,15 @@ async function handleDialogflowResponse(response) {
 
     // Action type is resolved from intent name by splitting on underscore character
     const actionType = response.intentName.substring(0, response.intentName.indexOf('_'));
+    const intentName = response.intentName.substring(1, response.intentName.indexOf('_'));
     const parameters = ['test1','test2'];//TODO extract
 
 
     // Render ejs templates according to action type
     if (['tableOP'].includes(actionType)){
-        let query = "SELECT Price FROM Stocks";//queryParser(queryObjectStack[queryObjectStack.length - 1]);
-        let data = await database.functions.getQueryDB(query);
+        let query = "SELECT Price FROM Stocks";
+        query = queryManager.getQueryFromAction(intentName,parameters);
+        let data = await database.functions.getDBArrayFromQuery(query);
         await renderEjs('tableTemplate', data)
             .then((html) => {
                 resolvedResponseData[responseFieldMap[actionType]] = html;

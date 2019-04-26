@@ -30,7 +30,7 @@ var ExportObject = {
     },
 
 
-    getQueryDB: async function (query) {
+    getDBArrayFromQuery: async function (query) {
         try {
             return await queryUtil(query);
         } finally {
