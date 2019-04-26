@@ -1,6 +1,7 @@
 const render = require('consolidate');
 const path = require('path');
-const database = require("./databaseModule");
+const database = require('./databaseModule');
+const queryManager = require('./queryManagerModule');
 
 const responseFieldMap = {
     textOP: '',
