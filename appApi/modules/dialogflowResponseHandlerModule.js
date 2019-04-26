@@ -1,6 +1,6 @@
 const render = require('consolidate');
 const path = require('path');
-const database = require(path.resolve(__dirname, "./modules/databaseModule"));
+const database = require("./databaseModule");
 
 const responseFieldMap = {
     textOP: '',
@@ -14,7 +14,7 @@ const templateMap = {
     graphOP: 'graphTemplate'
 };
 
-
+//TODO remove async?
 async function renderEjs(templateName, parameters) {
 
     let htmlOuter;
@@ -46,10 +46,13 @@ async function handleDialogflowResponse(response) {
 
     // Render ejs templates according to action type
     if (['tableOP'].includes(actionType)){
-        let query = queryParser(queryObjectStack[queryObjectStack.length - 1]);
-        await database.functions.queryDBTable(res,req.params.query).then((html) => {
-            resolvedResponseData[responseFieldMap[actionType]] = html;
-        });
+        let query = "SELECT Price FROM Stocks";//queryParser(queryObjectStack[queryObjectStack.length - 1]);
+        let data = await database.functions.getQueryDB(query);
+        await renderEjs('tableTemplate', data)
+            .then((html) => {
+                resolvedResponseData[responseFieldMap[actionType]] = html;
+            });
+
     } else if (['graphOP'].includes(actionType)) {
         await renderEjs(templateMap[actionType],parameters ).then((html) => {
             resolvedResponseData[responseFieldMap[actionType]] = html;

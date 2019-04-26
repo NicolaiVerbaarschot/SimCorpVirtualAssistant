@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const visualisationModule = require('./dataVisualisationModule');
+const util = require('util');
 
 
 
@@ -17,17 +18,35 @@ function makeConnectionToDB() {
     });
 }
 makeConnectionToDB();
-
+const queryUtil = util.promisify(con.query).bind(con);
 
 var ExportObject = {
 
-    queryDBTable: function(res,query) {
+    queryDBTable: function (res, query) {
         con.query(query, function (err, data) {
             if (err) throw err;
-            res.render('tableTemplate.ejs', {results: data}); // TODO: Use Aync/Await to send data to index.js and render there
-                                                                // sure about that?
-
+            res.render('tableTemplate.ejs', { results: data }); // TODO: Use Aync/Await to send data to index.js and render there
         });
+    },
+
+
+    getQueryDB: async function (query) {
+        try {
+            return await queryUtil(query);
+        } finally {
+            con.end();
+        }
+    },
+
+    queryDBGraph: async function (query) {
+        try {
+            const result = await queryUtil(query);
+            let modifiedData = visualisationModule.formatData(result);
+            console.log(modifiedData);
+            return modifiedData
+        } finally {
+            con.end();
+        }
     },
 
     queryDBGraph: function(res,query) {
