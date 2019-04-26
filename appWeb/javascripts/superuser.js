@@ -21,7 +21,6 @@ var keycode = $.ui.keyCode = {
 $( function() {
     var availableTags;
     var columnTags = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"]
-    //TODO fetch from db - same as in main.js
 
     function split( val ) {
         return val.split( / \s*/ );
@@ -35,12 +34,52 @@ $( function() {
         return str.split(" ")[0]
     }
 
+    function detectQueryPart(inputString) {
+        let part = 0;
+
+        if (inputString.contains("FROM")) {
+            part = 1;
+        }
+
+        if (inputString.contains("WHERE")) {
+            part = 2;
+        }
+
+        if (inputString.contains("ORDER BY")) {
+            part = 3;
+        }
+
+        return part;
+    }
+
     function updateTags(inputString) {
         let firstWord = getFirstWord(inputString);
-        if (firstWord === "help") {return ["me please"];}
-        else if (firstWord === "tableQuery") {return ["SELECT"];}
-        else if (firstWord === "graphQuery") {return ["SELECT Symbol,"];}
+        if (firstWord === "help") {return updateTagsHelp(inputString);}
+        else if (firstWord === "tableQuery") {return updateTagsTQ(inputString);}
+        else if (firstWord === "graphQuery") {return updateTagsGQ(inputString);}
         else {return ["help", "tableQuery", "graphQuery"];}
+    }
+
+    function updateTagsHelp(inputString) {
+        return ["me please"];
+    }
+
+    function updateTagsTQ(inputString) {
+        var queryPart = 0; // var queryPart = detectQueryPart(inputString);
+        switch (queryPart) {
+            case 0:     return ["SELECT"];
+            case 1:     // Check if any column tags have been added
+                        // if no, return "*" plus all column tags
+                        // if "*" has been inserted, only offer "WHERE" and "SORT BY"
+                        // if a column has been inserted, offer all other column tags plus "WHERE" and "SORT BY"
+                        return columnTags;
+            case 2:     return columnTags;
+            case 3:     return columnTags;
+        }
+    }
+
+    function updateTagsGQ(inputString) {
+        return ["SELECT Symbol,"];
     }
 
     $( "#superuserInput" )
@@ -81,7 +120,7 @@ $( function() {
 
         // taken from jquery api documentation
         .autocomplete({
-            autofocus: true,
+            //autofocus: true,
             minLength: 0,
             source: function( request, response ) {
                 // delegate back to autocomplete, but extract the last term
@@ -106,3 +145,12 @@ $( function() {
             }
         });
 } );
+
+//TODO fetch column tags from db - same as in main.js
+//TODO auto select first element in autocompletion menu (eliminates double TAB clicks)
+//TODO error handler for incorrect queries (TO BE IMPLEMENTED FOR QUERIES MADE THROUGH CLIENT.HTML AS WELL)
+//     - relevant if the user decides to manually send a query through the text field
+//TODO automatically insert "SELECT SYMBOL," when the user wants to make a graph query without showing it in the menu
+//TODO add commas after column tags without showing them in the menu
+//TODO make case insensitive?
+//TODO look into categorising the dropdown menu where applicable: http://jqueryui.com/autocomplete/#categories
