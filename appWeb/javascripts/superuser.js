@@ -20,7 +20,9 @@ var keycode = $.ui.keyCode = {
 
 $( function() {
     var availableTags;
-    var columnTags = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"]
+    var star = ["*"];
+    var columnTags = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
+    var numTags = ["Price", "QC", "Total_QTY", "Total_Price", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
 
     function split( val ) {
         return val.split( / \s*/ );
@@ -37,16 +39,20 @@ $( function() {
     function detectQueryPart(inputString) {
         let part = 0;
 
-        if (inputString.contains("FROM")) {
+        if (inputString.indexOf("SELECT") !== -1) {
             part = 1;
         }
 
-        if (inputString.contains("WHERE")) {
+        if (inputString.indexOf("FROM") !== -1) {
             part = 2;
         }
 
-        if (inputString.contains("ORDER BY")) {
+        if (inputString.indexOf("WHERE") !== -1) {
             part = 3;
+        }
+
+        if (inputString.indexOf("ORDER BY") !== -1) {
+            part = 4;
         }
 
         return part;
@@ -64,22 +70,82 @@ $( function() {
         return ["me please"];
     }
 
+    function createSubstring(inputString, queryPart) {
+        var substring;
+
+        switch (queryPart) {
+            case 0:     break;
+            case 1:     substring = inputString.substr(inputString.indexOf("SELECT"), inputString.length);
+                break;
+            case 2:     substring = inputString.substr(inputString.indexOf("FROM"), inputString.length);
+                break;
+            case 3:     substring = inputString.substr(inputString.indexOf("WHERE"), inputString.length);
+                break;
+            case 4:     substring = inputString.substr(inputString.indexOf("ORDER BY"), inputString.length);
+                break;
+        }
+
+        return substring;
+    }
+
+    function columnsChosen(inputString, queryPart) {
+        var substring =createSubstring(inputString, queryPart);
+        var out = false;
+
+        columnTags.forEach(function (tag) {
+            if (substring.indexOf(tag) !== -1) {
+                out = true;
+            }
+        });
+
+        return out;
+    }
+
+    function allChosen(inputString, queryPart) {
+        var substring =createSubstring(inputString, queryPart);
+        return substring.indexOf("*") !== -1;
+    }
+
+    function filterColumnTags(inputString, queryPart) {
+        var substring = createSubstring(inputString, queryPart);
+        var out = [];
+
+        columnTags.forEach(function(tag){
+            if (substring.indexOf(tag) === -1) {
+                out.push(tag);
+            }
+        });
+
+        return out;
+    }
+
     function updateTagsTQ(inputString) {
-        var queryPart = 0; // var queryPart = detectQueryPart(inputString);
+        var queryPart = detectQueryPart(inputString);
         switch (queryPart) {
             case 0:     return ["SELECT"];
-            case 1:     // Check if any column tags have been added
-                        // if no, return "*" plus all column tags
-                        // if "*" has been inserted, only offer "WHERE" and "SORT BY"
-                        // if a column has been inserted, offer all other column tags plus "WHERE" and "SORT BY"
-                        return columnTags;
-            case 2:     return columnTags;
+            case 1:     if (allChosen(inputString, queryPart)) {
+                            return ["FROM DB_Data"];
+                        }
+                        else if (!columnsChosen(inputString, queryPart)) {
+                            return star.concat(columnTags);
+                        } else {
+                            return ["FROM DB_Data"].concat(filterColumnTags(inputString, queryPart));
+                        }
+            case 2:     return ["WHERE", "ORDER BY"];
             case 3:     return columnTags;
+            case 4:     return columnTags;
         }
     }
 
     function updateTagsGQ(inputString) {
-        return ["SELECT Symbol,"];
+        var queryPart = detectQueryPart(inputString);
+        switch (queryPart) {
+            case 0:     return ["SELECT Symbol,"];
+            case 1:     return numTags;
+            case 2:     return columnTags;
+            case 3:     return columnTags;
+            case 4:     return columnTags;
+        }
     }
 
     $( "#superuserInput" )
