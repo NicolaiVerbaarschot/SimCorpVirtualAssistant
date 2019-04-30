@@ -19,10 +19,14 @@ var keycode = $.ui.keyCode = {
 };
 
 $( function() {
+
+    // --------------------------------------------- autocomplete logic --------------------------------------------- //
     var availableTags;
     var star = ["*"];
     var columnTags = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
     var numTags = ["Price", "QC", "Total_QTY", "Total_Price", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
+    var sqlKeywords = ["SELECT", "FROM", "WHERE", "ORDER BY"];
+    var modes = ["help", "tableQuery", "graphQuery"];
 
     function split( val ) {
         return val.split( / \s*/ );
@@ -36,58 +40,64 @@ $( function() {
         return str.split(" ")[0]
     }
 
+    // this auxiliary function detects which part of the query (table or graph) the user is currently at. The detection
+    // is based on the SQL keywords ["SELECT", "FROM", "WHERE", "ORDER BY"] and the available tags can be updated
+    // accordingly.
     function detectQueryPart(inputString) {
         let part = 0;
 
-        if (inputString.indexOf("SELECT") !== -1) {
+        if (inputString.indexOf(sqlKeywords[0]) !== -1) {
             part = 1;
         }
 
-        if (inputString.indexOf("FROM") !== -1) {
+        if (inputString.indexOf(sqlKeywords[1]) !== -1) {
             part = 2;
         }
 
-        if (inputString.indexOf("WHERE") !== -1) {
+        if (inputString.indexOf(sqlKeywords[2]) !== -1) {
             part = 3;
         }
 
-        if (inputString.indexOf("ORDER BY") !== -1) {
+        if (inputString.indexOf(sqlKeywords[3]) !== -1) {
             part = 4;
         }
 
         return part;
     }
 
+    // this function updates the available autocomplete tags depending on the the value of the input field
+    // it detects what type of command the superuser wants to execute and calls a corresponding auxiliary function
+    // if the type cannot be detected, it returns the three possible modes ["help", "tableQuery", "graphQuery"]
     function updateTags(inputString) {
         let firstWord = getFirstWord(inputString);
-        if (firstWord === "help") {return updateTagsHelp(inputString);}
-        else if (firstWord === "tableQuery") {return updateTagsTQ(inputString);}
-        else if (firstWord === "graphQuery") {return updateTagsGQ(inputString);}
-        else {return ["help", "tableQuery", "graphQuery"];}
+        if (firstWord === modes[0]) {return updateTagsHelp(inputString);}
+        else if (firstWord === modes[1]) {return updateTagsTQ(inputString);}
+        else if (firstWord === modes[2]) {return updateTagsGQ(inputString);}
+        else {return modes;}
     }
 
-    function updateTagsHelp(inputString) {
-        return ["me please"];
-    }
-
+    // this auxiliary function creates a substring of the current query part. If the value of the input field is
+    // "tableQuery SELECT Symbol, Price FROM DB_Data WHERE Price > 1000" this function will return "WHERE Price > 1000"
+    // This substring will be used to evaluate which tags to provide.
     function createSubstring(inputString, queryPart) {
         var substring;
 
         switch (queryPart) {
             case 0:     break;
-            case 1:     substring = inputString.substr(inputString.indexOf("SELECT"), inputString.length);
+            case 1:     substring = inputString.substr(inputString.indexOf(sqlKeywords[0]), inputString.length);
                 break;
-            case 2:     substring = inputString.substr(inputString.indexOf("FROM"), inputString.length);
+            case 2:     substring = inputString.substr(inputString.indexOf(sqlKeywords[1]), inputString.length);
                 break;
-            case 3:     substring = inputString.substr(inputString.indexOf("WHERE"), inputString.length);
+            case 3:     substring = inputString.substr(inputString.indexOf(sqlKeywords[2]), inputString.length);
                 break;
-            case 4:     substring = inputString.substr(inputString.indexOf("ORDER BY"), inputString.length);
+            case 4:     substring = inputString.substr(inputString.indexOf(sqlKeywords[3]), inputString.length);
                 break;
         }
 
         return substring;
     }
 
+    // This boolean function checks if the user has already specified any column names in the current query part
     function columnsChosen(inputString, queryPart) {
         var substring =createSubstring(inputString, queryPart);
         var out = false;
@@ -101,11 +111,14 @@ $( function() {
         return out;
     }
 
+    // This boolean function checks if the user chose all columns (*)
     function allChosen(inputString, queryPart) {
         var substring =createSubstring(inputString, queryPart);
-        return substring.indexOf("*") !== -1;
+        return substring.indexOf(star[0]) !== -1;
     }
 
+    // This function filters all column tags that are already present in the current query part so that they do not
+    // appear in the autocomplete tags
     function filterColumnTags(inputString, queryPart) {
         var substring = createSubstring(inputString, queryPart);
         var out = [];
@@ -119,10 +132,17 @@ $( function() {
         return out;
     }
 
+    // potential refined help could be provided by adding help tags to specify the question or problem, f.x. document
+    // search etc.
+    function updateTagsHelp(inputString) {
+        return ["me please"];
+    }
+
+    // this function handles the autocomplete tags for table queries
     function updateTagsTQ(inputString) {
         var queryPart = detectQueryPart(inputString);
         switch (queryPart) {
-            case 0:     return ["SELECT"];
+            case 0:     return [sqlKeywords[0]];
             case 1:     if (allChosen(inputString, queryPart)) {
                             return ["FROM DB_Data"];
                         }
@@ -131,7 +151,7 @@ $( function() {
                         } else {
                             return ["FROM DB_Data"].concat(filterColumnTags(inputString, queryPart));
                         }
-            case 2:     return ["WHERE", "ORDER BY"];
+            case 2:     return [sqlKeywords[2], sqlKeywords[3]];
             case 3:     return columnTags;
             case 4:     return columnTags;
         }
@@ -147,6 +167,8 @@ $( function() {
             case 4:     return columnTags;
         }
     }
+
+    // -------------------------------------------- autocomplete jquery --------------------------------------------- //
 
     $( "#superuserInput" )
     // don't navigate away from the field on tab when selecting an item
