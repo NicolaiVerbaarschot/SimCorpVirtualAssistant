@@ -27,6 +27,7 @@ $( function() {
     var numTags = ["Price", "QC", "Total_QTY", "Total_Price", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
     var sqlKeywords = ["SELECT", "FROM", "WHERE", "ORDER BY"];
     var modes = ["help", "tableQuery", "graphQuery"];
+    var filterTags = [">", "=", "<"];
 
     function split( val ) {
         return val.split( / \s*/ );
@@ -98,11 +99,12 @@ $( function() {
     }
 
     // This boolean function checks if the user has already specified any column names in the current query part
-    function columnsChosen(inputString, queryPart) {
-        var substring =createSubstring(inputString, queryPart);
+
+    function tagChosen (tagList, inputString, queryPart) {
+        var substring = createSubstring(inputString, queryPart);
         var out = false;
 
-        columnTags.forEach(function (tag) {
+        tagList.forEach(function (tag) {
             if (substring.indexOf(tag) !== -1) {
                 out = true;
             }
@@ -132,6 +134,10 @@ $( function() {
         return out;
     }
 
+    function consecutiveColumnTags(tag1, tag2) {
+        return (columnTags.indexOf(tag1) !== -1 && columnTags.indexOf(tag2) !== -1);
+    }
+
     // potential refined help could be provided by adding help tags to specify the question or problem, f.x. document
     // search etc.
     function updateTagsHelp(inputString) {
@@ -146,14 +152,21 @@ $( function() {
             case 1:     if (allChosen(inputString, queryPart)) {
                             return ["FROM DB_Data"];
                         }
-                        else if (!columnsChosen(inputString, queryPart)) {
+                        else if (!tagChosen(columnTags, inputString, queryPart)) {
                             return star.concat(columnTags);
                         } else {
                             return ["FROM DB_Data"].concat(filterColumnTags(inputString, queryPart));
                         }
             case 2:     return [sqlKeywords[2], sqlKeywords[3]];
-            case 3:     return columnTags;
-            case 4:     return columnTags;
+            case 3:     if (tagChosen(filterTags, inputString, queryPart)) {
+                            return [sqlKeywords[3]];
+                        }
+                        else if (!tagChosen(columnTags, inputString, queryPart)) {
+                            return columnTags;
+                        } else {
+                            return filterTags;
+                        }
+            case 4:     return filterColumnTags(inputString, queryPart);
         }
     }
 
@@ -161,10 +174,21 @@ $( function() {
         var queryPart = detectQueryPart(inputString);
         switch (queryPart) {
             case 0:     return ["SELECT Symbol,"];
-            case 1:     return numTags;
-            case 2:     return columnTags;
-            case 3:     return columnTags;
-            case 4:     return columnTags;
+            case 1:     if (!tagChosen(numTags, inputString, queryPart)) {
+                            return numTags;
+                        } else {
+                            return ["FROM DB_Data"];
+                        }
+            case 2:     return [sqlKeywords[2], sqlKeywords[3]];
+            case 3:     if (tagChosen(filterTags, inputString, queryPart)) {
+                            return [sqlKeywords[3]];
+                        }
+                        else if (!tagChosen(columnTags, inputString, queryPart)) {
+                            return columnTags;
+                        } else {
+                            return filterTags;
+                        }
+            case 4:     return filterColumnTags(inputString, queryPart);
         }
     }
 
@@ -208,37 +232,48 @@ $( function() {
 
         // taken from jquery api documentation
         .autocomplete({
-            //autofocus: true,
-            minLength: 0,
+            autofocus: true,                        // automatically focus on first item in autocomplete list
+            minLength: 0,                           // allow autocomplete list on empty input field
+
             source: function( request, response ) {
                 // delegate back to autocomplete, but extract the last term
                 response( $.ui.autocomplete.filter(
                     availableTags, extractLast( request.term ) ) );
             },
+
             position: { my: "left bottom", at: "left top", collision: "flip" },
+
             focus: function() {
                 // prevent value inserted on focus
                 return false;
             },
+
             select: function( event, ui ) {
-                var terms = split( this.value );
-                // remove the current input
-                terms.pop();
-                // add the selected item
-                terms.push( ui.item.value );
-                // add placeholder to get the comma-and-space at the end
-                terms.push( "" );
-                this.value = terms.join( " " );
+                var terms = split( this.value );    // splits current value by " "
+                terms.pop();                        // removes an empty string at the end of terms
+                terms.push( ui.item.value );        // adds selected item to terms
+                terms.push( "" );                   // adds empty string to end
+                var mergedString = "";
+                for (var i = 0; i < terms.length - 1; i++) {
+                    if (consecutiveColumnTags(terms[i], terms[i+1])) {
+                        mergedString += terms[i] + ", ";    // merges consecutive column tags with ", "
+                    } else {
+                        mergedString += terms[i] + " ";     // merges all other terms with " "
+                    }
+                }
+
+                mergedString += terms[terms.length - 1];    // add last term in terms
+                this.value = mergedString;          // update value of input field
+
                 return false;
             }
         });
 } );
 
 //TODO fetch column tags from db - same as in main.js
-//TODO auto select first element in autocompletion menu (eliminates double TAB clicks)
+//TODO auto select first element in autocompletion menu (eliminates double TAB clicks, "autofocus: true" does not work)
 //TODO error handler for incorrect queries (TO BE IMPLEMENTED FOR QUERIES MADE THROUGH CLIENT.HTML AS WELL)
 //     - relevant if the user decides to manually send a query through the text field
 //TODO automatically insert "SELECT SYMBOL," when the user wants to make a graph query without showing it in the menu
-//TODO add commas after column tags without showing them in the menu
 //TODO make case insensitive?
 //TODO look into categorising the dropdown menu where applicable: http://jqueryui.com/autocomplete/#categories
