@@ -1,6 +1,15 @@
 const columnPositions = ["Symbol", "Market", "Price", "OpenPrice", "DailyHigh", "DailyLow", "PointChangeToday", "PercentChangeToday"];
 let modColumns = columnPositions.slice();
 
+const baseQueryObject = {
+    columns: "*",
+    filter: [],
+    sort: "",
+    order : "",
+    group: "",
+    search: ""
+};
+
 // --------- Table operations ---------
 
 function hideColumnsInTable(queryObject, columnNames) {
@@ -56,6 +65,25 @@ function searchTable(queryObject, searchString) {
     return queryObject;
 }
 
+function clearSearch(queryObject) {
+    queryObject.search = "";
+    return queryObject;
+}
+
+function sortTable(queryObject, stockAttribute) {
+    queryObject.sort = stockAttribute;
+    return queryObject;
+}
+
+//Move to backend
+function reverseTable(queryObject) {
+    if (queryObject.order === "DESC") {
+        queryObject.order = "";
+    } else {
+        queryObject.order = "DESC";
+    }
+    return queryObject;
+}
 // ----------------------------------
 
 function  queryParser(queryObject) {
@@ -114,78 +142,66 @@ function  queryParser(queryObject) {
 // Returns the query as object and as string wrapped in object.
 function getQueryFromAction(intent, queryObject, parameters) { //
     //handle edge case where filter is not defined because express is shit\
+    if (!queryObject.filter) queryObject.filter = [];
 
-    if (!queryObject.filter)
-        queryObject.filter = [];
+    var tableOperationType = "normal";
+    var object = undefined;
 
     switch (intent) {
         case "reset":
-            //TODO: Handle on client side
+            object = baseQueryObject;
             break;
         case "column_hide":
             let attri = parameters["columnName"];
             var object = hideColumnsInTable(queryObject, attri);
-
-            return {
-                queryObject: object,
-                query: queryParser(queryObject)
-            }
+            break;
         case "column_show_all":
-            var object = showAllColumnsInTable(queryObject);
-            return {
-                queryObject: object,
-                query: queryParser(queryObject)
-            }
+            object = showAllColumnsInTable(queryObject);
+            break;
         case "filter":
             let higherLower = parameters.higherLower;
             let attribute = parameters.numAttribute;
             let value = parameters.value;
             //TODO: Add error handling if attribute is empty, i.e. trying to filter by unknown attribute
 
-            var object = filterTable(queryObject, attribute, value, higherLower);
-
-            return {
-                queryObject: object,
-                query: queryParser(queryObject)
-            }
+            object = filterTable(queryObject, attribute, value, higherLower);
+            break;
         case "group":
             let columnName = parameters.stringAttribute;
             //TODO: Add error handling if column name is empty, i.e. trying to group by unknown attribute
 
-            var object = groupTable(queryObject, columnName);
-
-            return {
-                queryObject: object,
-                query: queryParser(queryObject)
-            }
+            object = groupTable(queryObject, columnName);
+            break;
         case "group_ungroup":
-            var object = ungroupTable(queryObject);
-
-            return {
-                queryObject: object,
-                query: queryParser(queryObject)
-            }
+            object = ungroupTable(queryObject);
+            break;
         case "search":
-            //TODO: Add error handling if 'searchString' is empty, i.e. trying to group by unknown attribute
+            //TODO: Add error handling if 'searchString' is empty, i.e. trying to search by unknown attribute
             let searchString = parameters.searchString;
-            var object = searchTable(queryObject, searchString);
+            object = searchTable(queryObject, searchString);
 
-            return {
-                queryObject: object,
-                query: queryParser(queryObject)
-            }
+            break;
         case "search_clear":
+            object = clearSearch(queryObject);
             break;
         case "sort":
+            let sortAtrribute = parameters.columnName;
+            //TODO: Add error handling if 'sortAtrribute' is empty, i.e. trying to sort by unknown attribute
+            object = sortTable(queryObject, sortAtrribute);
             break;
         case "sort_reverse":
+            object = reverseTable(queryObject);
             break;
         case "undo":
-            //TODO: Handle on client side
+            object = queryObject;
+            tableOperationType = "undo";
             break;
     }
-
-
+    return {
+        queryObject: object,
+        query: queryParser(queryObject),
+        tableOperationType: tableOperationType
+    }
 }
 
 module.exports.getQueryFromAction = getQueryFromAction;

@@ -89,8 +89,13 @@ $(document).ready(function() {
             if (text === "") return;
             setResponse("You: " + text);
             api.submitBotQuery(text, queryObjectStack[queryObjectStack.length-1]).then((result) => {
-                console.log("client.js:90: ", result);
-                queryObjectStack.push(result.newQueryObject);
+
+                //TODO: Refactor into bot_DOM_QueryController
+                if (result.tableOperationType === 'undo') {
+                    undo();
+                } else {
+                    queryObjectStack.push(result.newQueryObject);
+                }
                 bot_DOM_QueryController.handleDialogflowResult(result);
             });
         }

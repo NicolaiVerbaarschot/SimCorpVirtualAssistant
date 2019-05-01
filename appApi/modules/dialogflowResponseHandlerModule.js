@@ -52,7 +52,9 @@ async function handleDialogflowResponse(response, previousQueryObject) {
     if (['tableOP'].includes(actionType)) {
         let resolvedQuery = queryManager.getQueryFromAction(intentName, previousQueryObject, parameters);
         let query = resolvedQuery.query;
+
         resolvedResponseData.newQueryObject = resolvedQuery.queryObject;
+        resolvedResponseData.tableOperationType = resolvedQuery.tableOperationType;
 
         let data = await database.functions.getDBArrayFromQuery(query);
         await renderEjs('tableTemplate', data)
