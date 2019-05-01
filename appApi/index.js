@@ -12,11 +12,11 @@ const router = express.Router();
 
 router.get('/api/chatBotQueryManager/', function (req,res) {
     dialogflow.send(req.query.query).then((data) => {
-            dialogflowResponseHandler.resolve(data, req.query.previousQueryObject).then((result) => {
-                    console.log('index.js:20\n ',result);
-                    res.send(result);
-                });
+        dialogflowResponseHandler.resolve(data, req.query.previousQueryObject).then((result) => {
+            console.log('index.js:20\n ',result);
+            res.send(result);
         });
+    });
 });
 
 router.get('/api/superuser/:query', function(req, res) {
