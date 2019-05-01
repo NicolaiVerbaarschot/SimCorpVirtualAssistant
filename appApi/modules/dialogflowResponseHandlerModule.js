@@ -56,11 +56,13 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         resolvedResponseData.newQueryObject = resolvedQuery.newTopQueryObject;
         resolvedResponseData.tableOperationType = resolvedQuery.tableOperationType;
 
-        let data = await database.functions.getDBArrayFromQuery(query);
-        await renderEjs('tableTemplate', data)
-            .then((html) => {
-                resolvedResponseData[responseFieldMap[actionType]] = html;
-            });
+        if (query) {
+            let data = await database.functions.getDBArrayFromQuery(query);
+            await renderEjs('tableTemplate', data)
+                .then((html) => {
+                    resolvedResponseData[responseFieldMap[actionType]] = html;
+                });
+        }
 
     } else if (['graphOP'].includes(actionType)) {
         await renderEjs(templateMap[actionType],parameters ).then((html) => {
