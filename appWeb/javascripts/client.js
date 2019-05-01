@@ -88,7 +88,7 @@ $(document).ready(function() {
             const text = $("#input").val();
             if (text === "") return;
             setResponse("You: " + text);
-            api.submitBotQuery(text).then((result) => {
+            api.submitBotQuery(text, queryObjectStack[queryObjectStack.length-1]).then((result) => {
                 console.log("client.js:90: ", result);
                 bot_DOM_QueryController.handleDialogflowResult(result);
 

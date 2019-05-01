@@ -15,7 +15,7 @@ async function postToDialogflow(value) {
         keyFilename: '/routes/firstbot-d1b5b-e44bae98475c.json',
     });
 
-    const DIALOG_FLOW_TOKEN = "ya29.c.El73Br86utP9PvuxbIi5KmmHNNeYNrkuSL5WtIdZnqvsEvuXBIh6TpgCdoAqDNmtaV3kdvfa3Zfs9K9GH83AC6AAtYM5p0h6Vlkpu6zGf7-vJb-TnuX4cn1lNptx4K4A";
+    const DIALOG_FLOW_TOKEN = "ya29.c.El78BngDEDNnQ6HQJvFfA_FE4FAwbHvvEIHL8g0-pmdypSTg9V7VZCwj-gE8xHDjZTbtYGLxGvNOFs12aRmv4pKMvvGLT4VBliI21oQe9cvHvUDTqddIzqXas2A-6Aia";
     //TODO token should be fetched with "~: gcloud auth print-access-token".
     //      1: install and initialize the Cloud SDK https://cloud.google.com/sdk/docs/ (make sure to add commands to your PATH, it is mentioned in the instructions as optional)
     //      2: run:

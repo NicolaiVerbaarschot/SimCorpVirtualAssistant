@@ -10,11 +10,9 @@ const dialogflowResponseHandler = require(path.resolve(__dirname, "./modules/dia
 const router = express.Router();
 
 
-router.get('/api/chatBotQueryManager/:query', function (req,res) {
-    dialogflow.send(req.params.query)
-        .then((data) => {
-            dialogflowResponseHandler.resolve(data)
-                .then((result) => {
+router.get('/api/chatBotQueryManager/', function (req,res) {
+    dialogflow.send(req.query.query).then((data) => {
+            dialogflowResponseHandler.resolve(data, req.query.previousQueryObject).then((result) => {
                     console.log('index.js:20\n ',result);
                     res.send(result);
                 });

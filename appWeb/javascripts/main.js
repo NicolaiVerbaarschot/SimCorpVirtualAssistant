@@ -27,18 +27,20 @@ function searchTable(searchString) {
     queryObjectStack.push(newQuery);
 }
 
+// move to backend
 function clearSearch() {
     let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
     newQuery.search = "";
     queryObjectStack.push(newQuery);
 }
-
+//Move to backend
 function sortTable(stockAttribute) {
     let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
     newQuery.sort = stockAttribute;
     queryObjectStack.push(newQuery);
 }
 
+//Move to backend
 function reverseTable() {
     let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
     if (queryObjectStack[queryObjectStack.length-1].order === "DESC") {
@@ -49,6 +51,7 @@ function reverseTable() {
     queryObjectStack.push(newQuery);
 }
 
+//Move to backend
 function groupTable(columnName) {
     let newQuery = copyQueryObject(queryObjectStack[queryObjectStack.length-1]);
     newQuery.group = columnName;

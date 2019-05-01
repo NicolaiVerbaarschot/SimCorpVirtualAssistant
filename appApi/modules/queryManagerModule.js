@@ -1,77 +1,6 @@
-// function QueryManager() {}
-//
-// QueryManager.prototype.manageInput = function(input) {
-//
-//     if (input === "") {
-//         console.log("ERROR: QueryManager cannot handle empty input");
-//         return
-//     }
-//     // Split input based on 'and'.
-//     //If no 'and' is detected, 'subqueries' will be [input]
-//     const subqueries = input.split("and");
-//
-//
-//     const sendAsyncInSequence = function(subqueries, currentIndex) {
-//
-//         sendAsync(subqueries[currentIndex]).then((data) => {
-//             //TODO: Refactor action to be given as argument
-//             action(data);
-//
-//             if (currentIndex === subqueries.length - 1) {
-//                 // last elem. Update UI
-//                 const reply = formatMultipleLineReply(data.result.fulfillment.speech);
-//                 setResponse("Bot: " + reply);
-//
-//                 // copy the query into the query field
-//                 $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length-1]));
-//
-//                 // execute the query
-//                 $("#HButton").click();
-//             } else {
-//                 // Recursive
-//                 sendAsyncInSequence(subqueries, currentIndex + 1)
-//             }
-//         })
-//     };
-//
-//     sendAsyncInSequence(subqueries, 0);
-// };
-//
-// const sendAsync = async function(value) {
-//     let result;
-//     try {
-//         result = await $.ajax({
-//             type: "POST",
-//             url: baseUrl + "query?v=20150910",
-//             contentType: "application/json; charset=utf-8",
-//             dataType: "json",
-//             headers: {
-//                 "Authorization": "Bearer " + accessToken
-//             },
-//             data: JSON.stringify({ query: value, lang: "en", sessionId: "somerandomthing" }),
-//         });
-//
-//         return result;
-//
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
 
-
-
-
-const baseQueryObject = {
-    columns: "*",
-    filter: [],
-    sort: "",
-    order: "",
-    group: "",
-    search: ""
-};
-
-let queryObjectStack = [baseQueryObject];
-
+const columnPositions = ["Symbol", "Market", "Price", "OpenPrice", "DailyHigh", "DailyLow", "PointChangeToday", "PercentChangeToday"];
+let modColumns = columnPositions.slice();
 
 function copyQueryObject(queryObject){
     return {
@@ -82,6 +11,30 @@ function copyQueryObject(queryObject){
         group: queryObject.group,
         search: queryObject.search
     };
+}
+
+function hideColumns(queryObject, columnNames) {
+
+    // modify column names to be shown (remove selected columns from modColumns
+    columnNames.forEach(function (column) {
+        if (modColumns.indexOf(column) > -1) {
+            modColumns.splice(modColumns.indexOf(column), 1);
+        }
+    });
+
+    // parse string from modColumns into SQL syntax
+    let sqlString = "";
+
+    modColumns.forEach(function (column) {
+        sqlString += column + ", ";
+    });
+
+    sqlString = sqlString.substr(0, sqlString.length - 2);
+
+    // create query object
+    let newQuery = copyQueryObject(queryObject);
+    newQuery.columns = sqlString;
+    return newQuery;
 }
 
 function  queryParser(queryObject) {
@@ -136,68 +89,44 @@ function  queryParser(queryObject) {
 }
 
 
-function getQueryFromAction(intentName,parameters) {
 
-    // get intent
-    let intent = data.result.action;
 
-    // exit if action cannot be executed
-    if (data.result.actionIncomplete) return;
+function getQueryFromAction(intent, queryObject, parameters) { //
+    //handle edge case where filter is not defined because express is shit\
+    if (!queryObject.filter)
+        queryObject.filter = [];
 
-    // get parameters
-    let stockAttribute =  data.result.parameters["StockAttribute"];
-    let searchString = data.result.parameters["any"];
-    let groupString = data.result.parameters["attribute"];
-    let filterThreshold = data.result.parameters["number"];
-    let higherLower = data.result.parameters["higherLower"];
-    let documentSearchString = data.result.parameters["any"];
 
-    // match intent to corresponding action
+    let query = "";
+
     switch (intent) {
-        case "searchTable":
-
-
-
+        case "reset":
+            //TODO: Handle on client side
             break;
-        /*case "clearSearch":
-            clearSearch();
+        case "column_hide":
+            query = queryParser(hideColumns(queryObject, parameters["columnName"]));
             break;
-        case "sortBy":
-            sortTable(stockAttribute);
+        case "column_show_all":
             break;
-        case "reverseTable":
-            reverseTable();
+        case "filter":
             break;
-        case "groupTable":
-            groupTable(groupString);
+        case "group":
             break;
-        case "ungroup":
-            ungroup();
+        case "group_ungroup":
             break;
-        case "filterTable":
-            filterTable(stockAttribute, filterThreshold, higherLower);
+        case "search":
+            break;
+        case "search_clear":
+            break;
+        case "sort":
+            break;
+        case "sort_reverse":
             break;
         case "undo":
-            undo();
+            //TODO: Handle on client side
             break;
-        case "reset":
-            reset();
-            break;
-        case "hideColumn":
-            hideColumns(stockAttribute);
-            break;
-        case "showColumn":
-            showColumns(stockAttribute);
-            break;
-        case "showAllColumns":
-            showAllColumns(stockAttribute);
-            break;
-        case "drawBarDiagram":
-            drawBarDiagram(stockAttribute);
-            break;
-        case "documentSearch":
-            sendDocumentSearchStringToFuse(documentSearchString);*/
     }
+    return query;
 
 
 }

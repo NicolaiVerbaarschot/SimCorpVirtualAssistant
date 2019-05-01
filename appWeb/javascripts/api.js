@@ -3,12 +3,15 @@ $.getScript('javascripts/botQueryController.js', function() {
 
 const api = {
 
-    submitBotQuery: async function (query) {
+    submitBotQuery: async function (query, previousQueryObject) {
         var returnData;
         await $.ajax({
-            url: "http://localhost:8080/api/chatBotQueryManager/"+query
+            type: 'GET',
+            dataType: 'json',
+            data: {query: query, previousQueryObject: previousQueryObject},
+            url: "http://localhost:8080/api/chatBotQueryManager/"
         })
-            .done(function( data ) {
+            .done(function (data) {
                 returnData = data
             });
         return returnData;

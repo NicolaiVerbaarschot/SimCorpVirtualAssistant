@@ -29,7 +29,7 @@ async function renderEjs(templateName, parameters) {
     return htmlOuter;
 }
 
-async function handleDialogflowResponse(response) {
+async function handleDialogflowResponse(response, previousQueryObject) {
 
     // Declare return object defaults
     let resolvedResponseData = {
@@ -37,19 +37,19 @@ async function handleDialogflowResponse(response) {
         parameters: undefined,
         answer: undefined,
         newTable: undefined, //html
-        newVisualisation: undefined
+        newVisualisation: undefined,
+        newQueryObject: undefined
     };
 
     // Action type is resolved from intent name by splitting on underscore character
     const actionType = response.intentName.substring(0, response.intentName.indexOf('_'));
     const intentName = response.intentName.substring(response.intentName.indexOf('_') + 1);
-    const parameters = ['test1','test2'];//TODO extract
+    const parameters = response.parameters;
 
 
     // Render ejs templates according to action type
     if (['tableOP'].includes(actionType)){
-        let query = "SELECT Price FROM Stocks";
-        query = queryManager.getQueryFromAction(intentName,parameters);
+        let query = queryManager.getQueryFromAction(intentName, previousQueryObject, parameters);
         let data = await database.functions.getDBArrayFromQuery(query);
         await renderEjs('tableTemplate', data)
             .then((html) => {
