@@ -88,7 +88,9 @@ $(document).ready(function() {
             const text = $("#input").val();
             if (text === "") return;
             setResponse("You: " + text);
-            api.submitBotQuery(text, queryObjectStack[queryObjectStack.length-1]).then((result) => {
+            let topQuery = queryObjectStack[queryObjectStack.length-1];
+            let secondTopMostQuery = queryObjectStack.length-2 >= 0 ? queryObjectStack[queryObjectStack.length-2] : undefined;
+            api.submitBotQuery(text, topQuery, secondTopMostQuery).then((result) => {
 
                 //TODO: Refactor into bot_DOM_QueryController
                 if (result.tableOperationType === 'undo') {

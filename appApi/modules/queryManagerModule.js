@@ -140,9 +140,10 @@ function  queryParser(queryObject) {
 
 
 // Returns the query as object and as string wrapped in object.
-function getQueryFromAction(intent, queryObject, parameters) { //
+function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, parameters) { //
     //handle edge case where filter is not defined because express is shit\
-    if (!queryObject.filter) queryObject.filter = [];
+    if (!topQueryObject.filter) topQueryObject.filter = [];
+    if (secondTopMostQueryObject && !secondTopMostQueryObject.filter) secondTopMostQueryObject.filter = [];
 
     var tableOperationType = "normal";
     var object = undefined;
@@ -153,10 +154,10 @@ function getQueryFromAction(intent, queryObject, parameters) { //
             break;
         case "column_hide":
             let attri = parameters["columnName"];
-            var object = hideColumnsInTable(queryObject, attri);
+            var object = hideColumnsInTable(topQueryObject, attri)
             break;
         case "column_show_all":
-            object = showAllColumnsInTable(queryObject);
+            object = showAllColumnsInTable(topQueryObject);
             break;
         case "filter":
             let higherLower = parameters.higherLower;
@@ -164,42 +165,42 @@ function getQueryFromAction(intent, queryObject, parameters) { //
             let value = parameters.value;
             //TODO: Add error handling if attribute is empty, i.e. trying to filter by unknown attribute
 
-            object = filterTable(queryObject, attribute, value, higherLower);
+            object = filterTable(topQueryObject, attribute, value, higherLower);
             break;
         case "group":
             let columnName = parameters.stringAttribute;
             //TODO: Add error handling if column name is empty, i.e. trying to group by unknown attribute
 
-            object = groupTable(queryObject, columnName);
+            object = groupTable(topQueryObject, columnName);
             break;
         case "group_ungroup":
-            object = ungroupTable(queryObject);
+            object = ungroupTable(topQueryObject);
             break;
         case "search":
             //TODO: Add error handling if 'searchString' is empty, i.e. trying to search by unknown attribute
             let searchString = parameters.searchString;
-            object = searchTable(queryObject, searchString);
+            object = searchTable(topQueryObject, searchString);
 
             break;
         case "search_clear":
-            object = clearSearch(queryObject);
+            object = clearSearch(topQueryObject);
             break;
         case "sort":
             let sortAtrribute = parameters.columnName;
             //TODO: Add error handling if 'sortAtrribute' is empty, i.e. trying to sort by unknown attribute
-            object = sortTable(queryObject, sortAtrribute);
+            object = sortTable(topQueryObject, sortAtrribute);
             break;
         case "sort_reverse":
-            object = reverseTable(queryObject);
+            object = reverseTable(topQueryObject);
             break;
         case "undo":
-            object = queryObject;
+            object = secondTopMostQueryObject;
             tableOperationType = "undo";
             break;
     }
     return {
-        queryObject: object,
-        query: queryParser(queryObject),
+        newTopQueryObject: object,
+        query: queryParser(object),
         tableOperationType: tableOperationType
     }
 }

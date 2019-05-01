@@ -29,7 +29,7 @@ async function renderEjs(templateName, parameters) {
     return htmlOuter;
 }
 
-async function handleDialogflowResponse(response, previousQueryObject) {
+async function handleDialogflowResponse(response, topQueryObject, secondTopMostQueryObject) {
 
     // Declare return object defaults
     let resolvedResponseData = {
@@ -50,10 +50,10 @@ async function handleDialogflowResponse(response, previousQueryObject) {
 
     // Render ejs templates according to action type
     if (['tableOP'].includes(actionType)) {
-        let resolvedQuery = queryManager.getQueryFromAction(intentName, previousQueryObject, parameters);
+        let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
         let query = resolvedQuery.query;
 
-        resolvedResponseData.newQueryObject = resolvedQuery.queryObject;
+        resolvedResponseData.newQueryObject = resolvedQuery.newTopQueryObject;
         resolvedResponseData.tableOperationType = resolvedQuery.tableOperationType;
 
         let data = await database.functions.getDBArrayFromQuery(query);
