@@ -13,6 +13,8 @@ function copyQueryObject(queryObject){
     };
 }
 
+// --------- Table operations ---------
+
 function hideColumns(queryObject, columnNames) {
 
     // modify column names to be shown (remove selected columns from modColumns
@@ -39,13 +41,25 @@ function hideColumns(queryObject, columnNames) {
 
 function showAllColumns(queryObject) {
     modColumns = columnPositions.slice();
-
     let newQuery = copyQueryObject(queryObject);
     newQuery.columns = "*";
 
     return newQuery;
-
 }
+
+function filterTable(queryObject, stockAttribute, threshold, higherLower) {
+    let isHigher = false;
+
+    if (higherLower === "higher than") {
+        isHigher = true;
+    }
+
+    let newQuery = copyQueryObject(queryObject);
+    newQuery.filter = [[stockAttribute, threshold, isHigher]];
+    return newQuery;
+}
+
+// ----------------------------------
 
 function  queryParser(queryObject) {
     let query = "SELECT " + queryObject.columns + " FROM Stocks"; // Re-arranging
@@ -115,7 +129,10 @@ function getQueryFromAction(intent, queryObject, parameters) { //
         case "column_show_all":
             return queryParser(showAllColumns(queryObject));
         case "filter":
-            break;
+            let higherLower = parameters.higherLower;
+            let attribute = parameters.numAttribute;
+            let value = parameters.value;
+            return queryParser(filterTable(queryObject, attribute, value, higherLower))
         case "group":
             break;
         case "group_ungroup":
