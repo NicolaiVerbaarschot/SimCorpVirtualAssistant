@@ -15,13 +15,17 @@ function commandHelp() {
 async function queryDatabaseAndRenderResult(isGraphQuery, query) { //TODO: remove async
     let data = await database.functions.getDBArrayFromQuery(query);
     let result;
-    if (isGraphQuery) {
-        data = visualizationDataProcessor.formatData(data);
-        result = ejsEngine.render('graphTemplate', data);
+    if (data.length > 0) {
+        if (isGraphQuery) {
+            data = visualizationDataProcessor.formatData(data);
+            result = ejsEngine.render('graphTemplate', data);
+        } else {
+            result = ejsEngine.render('tableTemplate', data);
+        }
+        return result;
     } else {
-        result = ejsEngine.render('tableTemplate', data);
+        return "<p> Your query did not yield any results. Please update your search and filter parameters.</p>";
     }
-    return result;
 
 }
 

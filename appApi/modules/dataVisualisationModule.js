@@ -2,6 +2,7 @@
 
 
 function formatDataForVisualization(data) {
+
     let labels = [];
     let vals = [];
     let attribute = Object.keys(data[0])[1];

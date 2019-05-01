@@ -228,7 +228,8 @@ $( function() {
                         const isGraph = data[1];
 
                         if (isGraph) {
-                            graphOutput.append(html);
+                            graphOutput.html(html);
+                            // graphOutput.append(html);
                             output.append("\nThe graph is visible in the top right.")
 
                         } else {
