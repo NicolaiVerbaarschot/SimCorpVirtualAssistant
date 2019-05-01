@@ -23,10 +23,11 @@ $( function() {
     // --------------------------------------------- autocomplete logic --------------------------------------------- //
     var availableTags;
     var star = ["*"];
-    var columnTags = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
-    var numTags = ["Price", "QC", "Total_QTY", "Total_Price", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
+    var columnTags = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC",
+                      "Dirty_Value_PC", "Dirty_Value_RC"];
+    var numTags = ["Price", "Total_QTY", "Total_Price", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
     var sqlKeywords = ["SELECT", "FROM", "WHERE", "ORDER BY"];
-    var modes = ["help", "tableQuery", "graphQuery"];
+    var modes = ["help", "tableQuery", "graphQuery", "searchDocs"];
     var filterTags = [">", "=", "<"];
 
     function split( val ) {
@@ -74,6 +75,7 @@ $( function() {
         if (firstWord === modes[0]) {return updateTagsHelp(inputString);}
         else if (firstWord === modes[1]) {return updateTagsTQ(inputString);}
         else if (firstWord === modes[2]) {return updateTagsGQ(inputString);}
+        else if (firstWord === modes[3]) {return updateTagsSearchDocs(inputString);}
         else {return modes;}
     }
 
@@ -170,6 +172,7 @@ $( function() {
         }
     }
 
+    // this function handles the autocomplete tags for graph queries which only slightly differ to table queries
     function updateTagsGQ(inputString) {
         var queryPart = detectQueryPart(inputString);
         switch (queryPart) {
@@ -190,6 +193,10 @@ $( function() {
                         }
             case 4:     return filterColumnTags(inputString, queryPart);
         }
+    }
+
+    function updateTagsSearchDocs(inputString) {
+        return [];
     }
 
     // -------------------------------------------- autocomplete jquery --------------------------------------------- //
@@ -232,7 +239,7 @@ $( function() {
 
         // taken from jquery api documentation
         .autocomplete({
-            autofocus: true,                        // automatically focus on first item in autocomplete list
+            //autofocus: true,                        // automatically focus on first item in autocomplete list
             minLength: 0,                           // allow autocomplete list on empty input field
 
             source: function( request, response ) {
@@ -276,4 +283,4 @@ $( function() {
 //     - relevant if the user decides to manually send a query through the text field
 //TODO automatically insert "SELECT SYMBOL," when the user wants to make a graph query without showing it in the menu
 //TODO make case insensitive?
-//TODO look into categorising the dropdown menu where applicable: http://jqueryui.com/autocomplete/#categories
+//TODO consecutive graph queries create graphs stacked on top of each other in the same canvas object

@@ -22,7 +22,6 @@ function handleSuperuserCommand(command, res) {
             "\t- help\n" +
             "\t- queryTable\n" +
             "\t- queryGraph\n" +
-            "\t- searchDatabase\n" +
             "\t- searchDocs"
     }
 
@@ -38,6 +37,10 @@ function handleSuperuserCommand(command, res) {
         database.functions.queryDBGraph(res, commandArgument);
     }
 
+    function commandSearchDocs() {
+        returnString = "Link to document search in appApi/modules/superuserModule.ejs"
+    }
+
     switch (commandCode) {
         case "hi":
             commandHi();
@@ -50,6 +53,9 @@ function handleSuperuserCommand(command, res) {
             break;
         case "graphQuery":
             commandGraphQuery();
+            break;
+        case "searchDocs":
+            commandSearchDocs();
             break;
     }
 
