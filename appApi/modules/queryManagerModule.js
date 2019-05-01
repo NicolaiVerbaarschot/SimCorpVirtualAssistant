@@ -37,6 +37,16 @@ function hideColumns(queryObject, columnNames) {
     return newQuery;
 }
 
+function showAllColumns(queryObject) {
+    modColumns = columnPositions.slice();
+
+    let newQuery = copyQueryObject(queryObject);
+    newQuery.columns = "*";
+
+    return newQuery;
+
+}
+
 function  queryParser(queryObject) {
     let query = "SELECT " + queryObject.columns + " FROM Stocks"; // Re-arranging
 
@@ -96,18 +106,14 @@ function getQueryFromAction(intent, queryObject, parameters) { //
     if (!queryObject.filter)
         queryObject.filter = [];
 
-
-    let query = "";
-
     switch (intent) {
         case "reset":
             //TODO: Handle on client side
             break;
         case "column_hide":
-            query = queryParser(hideColumns(queryObject, parameters["columnName"]));
-            break;
+            return queryParser(hideColumns(queryObject, parameters["columnName"]));
         case "column_show_all":
-            break;
+            return queryParser(showAllColumns(queryObject));
         case "filter":
             break;
         case "group":
@@ -126,7 +132,6 @@ function getQueryFromAction(intent, queryObject, parameters) { //
             //TODO: Handle on client side
             break;
     }
-    return query;
 
 
 }

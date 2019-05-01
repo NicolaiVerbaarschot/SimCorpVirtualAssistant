@@ -33,8 +33,8 @@ var ExportObject = {
     getDBArrayFromQuery: async function (query) {
         try {
             return await queryUtil(query);
-        } finally {
-            con.end();
+        } catch (e) {
+            throw e;
         }
     },
 
