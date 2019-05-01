@@ -29,8 +29,6 @@ router.get('/api/superuser/:query', function(req, res) {
 
 });
 
-
-
 // if (["tableQuery", "graphQuery"].indexOf(commandCode) < 0) // check commandcode TODO: consider moving out of index.js
 
 router.get('/api/search/:query', function(req, res) {
