@@ -33,7 +33,10 @@ function validQuery(query,res){
 
 function simpleQuerySyntaxTest(query, res) {
     let queryIsValid = RegexSimpleSQLSelectQuery.test(query);
-    if (!queryIsValid) res.status(500).send('query is not valid according to regex');
+    if (!queryIsValid) {
+        res.status(500).send();
+        throw 'query is not valid according to regex';
+    }
 }
 
 var ExportObject = {
@@ -44,10 +47,11 @@ var ExportObject = {
             let data =  await queryUtil(query);
             res.render('tableTemplate.ejs', {results: data});
         } catch (e) {
-            res.status(500).send('error');
+            res.status(500).send();
             throw e.toString();
         }
     },
+
     getDBArrayFromQuery: async function (query) {
         simpleQuerySyntaxTest(query, res);
         try {
@@ -57,20 +61,26 @@ var ExportObject = {
         }
     },
 
-    queryDBGraph: function(res,query) {
+    queryDBGraph: async function(res,query) {
         simpleQuerySyntaxTest(query, res);
-        con.query(query, function (err, data) {
-            if (err) throw err;
+        try {
+            let data =  await queryUtil(query);
             let modifiedData = visualisationModule.formatData(data);
             res.render('graphTemplate.ejs', {results: modifiedData});
-        });
+        } catch (e) {
+            res.status(500).send();
+            throw e.toString();
+        }
     },
 
-    queryTableSuperuser: function(res, query) {
-        con.query(query, function (err, data) {
-            if (err) throw err;
+    queryTableSuperuser: async function(res, query) {
+        try {
+            let data = await queryUtil(query);
             res.render('tableTemplate.ejs', { results: data });
-        });
+        } catch (e) {
+            res.status(500).send();
+            throw e.toString();
+        }
     }
 };
 
