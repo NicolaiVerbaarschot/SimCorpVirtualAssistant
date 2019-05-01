@@ -90,7 +90,6 @@ function reverseTable(queryObject) {
 function  queryParser(queryObject) {
     if (!queryObject) return undefined;
 
-    let query = "SELECT " + queryObject.columns + " FROM Stocks"; // Re-arranging
     let query = "SELECT " + queryObject.columns + " FROM DB_Data"; // Re-arranging
 
     // Filter and Search
