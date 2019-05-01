@@ -40,13 +40,21 @@ $(document).ready(function() {
     });
 
     $("#HButton").on("click", function () {
-        const query = $("#queryText").val();
+        let queryTextField = $("#queryText");
+        const query = queryTextField.val();
         $.ajax({
-            url: "http://localhost:8080/api/table/"+query
+            url: "http://localhost:8080/api/table/"+query,
+            statusCode:{
+                500: function () {
+                    alert("query not valid");
+                    queryTextField.select();
+                }
+
+            }
         })
             .done(function( data ) {
                 $("#databaseContainer").html(data.toString());
-            });
+            })
     });
 
     $("#fuse").on("click", function () {
