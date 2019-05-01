@@ -20,11 +20,11 @@ router.get('/api/chatBotQueryManager/', function (req,res) {
 });
 
 router.get('/api/superuser/:query', function(req, res) {
-    // const commandCode = req.params.query.replace(/ .*/,''); //
+    const commandCode = req.params.query.replace(/ .*/,'');
 
     superuserCommandHandler.handler(req.params.query, res).then(function (commandOutput) {
 
-    res.send(commandOutput);
+    res.send([commandOutput, commandCode === 'graphQuery']);
     });
 
 });

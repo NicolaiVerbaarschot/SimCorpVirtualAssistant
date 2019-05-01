@@ -60,6 +60,13 @@ p.output-text {
     white-space:pre-wrap;
 }
 
+#superuserResultsFloat {
+    position: absolute;
+    top: 123px;
+    background-color: #1ec2fb;
+}
+
+
 #superuserInput {
     width: 20%;
     background-color: white;

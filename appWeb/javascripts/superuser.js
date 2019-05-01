@@ -207,6 +207,7 @@ $( function() {
 
             const input = $("#superuserInput");
             const output = $("#superuserResults");
+            const graphOutput = $("#superuserResultsFloat");
 
             availableTags = updateTags(input.val());
 
@@ -222,10 +223,18 @@ $( function() {
                 $.ajax({
                     url: "http://localhost:8080/api/superuser/"+command
                 })
-                    .done(function( data ) {
-                        output.append("\n");
-                        console.log(data);
-                        output.append(data);
+                    .done(function(data) {
+                        const html = data[0];
+                        const isGraph = data[1];
+
+                        if (isGraph) {
+                            graphOutput.append(html);
+                            output.append("\nThe graph is visible in the top right.")
+
+                        } else {
+
+                            output.append("\n" + html);
+                        }
                         const objDiv = document.getElementById("superuserResults");
                         objDiv.scrollTop = objDiv.scrollHeight;
                     });
