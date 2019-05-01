@@ -27,21 +27,29 @@ function makeConnectionToDB() {
 makeConnectionToDB();
 const queryUtil = util.promisify(con.query).bind(con);
 
+function validQuery(query,res){
+
+}
+
+function simpleQuerySyntaxTest(query, res) {
+    let queryIsValid = RegexSimpleSQLSelectQuery.test(query);
+    if (!queryIsValid) res.status(500).send('query is not valid according to regex');
+}
+
 var ExportObject = {
 
-    queryDBTable: function(res,query) {
-        let queryIsValid = RegexSimpleSQLSelectQuery.test(query);
-        console.log("databaseModule.js","query:",query,"\nregex:",queryIsValid);
-        if (!queryIsValid) throw 'query is not valid according to regex';
-
-        con.query(query, function (err, data) {
-            if (err) throw err;
-            res.render('tableTemplate.ejs', {results: data}); // TODO: Use Aync/Await to send data to index.js and render there
-        });
+    queryDBTable: async function(res,query) {
+        simpleQuerySyntaxTest(query, res);
+        try {
+            let data =  await queryUtil(query);
+            res.render('tableTemplate.ejs', {results: data});
+        } catch (e) {
+            res.status(500).send('error');
+            throw e.toString();
+        }
     },
     getDBArrayFromQuery: async function (query) {
-        let queryIsValid = RegexSimpleSQLSelectQuery.test(query);
-        if (!queryIsValid) throw 'query is not valid according to regex';
+        simpleQuerySyntaxTest(query, res);
         try {
             return await queryUtil(query);
         } catch (e) {
@@ -50,6 +58,7 @@ var ExportObject = {
     },
 
     queryDBGraph: function(res,query) {
+        simpleQuerySyntaxTest(query, res);
         con.query(query, function (err, data) {
             if (err) throw err;
             let modifiedData = visualisationModule.formatData(data);
