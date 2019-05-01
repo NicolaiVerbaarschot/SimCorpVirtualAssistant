@@ -34,7 +34,10 @@ router.get('/api/search/:query', function(req, res) {
 });
 
 router.get('/api/graph/:query', function(req, res) {
-    database.functions.queryDBGraph(res,req.params.query);
+    database.functions.queryDBGraph(req.params.query).then((data) => {
+        console.log('index.js:\n ', data);
+        res.render('graphTemplate.ejs', {results: data});
+    });
 });
 
 router.get('/api/table/:query', function(req, res) {

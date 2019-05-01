@@ -10,6 +10,7 @@ const con = mysql.createConnection({
     password: "L3YF0CxQf7",
     database: "yiZaQZM5Nm"
 });
+const conQuery = util.promisify(con.query).bind(con); // Convert 'con.query' to async function returning a promise.
 
 function makeConnectionToDB() {
     con.connect(function (err) {
@@ -29,7 +30,6 @@ var ExportObject = {
         });
     },
 
-
     getDBArrayFromQuery: async function (query) {
         try {
             return await queryUtil(query);
@@ -40,27 +40,18 @@ var ExportObject = {
 
     queryDBGraph: async function (query) {
         try {
-            const result = await queryUtil(query);
+            const result = await conQuery(query);
             let modifiedData = visualisationModule.formatData(result);
-            console.log(modifiedData);
             return modifiedData
         } finally {
             con.end();
         }
     },
 
-    queryDBGraph: function(res,query) {
+    queryTableSuperuser: function(res, query) {
         con.query(query, function (err, data) {
             if (err) throw err;
-            let modifiedData = visualisationModule.formatData(data);
-            res.render('graphTemplate.ejs', {results: modifiedData});
-        });
-    },
-
-    queryTableSuperuser: function(res,query) {
-        con.query(query, function (err, data) {
-            if (err) throw err;
-            res.render('tableTemplate.ejs', {results: data});
+            res.render('tableTemplate.ejs', { results: data });
         });
     }
 };

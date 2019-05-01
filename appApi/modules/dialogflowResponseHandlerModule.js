@@ -11,7 +11,7 @@ const responseFieldMap = {
 
 const templateMap = {
     textOP: 'testejs',
-    tableOP: 'testejs',//'tableTemplate',
+    tableOP: 'testejs',
     graphOP: 'graphTemplate'
 };
 
@@ -43,7 +43,6 @@ async function handleDialogflowResponse(response) {
     // Action type is resolved from intent name by splitting on underscore character
     const actionType = response.intentName.substring(0, response.intentName.indexOf('_'));
     const intentName = response.intentName.substring(response.intentName.indexOf('_') + 1);
-    console.log(actionType, intentName);
     const parameters = ['test1','test2'];//TODO extract
 
 

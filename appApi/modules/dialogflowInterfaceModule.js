@@ -15,7 +15,7 @@ async function postToDialogflow(value) {
         keyFilename: '/routes/firstbot-d1b5b-e44bae98475c.json',
     });
 
-    const DIALOG_FLOW_TOKEN = "ya29.c.El78BrFVri7tOtWdL-oivHf7qm4pOjdlLGofzfyyLFJdIAj2v2TlTaUhNUhfcfZ-WQq-p82PoosF86YSSrOhgBG0k4k0Ah9v3jfsjE0O--jD3ST3Lxna4aKS2egR1B5O";
+    const DIALOG_FLOW_TOKEN = "ya29.c.El73Br86utP9PvuxbIi5KmmHNNeYNrkuSL5WtIdZnqvsEvuXBIh6TpgCdoAqDNmtaV3kdvfa3Zfs9K9GH83AC6AAtYM5p0h6Vlkpu6zGf7-vJb-TnuX4cn1lNptx4K4A";
     //TODO token should be fetched with "~: gcloud auth print-access-token".
     //      1: install and initialize the Cloud SDK https://cloud.google.com/sdk/docs/ (make sure to add commands to your PATH, it is mentioned in the instructions as optional)
     //      2: run:
@@ -23,7 +23,7 @@ async function postToDialogflow(value) {
     //           gcloud auth activate-service-account --key-file appApi/firstbot-d1b5b-e44bae98475c.json
     //           gcloud auth print-access-token
     //       copy token and insert here:
-    //       do this every hour.. #OMG-Simon <- lol at the #OMG-Nicolai -Simon: haha xD
+    //       do this every hour.. #OMG-Simon <- lol at the #OMG-Nicolai
     // const DIALOG_FLOW_TOKEN2 = $(gcloud auth application-default print-access-token);
     const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2beta1";
     const YOUR_PROJECT_ID = "firstbot-d1b5b";
