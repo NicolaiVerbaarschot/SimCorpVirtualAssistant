@@ -20,12 +20,18 @@ router.get('/api/chatBotQueryManager/', function (req,res) {
 });
 
 router.get('/api/superuser/:query', function(req, res) {
-  const commandOutput = superuserCommandHandler.handler(req.params.query, res);
-  const commandCode = req.params.query.replace(/ .*/,''); // Get first word in string
-  if (["tableQuery", "graphQuery"].indexOf(commandCode) < 0) // check commandcode TODO: consider moving out of index.js
-    res.render('superuserTemplate.ejs', {results: commandOutput});
+    // const commandCode = req.params.query.replace(/ .*/,''); //
+
+    superuserCommandHandler.handler(req.params.query, res).then(function (commandOutput) {
+
+    res.send(commandOutput);
+    });
 
 });
+
+
+
+// if (["tableQuery", "graphQuery"].indexOf(commandCode) < 0) // check commandcode TODO: consider moving out of index.js
 
 router.get('/api/search/:query', function(req, res) {
     const fuse = documentSearch.fuse;

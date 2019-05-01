@@ -224,7 +224,8 @@ $( function() {
                 })
                     .done(function( data ) {
                         output.append("\n");
-                        output.append(data.toString());
+                        console.log(data);
+                        output.append(data);
                         const objDiv = document.getElementById("superuserResults");
                         objDiv.scrollTop = objDiv.scrollHeight;
                     });
