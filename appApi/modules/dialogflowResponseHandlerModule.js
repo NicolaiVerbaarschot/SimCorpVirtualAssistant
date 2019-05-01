@@ -15,7 +15,7 @@ const templateMap = {
 };
 
 
-async function handleDialogflowResponse(response, previousQueryObject) {
+async function handleDialogflowResponse(response, topQueryObject, secondTopMostQueryObject) {
 
     // Declare return object defaults
     let resolvedResponseData = {
@@ -45,7 +45,7 @@ async function handleDialogflowResponse(response, previousQueryObject) {
         if (query) {
             try {
                 let data = await database.functions.getDBArrayFromQuery(query);
-                await renderEjs('tableTemplate', data)
+                await ejsEngine.render('tableTemplate', data)
                     .then((html) => {
                         resolvedResponseData[responseFieldMap[actionType]] = html;
                     });

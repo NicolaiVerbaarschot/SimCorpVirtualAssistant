@@ -11,9 +11,8 @@ const router = express.Router();
 
 router.get('/api/chatBotQueryManager/', function (req,res) {
     dialogflow.send(req.query.query).then((data) => {
-            dialogflowResponseHandler.resolve(data, req.query.topQueryObject, req.query.secondTopMostQueryObject).then((result) => {
-                    res.send(result);
-                });
+        dialogflowResponseHandler.resolve(data, req.query.topQueryObject, req.query.secondTopMostQueryObject).then((result) => {
+            res.send(result);
         });
     });
 });
@@ -67,4 +66,3 @@ router.get('/about', function(req, res) {
 
 
 module.exports = router;
-

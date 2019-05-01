@@ -10,8 +10,6 @@ const bot_DOM_QueryController = {
             case 'tableOP':
                 $("#databaseContainer").html(data.newTable.toString());
 
-                // Update the top queryObjectStack
-
         }
         // // copy the query into the query field
         // $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length - 1]));
