@@ -178,6 +178,10 @@ function drawBarDiagram(stockAttribute) {
     })
         .done(function( data ) {
             $("#graphContainer").html(data.toString());
+        })
+        .fail(function(model,textStatus,errorThrown) {
+            alert("Query failed:\n"+model.responseJSON.error);
+            queryTextField.select();
         });
 }
 

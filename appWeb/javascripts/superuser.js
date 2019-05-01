@@ -227,7 +227,11 @@ $( function() {
                         output.append(data.toString());
                         const objDiv = document.getElementById("superuserResults");
                         objDiv.scrollTop = objDiv.scrollHeight;
-                    });
+                    })
+                    .fail(function(model,textStatus,errorThrown) {
+                    alert("Query failed:\n"+model.responseJSON.error);
+                    queryTextField.select();
+                });
                 input.val("");
             }
 

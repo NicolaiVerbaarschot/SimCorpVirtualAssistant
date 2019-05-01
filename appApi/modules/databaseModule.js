@@ -34,7 +34,7 @@ function validQuery(query,res){
 function simpleQuerySyntaxTest(query, res) {
     let queryIsValid = RegexSimpleSQLSelectQuery.test(query);
     if (!queryIsValid) {
-        res.status(500).send();
+        res.send(500, { error: "Error: Query syntax is invalid" });
         throw 'query is not valid according to regex';
     }
 }
@@ -47,13 +47,13 @@ var ExportObject = {
             let data =  await queryUtil(query);
             res.render('tableTemplate.ejs', {results: data});
         } catch (e) {
-            res.status(500).send();
+            res.send(500, { error: e.toString() });
+            //res.status(500).send();
             throw e.toString();
         }
     },
 
     getDBArrayFromQuery: async function (query) {
-        simpleQuerySyntaxTest(query, res);
         try {
             return await queryUtil(query);
         } catch (e) {
