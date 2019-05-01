@@ -1,4 +1,5 @@
-const columnPositions = ["Symbol", "Market", "Price", "OpenPrice", "DailyHigh", "DailyLow", "PointChangeToday", "PercentChangeToday"];
+
+const columnPositions = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
 let modColumns = columnPositions.slice();
 
 const baseQueryObject = {
@@ -90,6 +91,7 @@ function  queryParser(queryObject) {
     if (!queryObject) return undefined;
 
     let query = "SELECT " + queryObject.columns + " FROM Stocks"; // Re-arranging
+    let query = "SELECT " + queryObject.columns + " FROM DB_Data"; // Re-arranging
 
     // Filter and Search
     let filterLength = queryObject.filter.length;

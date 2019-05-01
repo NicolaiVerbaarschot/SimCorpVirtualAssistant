@@ -15,13 +15,22 @@ router.get('/api/chatBotQueryManager/', function (req,res) {
                     res.send(result);
                 });
         });
+    });
 });
 
 router.get('/api/superuser/:query', function(req, res) {
-    const commandOutput = superuserCommandHandler.handler(req.params.query, res);
-    if (req.params.query.replace(/ .*/,'') !== "tableQuery") // TODO: Perhaps we should unify methods to render to the superuser output
-        res.render('superuserTemplate.ejs', {results: commandOutput});
+    const commandCode = req.params.query.replace(/ .*/,'');
+
+    superuserCommandHandler.handler(req.params.query, res).then(function (commandOutput) {
+
+    res.send([commandOutput, commandCode === 'graphQuery']);
+    });
+
 });
+
+
+
+// if (["tableQuery", "graphQuery"].indexOf(commandCode) < 0) // check commandcode TODO: consider moving out of index.js
 
 router.get('/api/search/:query', function(req, res) {
     const fuse = documentSearch.fuse;

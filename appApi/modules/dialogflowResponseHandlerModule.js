@@ -1,7 +1,6 @@
-const render = require('consolidate');
-const path = require('path');
 const database = require('./databaseModule');
 const queryManager = require('./queryManagerModule');
+const ejsEngine = require('./renderEngineModule');
 
 const responseFieldMap = {
     textOP: '',
@@ -15,21 +14,8 @@ const templateMap = {
     graphOP: 'graphTemplate'
 };
 
-//TODO remove async?
-async function renderEjs(templateName, parameters) {
 
-    let htmlOuter;
-    await render.ejs(path.resolve(__dirname,'../ejsTemplates/'+templateName+'.ejs'), { results: parameters })
-        .then(function (html) {
-            htmlOuter = html;
-        })
-        .catch(function (err) {
-            throw err;
-        });
-    return htmlOuter;
-}
-
-async function handleDialogflowResponse(response, topQueryObject, secondTopMostQueryObject) {
+async function handleDialogflowResponse(response, previousQueryObject) {
 
     // Declare return object defaults
     let resolvedResponseData = {
@@ -70,7 +56,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         }
 
     } else if (['graphOP'].includes(actionType)) {
-        await renderEjs(templateMap[actionType],parameters ).then((html) => {
+        await ejsEngine.render(templateMap[actionType],parameters ).then((html) => {
             resolvedResponseData[responseFieldMap[actionType]] = html;
         });
     }

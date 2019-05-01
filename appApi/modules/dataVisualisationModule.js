@@ -1,5 +1,8 @@
+//TODO: give better name for module
+
 
 function formatDataForVisualization(data) {
+
     let labels = [];
     let vals = [];
     let attribute = Object.keys(data[0])[1];
