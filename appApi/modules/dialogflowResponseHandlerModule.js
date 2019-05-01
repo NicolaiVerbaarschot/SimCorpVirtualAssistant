@@ -38,7 +38,8 @@ async function handleDialogflowResponse(response, previousQueryObject) {
         answer: undefined,
         newTable: undefined, //html
         newVisualisation: undefined,
-        newQueryObject: undefined
+        newQueryObject: undefined,
+        tableOperationType: undefined // Can be 'normal', 'undo'.
     };
 
     // Action type is resolved from intent name by splitting on underscore character
@@ -48,8 +49,11 @@ async function handleDialogflowResponse(response, previousQueryObject) {
 
 
     // Render ejs templates according to action type
-    if (['tableOP'].includes(actionType)){
-        let query = queryManager.getQueryFromAction(intentName, previousQueryObject, parameters);
+    if (['tableOP'].includes(actionType)) {
+        let resolvedQuery = queryManager.getQueryFromAction(intentName, previousQueryObject, parameters);
+        let query = resolvedQuery.query;
+        resolvedResponseData.newQueryObject = resolvedQuery.queryObject;
+
         let data = await database.functions.getDBArrayFromQuery(query);
         await renderEjs('tableTemplate', data)
             .then((html) => {

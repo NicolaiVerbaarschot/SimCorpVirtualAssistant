@@ -1,21 +1,9 @@
-
 const columnPositions = ["Symbol", "Market", "Price", "OpenPrice", "DailyHigh", "DailyLow", "PointChangeToday", "PercentChangeToday"];
 let modColumns = columnPositions.slice();
 
-function copyQueryObject(queryObject){
-    return {
-        columns: queryObject.columns,
-        filter: queryObject.filter,
-        sort: queryObject.sort,
-        order: queryObject.order,
-        group: queryObject.group,
-        search: queryObject.search
-    };
-}
-
 // --------- Table operations ---------
 
-function hideColumns(queryObject, columnNames) {
+function hideColumnsInTable(queryObject, columnNames) {
 
     // modify column names to be shown (remove selected columns from modColumns
     columnNames.forEach(function (column) {
@@ -33,18 +21,13 @@ function hideColumns(queryObject, columnNames) {
 
     sqlString = sqlString.substr(0, sqlString.length - 2);
 
-    // create query object
-    let newQuery = copyQueryObject(queryObject);
-    newQuery.columns = sqlString;
-    return newQuery;
+    queryObject.columns = sqlString;
+    return queryObject;
 }
 
-function showAllColumns(queryObject) {
-    modColumns = columnPositions.slice();
-    let newQuery = copyQueryObject(queryObject);
-    newQuery.columns = "*";
-
-    return newQuery;
+function showAllColumnsInTable(queryObject) {
+    queryObject.columns = "*";
+    return queryObject;
 }
 
 function filterTable(queryObject, stockAttribute, threshold, higherLower) {
@@ -53,10 +36,24 @@ function filterTable(queryObject, stockAttribute, threshold, higherLower) {
     if (higherLower === "higher than") {
         isHigher = true;
     }
+    queryObject.filter = [[stockAttribute, threshold, isHigher]];
+    return queryObject;
+}
 
-    let newQuery = copyQueryObject(queryObject);
-    newQuery.filter = [[stockAttribute, threshold, isHigher]];
-    return newQuery;
+function groupTable(queryObject, columnName) {
+    queryObject.group = columnName;
+    return queryObject;
+}
+
+function ungroupTable(queryObject) {
+    queryObject.group = "";
+    return queryObject;
+}
+
+//TODO: update search string to include all searchable columns from correct table.
+function searchTable(queryObject, searchString) {
+    queryObject.search = "Market = '" + searchString + "' OR Symbol = '" + searchString + "'";
+    return queryObject;
 }
 
 // ----------------------------------
@@ -114,9 +111,10 @@ function  queryParser(queryObject) {
 
 
 
-
+// Returns the query as object and as string wrapped in object.
 function getQueryFromAction(intent, queryObject, parameters) { //
     //handle edge case where filter is not defined because express is shit\
+
     if (!queryObject.filter)
         queryObject.filter = [];
 
@@ -125,20 +123,57 @@ function getQueryFromAction(intent, queryObject, parameters) { //
             //TODO: Handle on client side
             break;
         case "column_hide":
-            return queryParser(hideColumns(queryObject, parameters["columnName"]));
+            let attri = parameters["columnName"];
+            var object = hideColumnsInTable(queryObject, attri);
+
+            return {
+                queryObject: object,
+                query: queryParser(queryObject)
+            }
         case "column_show_all":
-            return queryParser(showAllColumns(queryObject));
+            var object = showAllColumnsInTable(queryObject);
+            return {
+                queryObject: object,
+                query: queryParser(queryObject)
+            }
         case "filter":
             let higherLower = parameters.higherLower;
             let attribute = parameters.numAttribute;
             let value = parameters.value;
-            return queryParser(filterTable(queryObject, attribute, value, higherLower))
+            //TODO: Add error handling if attribute is empty, i.e. trying to filter by unknown attribute
+
+            var object = filterTable(queryObject, attribute, value, higherLower);
+
+            return {
+                queryObject: object,
+                query: queryParser(queryObject)
+            }
         case "group":
-            break;
+            let columnName = parameters.stringAttribute;
+            //TODO: Add error handling if column name is empty, i.e. trying to group by unknown attribute
+
+            var object = groupTable(queryObject, columnName);
+
+            return {
+                queryObject: object,
+                query: queryParser(queryObject)
+            }
         case "group_ungroup":
-            break;
+            var object = ungroupTable(queryObject);
+
+            return {
+                queryObject: object,
+                query: queryParser(queryObject)
+            }
         case "search":
-            break;
+            //TODO: Add error handling if 'searchString' is empty, i.e. trying to group by unknown attribute
+            let searchString = parameters.searchString;
+            var object = searchTable(queryObject, searchString);
+
+            return {
+                queryObject: object,
+                query: queryParser(queryObject)
+            }
         case "search_clear":
             break;
         case "sort":
