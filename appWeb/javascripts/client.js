@@ -49,7 +49,7 @@ $(document).ready(function() {
 
     $("#HButton").on("click", function () {
         let queryTextField = $("#queryText");
-        const query = queryTextField.val();
+        const query = queryTextField.val();//.toLowerCase();
         $.ajax({
             url: "http://localhost:8080/api/table/"+query
         })

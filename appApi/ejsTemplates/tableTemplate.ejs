@@ -3,7 +3,7 @@
     <thead>
         <tr>
             <% Object.keys(results[0]).forEach(function(attributeName){%>
-                <td> <%= attributeName.toString() %></td>
+                <td> <%= attributeName.toString().toUpperCase() %></td>
             <%});%>
         </tr>
     </thead>
