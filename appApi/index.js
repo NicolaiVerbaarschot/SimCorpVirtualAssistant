@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-// const najax = require('najax');
 const dialogflow = require(path.resolve(__dirname, "./modules/dialogflowInterfaceModule"));
 const database = require(path.resolve(__dirname, "./modules/databaseModule"));
 const documentSearch = require(path.resolve(__dirname, "./modules/documentSearch"));
@@ -12,8 +11,7 @@ const router = express.Router();
 
 router.get('/api/chatBotQueryManager/', function (req,res) {
     dialogflow.send(req.query.query).then((data) => {
-        dialogflowResponseHandler.resolve(data, req.query.previousQueryObject).then((result) => {
-            console.log('index.js:20\n ',result);
+        dialogflowResponseHandler.resolve(data, req.query.topQueryObject, req.query.secondTopMostQueryObject).then((result) => {
             res.send(result);
         });
     });
@@ -66,4 +64,3 @@ router.get('/about', function(req, res) {
 
 
 module.exports = router;
-

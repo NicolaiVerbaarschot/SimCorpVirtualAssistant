@@ -93,10 +93,17 @@ $(document).ready(function() {
             const text = $("#input").val();
             if (text === "") return;
             setResponse("You: " + text);
-            api.submitBotQuery(text, queryObjectStack[queryObjectStack.length-1]).then((result) => {
-                console.log("client.js:90: ", result);
-                bot_DOM_QueryController.handleDialogflowResult(result);
+            let topQuery = queryObjectStack[queryObjectStack.length-1];
+            let secondTopMostQuery = queryObjectStack.length-2 >= 0 ? queryObjectStack[queryObjectStack.length-2] : undefined;
+            api.submitBotQuery(text, topQuery, secondTopMostQuery).then((result) => {
 
+                //TODO: Refactor into bot_DOM_QueryController
+                if (result.tableOperationType === 'undo') {
+                    undo();
+                } else {
+                    queryObjectStack.push(result.newQueryObject);
+                }
+                bot_DOM_QueryController.handleDialogflowResult(result);
             });
         }
     });
