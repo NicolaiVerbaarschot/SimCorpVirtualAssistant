@@ -15,7 +15,8 @@ const uuid = require('uuid');
  * Send a query to the dialogflow agent, and return the query result.
  * @param {string} projectId The project to be used
  */
-async function runSample(projectId = 'firstbot-d1b5b') {
+async function postToDialogflow(value) {
+    const projectId = 'firstbot-d1b5b';
     // A unique identifier for the given session
     const sessionId = uuid.v4();
 
@@ -29,9 +30,9 @@ async function runSample(projectId = 'firstbot-d1b5b') {
         queryInput: {
             text: {
                 // The query to send to the dialogflow agent
-                text: 'hello',
+                text: value,
                 // The language used by the client (en-US)
-                languageCode: 'en-US',
+                languageCode: 'en',
             },
         },
     };
@@ -44,13 +45,22 @@ async function runSample(projectId = 'firstbot-d1b5b') {
     console.log(`  Response: ${result.fulfillmentText}`);
     if (result.intent) {
         console.log(`  Intent: ${result.intent.displayName}`);
+        let isKnowledgeAnswer = !result.alternativeQueryResults;
+        let allRequiredParamsPresent = result.allRequiredParamsPresent;
+
+        return {
+            answer: result.fulfillmentText,
+            action: isKnowledgeAnswer ? "Knowledge" : result.action,
+            allRequiredParamsPresent : allRequiredParamsPresent,
+            parameters: allRequiredParamsPresent ? result.parameters : undefined,
+            intentName: result.intent.displayName
+        };
     } else {
         console.log(`  No intent matched.`);
     }
 }
-runSample('firstbot-d1b5b');
 
-async function postToDialogflow(value) {
+async function postToDialogflowOld(value) {
 
 
 
