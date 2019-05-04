@@ -3,42 +3,60 @@ const najax = require('najax');
 const accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
 const baseUrl = "https://api.api.ai/v1/";
 
-var DIALOG_FLOW_TOKEN;
-const { exec } = require('child_process');
-let routine = function(){
-    exec('gcloud auth print-access-token', (err, stdout, stderr) => {
-        if (err) {
-            console.log(`stderr: ${stderr}`);
-            return;
-        }
-        DIALOG_FLOW_TOKEN = stdout.substr(0,stdout.length-2);//removes newline character at the end of string
-        console.log("DIALOG_FLOW_TOKEN was updated to: ",DIALOG_FLOW_TOKEN);
-    });
+
+var config = {
+    projectId: 'firstbot-d1b5b',
+    keyFilename: 'appApi/firstbot-d1b5b-e44bae98475c.json',
 };
+const dialogflow = require('dialogflow');
+const uuid = require('uuid');
 
+/**
+ * Send a query to the dialogflow agent, and return the query result.
+ * @param {string} projectId The project to be used
+ */
+async function runSample(projectId = 'firstbot-d1b5b') {
+    // A unique identifier for the given session
+    const sessionId = uuid.v4();
 
-var minutes = 5, the_interval = minutes * 60 * 1000;
-setInterval(function() {
-    routine();
-}, 10000);
+    // Create a new session
+    const sessionClient = new dialogflow.SessionsClient(config);
+    const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
-routine();
+    // The text query request.
+    const request = {
+        session: sessionPath,
+        queryInput: {
+            text: {
+                // The query to send to the dialogflow agent
+                text: 'hello',
+                // The language used by the client (en-US)
+                languageCode: 'en-US',
+            },
+        },
+    };
+
+    // Send request and log result
+    const responses = await sessionClient.detectIntent(request);
+    console.log('Detected intent');
+    const result = responses[0].queryResult;
+    console.log(`  Query: ${result.queryText}`);
+    console.log(`  Response: ${result.fulfillmentText}`);
+    if (result.intent) {
+        console.log(`  Intent: ${result.intent.displayName}`);
+    } else {
+        console.log(`  No intent matched.`);
+    }
+}
+runSample('firstbot-d1b5b');
 
 async function postToDialogflow(value) {
-    var config = {
-        projectId: 'project-id',
-        keyFilename: '/routes/firstbot-d1b5b-e44bae98475c.json',
-    };
-    // Imports the Google Cloud client library.
-    //const storage = require('@google-cloud/storage')(config);
-
 
 
 
     // Instantiates a client. Explicitly use service account credentials by
     // specifying the private key file. All clients in google-cloud-node have this
     // helper, see https://github.com/GoogleCloudPlatform/google-cloud-node/blob/master/docs/authentication.md
-
     const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2beta1";
     const YOUR_PROJECT_ID = "firstbot-d1b5b";
     const SESSION_ID = "SomeOtherRandomThing";
@@ -51,7 +69,7 @@ async function postToDialogflow(value) {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             headers: {
-                "Authorization": "Bearer " + DIALOG_FLOW_TOKEN
+                "Authorization": "Bearer " + "AIzaSyA40DmYkUG4wlLlWishzJBhHb"
             },
             data: JSON.stringify({"queryInput": {"text": {"text": value, "languageCode": "en"}}}),
         });
