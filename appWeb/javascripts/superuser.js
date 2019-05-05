@@ -15,7 +15,8 @@ var keycode = $.ui.keyCode = {
     RIGHT: 39,
     SPACE: 32,
     TAB: 9,
-    UP: 38
+    UP: 38,
+    HISTORY: 16
 };
 
 $( function() {
@@ -29,6 +30,9 @@ $( function() {
     var sqlKeywords = ["SELECT", "FROM", "WHERE", "ORDER BY"];
     var modes = ["help", "tableQuery", "graphQuery", "searchDocs"];
     var filterTags = [">", "=", "<"];
+    var historyStack = [];
+    var numSavedCommands = 20;
+    var historyIndex = 0;
 
     function split( val ) {
         return val.split( / \s*/ );
@@ -210,12 +214,23 @@ $( function() {
 
             availableTags = updateTags(input.val());
 
+            // reset the history index if any button is pressed that is not the up-arrow
+            if (!(event.keyCode === $.ui.keyCode.HISTORY)) {
+                historyIndex = 0;
+            }
+
             // Handles whether enter selects suggestion or submits
             if (event.keyCode === $.ui.keyCode.ENTER &&
                 (!$('.ui-menu').is(':visible') || !$(this).autocomplete("instance").menu.active)
                 && input.val() !== "") {
 
                 const command = input.val();
+
+                // add new command to history stack. If buffer length is exceeded, remove oldest element
+                historyStack.push(command);
+                if (historyStack.length > numSavedCommands) {
+                    historyStack.shift();
+                }
 
                 output.append("\n" + command + ":");
 
@@ -230,6 +245,21 @@ $( function() {
                     });
                 input.val("");
             }
+
+            // trigger the history
+            if (event.keyCode === $.ui.keyCode.HISTORY) {
+                if (historyStack.length > 0) {
+                    if (historyIndex < historyStack.length) {
+                        input.val(historyStack[historyStack.length - 1 - historyIndex]);
+                        historyIndex++;
+                    } else {
+                        historyIndex = 0;
+                        input.val(historyStack[historyStack.length - 1 - historyIndex]);
+                        historyIndex++;
+                    }
+                }
+            }
+
 
             // Prevent tab default behaviour when focused on input field
             if ( event.keyCode === $.ui.keyCode.TAB) {
