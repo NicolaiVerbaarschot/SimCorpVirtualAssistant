@@ -1,3 +1,11 @@
+
+// Reveals our api
+$.getScript('javascripts/api.js', function() {
+});
+
+
+
+
 function setResponse(val) {
     const response = $("#response");
     response.text(response.text() + val + "\r\n");
@@ -23,7 +31,6 @@ function updateRec(text) {
 }
 
 const speechRecognition = new SpeechRecognition(updateRec, setInput);
-const queryManager = new QueryManager();
 
 $(document).ready(function() {
 
@@ -34,19 +41,25 @@ $(document).ready(function() {
         $.ajax({
             url: "http://localhost:8080/api/graph/"+query
         })
-            .done(function( data ) {
-                $("#graphContainer").html(data.toString());
-            });
+            .done(function( answer ) {
+                $("#graphContainer").html(answer.toString());
+
+            });//TODO switch case based (knowledge/newTable/newGraph)
     });
 
     $("#HButton").on("click", function () {
-        const query = $("#queryText").val();
+        let queryTextField = $("#queryText");
+        const query = queryTextField.val();//.toLowerCase();
         $.ajax({
             url: "http://localhost:8080/api/table/"+query
         })
             .done(function( data ) {
                 $("#databaseContainer").html(data.toString());
-            });
+            })
+            .fail(function(model,textStatus,errorThrown) {
+                alert("Query failed:\n"+model.responseJSON.error);
+                queryTextField.select();
+            })
     });
 
     $("#fuse").on("click", function () {
@@ -73,14 +86,18 @@ $(document).ready(function() {
         }
     });
 
+
     $("#input").keypress(function(event) {
         if (event.which === 13) {
             event.preventDefault();
             const text = $("#input").val();
             if (text === "") return;
-            queryManager.manageInput(text);
             setResponse("You: " + text);
-            //network.send(text);
+            api.submitBotQuery(text, queryObjectStack[queryObjectStack.length-1]).then((result) => {
+                console.log("client.js:90: ", result);
+                bot_DOM_QueryController.handleDialogflowResult(result);
+
+            });
         }
     });
 
@@ -89,15 +106,17 @@ $(document).ready(function() {
     });
 });
 
+
 function formatMultipleLineReply(response) {
     const responseLines = response.split('#linebreak');			// split response by keyword #linebreak
     let multiLineReply = "";									// create output variable
-    
+
     for (let i = 0; i < responseLines.length - 1; i++) {		// append all but the last line with \n
-    multiLineReply += responseLines[i] + "\n ";
+        multiLineReply += responseLines[i] + "\n ";
     }
-    
+
     multiLineReply += responseLines[responseLines.length - 1];	// append the last line
-    
+
     return multiLineReply;										// return the result
 }
+

@@ -9,12 +9,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^2.5.0",
     "chart.js": "^2.8.0",
+    "consolidate": "^0.15.1",
     "cors": "^2.8.5",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "fuse.js": "^3.4.4",
     "mysql": "^2.16.0",
+    "najax": "^1.0.4",
+    "util": "^0.11.1",
     "xterm": "^3.12.2"
   }
 }

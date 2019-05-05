@@ -211,6 +211,7 @@ $( function() {
 
             const input = $("#superuserInput");
             const output = $("#superuserResults");
+            const graphOutput = $("#superuserResultsFloat");
 
             availableTags = updateTags(input.val());
 
@@ -237,12 +238,26 @@ $( function() {
                 $.ajax({
                     url: "http://localhost:8080/api/superuser/"+command
                 })
-                    .done(function( data ) {
-                        output.append("\n");
-                        output.append(data.toString());
+                    .done(function(data) {
+                        const html = data[0];
+                        const isGraph = data[1];
+
+                        if (isGraph) {
+                            graphOutput.html(html);
+                            // graphOutput.append(html);
+                            output.append("\nThe graph is visible in the top right.")
+
+                        } else {
+
+                            output.append("\n" + html);
+                        }
                         const objDiv = document.getElementById("superuserResults");
                         objDiv.scrollTop = objDiv.scrollHeight;
-                    });
+                    })
+                    .fail(function(model,textStatus,errorThrown) {
+                    alert("Query failed:\n"+model.responseJSON.error);
+                    queryTextField.select();
+                });
                 input.val("");
             }
 

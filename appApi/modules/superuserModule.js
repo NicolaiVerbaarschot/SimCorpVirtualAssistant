@@ -1,6 +1,40 @@
+const ejsEngine = require('./renderEngineModule');
 const database = require('./databaseModule');
+const visualizationDataProcessor = require('./dataVisualisationModule');
 
-function handleSuperuserCommand(command, res) {
+
+
+function commandHelp() {
+    return "Here is a list of available commands:\n" +
+        "\t- help\n" +
+        "\t- queryTable\n" +
+        "\t- queryGraph\n" +
+        "\t- searchDocs";
+}
+
+async function queryDatabaseAndRenderResult(isGraphQuery, query) { //TODO: remove async
+    let data = await database.functions.getDBArrayFromQuery(query);
+    let result;
+    if (data.length > 0) {
+        if (isGraphQuery) {
+            data = visualizationDataProcessor.formatData(data);
+            result = ejsEngine.render('graphTemplate', data);
+        } else {
+            result = ejsEngine.render('tableTemplate', data);
+        }
+        return result;
+    } else {
+        return "<p> Your query did not yield any results. Please update your search and filter parameters.</p>";
+    }
+
+}
+
+function commandSearchDocs() {
+    return "Link to document search in appApi/modules/superuserModule.ejs";
+}
+
+
+async function handleSuperuserCommand(command, res) {
 
     // Splitting input into command and arguments
     const commandArgumentArray = command.split(/ (.*)/);
@@ -12,55 +46,18 @@ function handleSuperuserCommand(command, res) {
         commandCode = commandArgumentArray[0];
     }
 
-
-    var returnString;
-
-
-
-    function commandHelp() {
-        returnString = "Here is a list of available commands:\n" +
-            "\t- help\n" +
-            "\t- queryTable\n" +
-            "\t- queryGraph\n" +
-            "\t- searchDocs"
-    }
-
-    function commandHi() {
-        returnString = "Welcome!"
-    }
-
-    function commandTableQuery() {
-        database.functions.queryDBTable(res, commandArgument);
-    }
-
-    function commandGraphQuery() {
-        database.functions.queryDBGraph(res, commandArgument);
-    }
-
-    function commandSearchDocs() {
-        returnString = "Link to document search in appApi/modules/superuserModule.ejs"
-    }
-
     switch (commandCode) {
-        case "hi":
-            commandHi();
-            break;
         case "help":
-            commandHelp();
-            break;
+            return commandHelp();
         case "tableQuery":
-            commandTableQuery();
-            break;
+            return await queryDatabaseAndRenderResult(false, commandArgument);
         case "graphQuery":
-            commandGraphQuery();
-            break;
+            return await queryDatabaseAndRenderResult(true, commandArgument);
         case "searchDocs":
-            commandSearchDocs();
-            break;
+            return commandSearchDocs();
+        default:
+            return "Invalid Command"
     }
-
-
-    return returnString; // text to render
 }
 
 exports.handler = handleSuperuserCommand;
