@@ -157,7 +157,7 @@ function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, pa
             break;
         case "column_hide":
             let attri = parameters["columnName"];
-            var object = hideColumnsInTable(topQueryObject, attri)
+            var object = hideColumnsInTable(topQueryObject, attri);
             break;
         case "column_show_all":
             object = showAllColumnsInTable(topQueryObject);
