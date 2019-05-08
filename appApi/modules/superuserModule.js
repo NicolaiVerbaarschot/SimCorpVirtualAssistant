@@ -13,7 +13,7 @@ function commandHelp() {
 }
 
 async function queryDatabaseAndRenderResult(isGraphQuery, query) { //TODO: remove async
-    let data = await database.functions.getDBArrayFromQuery(query);
+    let data = await database.functions.requestQuery(query);
     let result;
     if (data.length > 0) {
         if (isGraphQuery) {

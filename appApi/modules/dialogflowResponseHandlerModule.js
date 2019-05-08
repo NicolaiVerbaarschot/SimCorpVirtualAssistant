@@ -2,6 +2,9 @@ const database = require('./databaseModule');
 const queryManager = require('./queryManagerModule');
 const ejsEngine = require('./renderEngineModule');
 
+const tableOperation = 'tableOP';
+const graphOperation = 'graphOP'
+
 const responseFieldMap = {
     textOP: '',
     tableOP: 'newTable',
@@ -35,7 +38,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
 
 
     // Render ejs templates according to action type
-    if (['tableOP'].includes(actionType)) {
+    if (actionType === tableOperation) {
         let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
         let query = resolvedQuery.query;
 
@@ -44,7 +47,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
 
         if (query) {
             try {
-                let data = await database.functions.getDBArrayFromQuery(query);
+                let data = await database.functions.requestQuery(query);
                 await ejsEngine.render('tableTemplate', data)
                     .then((html) => {
                         resolvedResponseData[responseFieldMap[actionType]] = html;
@@ -55,7 +58,12 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
 
         }
 
-    } else if (['graphOP'].includes(actionType)) {
+    } else if (actionType === graphOperation) {
+        let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters)
+        let query = resolvedQuery.query;
+
+
+
         await ejsEngine.render(templateMap[actionType],parameters ).then((html) => {
             resolvedResponseData[responseFieldMap[actionType]] = html;
         });

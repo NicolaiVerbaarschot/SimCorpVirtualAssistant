@@ -140,8 +140,6 @@ function  queryParser(queryObject) {
     return query;
 }
 
-
-
 // Returns the query as object and as string wrapped in object.
 function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, parameters) { //
     //handle edge case where filter is not defined because express is shit\
