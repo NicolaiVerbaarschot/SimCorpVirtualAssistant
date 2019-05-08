@@ -74,6 +74,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
             })
     }
 
+
     // Define remaining properties
     resolvedResponseData.actionType = actionType;
     resolvedResponseData.parameters = response.parameters;
