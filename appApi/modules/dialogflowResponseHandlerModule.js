@@ -72,6 +72,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
             await ejsEngine.render(templateMap[actionType],parameters).then((html) => {
                 resolvedResponseData[responseFieldMap[actionType]] = html;
             })
+            break;
     }
 
 
