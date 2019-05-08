@@ -45,7 +45,6 @@ async function postToDialogflow(query) {
     const queryResult = responses[0].queryResult;
     console.log(`  Query: ${queryResult.queryText}`);
     console.log(`  Response: ${queryResult.fulfillmentText}`);
-    let isKnowledgeAnswer = queryResult.action==="";
     let allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
 
     if (queryResult.intent) {
@@ -56,8 +55,9 @@ async function postToDialogflow(query) {
     }
     return {
         success: true,
+        query: query,
         answer: queryResult.fulfillmentText,
-        action: isKnowledgeAnswer ? "Knowledge" : queryResult.action,
+        action: queryResult.action,
         allRequiredParamsPresent : allRequiredParamsPresent,
         parameters: queryResult.allRequiredParamsPresent ? queryResult.parameters : undefined,
         intentName: queryResult.intent.displayName

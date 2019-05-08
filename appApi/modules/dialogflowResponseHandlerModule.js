@@ -68,7 +68,8 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
             break;
 
         case 'Knowledge':
-            await ejsEngine.render(templateMap[actionType],response.answer).then((html) => {
+            let parameters = [response.query,response.answer];
+            await ejsEngine.render(templateMap[actionType],parameters).then((html) => {
                 resolvedResponseData[responseFieldMap[actionType]] = html;
             })
     }
