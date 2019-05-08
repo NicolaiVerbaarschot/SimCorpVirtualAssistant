@@ -15,8 +15,8 @@ var keycode = $.ui.keyCode = {
     RIGHT: 39,
     SPACE: 32,
     TAB: 9,
-    UP: 38,
-    HISTORY: 16
+    UP: -1,
+    HISTORY: 38
 };
 
 $( function() {
