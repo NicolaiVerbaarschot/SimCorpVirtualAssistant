@@ -6,19 +6,6 @@ const visualisationModule = require("./dataVisualisationModule");
 const tableOperation = 'tableOP';
 const graphOperation = 'graphOP';
 
-const responseFieldMap = {
-    textOP: '',
-    tableOP: 'newTable',
-    graphOP: 'newGraph'
-};
-
-const templateMap = {
-    textOP: 'testejs',
-    tableOP: 'testejs',
-    graphOP: 'graphTemplate'
-};
-
-
 async function handleDialogflowResponse(response, topQueryObject, secondTopMostQueryObject) {
 
     // Declare return object defaults
@@ -45,13 +32,8 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         resolvedResponseData.newQueryObject = data.newQueryObject;
 
     } else if (actionType === graphOperation) {
-        let query = queryManager.resolveGraphFromAction(topQueryObject, parameters);
-        let data = await database.requestQuery(query);
-        let modifiedData = visualisationModule.formatData(data);
-
-        let html = await ejsEngine.render(templateMap[actionType], modifiedData);
-        resolvedResponseData[responseFieldMap[actionType]] = html;
-
+        let html = await handleGraphOperation(topQueryObject, parameters);
+        resolvedResponseData.newGraph = html;
     }
 
     // Define remaining properties
@@ -59,6 +41,15 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     resolvedResponseData.parameters = response.parameters;
     resolvedResponseData.answer = response.answer;
     return resolvedResponseData;
+}
+
+async function handleGraphOperation(topQueryObject, parameters) {
+    let query = queryManager.resolveGraphFromAction(topQueryObject, parameters);
+    let data = await database.requestQuery(query);
+    let modifiedData = visualisationModule.formatData(data);
+
+    let html = await ejsEngine.render('graphTemplate', modifiedData);
+    return html;
 }
 
 async function handleTableOperation(intentName, topQueryObject, secondTopMostQueryObject, parameters) {
