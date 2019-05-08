@@ -159,7 +159,6 @@ function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject
     //handle edge case where filter is not defined because express is shit\
     if (!topQueryObject.filter) topQueryObject.filter = [];
     if (secondTopMostQueryObject && !secondTopMostQueryObject.filter) secondTopMostQueryObject.filter = [];
-    console.log("intent: " + intent)
     var tableOperationType = "normal";
     var object = undefined;
 
@@ -168,22 +167,30 @@ function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject
             object = baseQueryObject;
             break;
         case "column_hide":
-            let attri = parameters.columnName;
-            object = hideColumnsInTable(topQueryObject, attri)
+            //TODO: Change so that hideColumns are hiding an array of columns
+            let columnNames = [];
+
+            let something = parameters.columnName.listValue.values;
+
+            something.forEach(function (value) {
+                columnNames.push(value.stringValue);
+            });
+
+            object = hideColumnsInTable(topQueryObject, columnNames)
             break;
         case "column_show_all":
             object = showAllColumnsInTable(topQueryObject);
             break;
         case "filter":
-            let higherLower = parameters.higherLower;
-            let attribute = parameters.numAttribute;
-            let value = parameters.value;
+            let higherLower = parameters.higherLower.stringValue;
+            let attribute = parameters.numAttribute.stringValue;
+            let value = parameters.value.numberValue;
             //TODO: Add error handling if attribute is empty, i.e. trying to filter by unknown attribute
 
             object = filterTable(topQueryObject, attribute, value, higherLower);
             break;
         case "group":
-            let columnName = parameters.stringAttribute;
+            let columnName = parameters.stringAttribute.stringValue;
             //TODO: Add error handling if column name is empty, i.e. trying to group by unknown attribute
 
             object = groupTable(topQueryObject, columnName);
@@ -193,7 +200,7 @@ function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject
             break;
         case "search":
             //TODO: Add error handling if 'searchString' is empty, i.e. trying to search by unknown attribute
-            let searchString = parameters.searchString;
+            let searchString = parameters.searchString.stringValue;
             object = searchTable(topQueryObject, searchString);
 
             break;
@@ -201,7 +208,7 @@ function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject
             object = clearSearch(topQueryObject);
             break;
         case "sort":
-            let sortAtrribute = parameters.columnName;
+            let sortAtrribute = parameters.sortAttribute.stringValue;
             //TODO: Add error handling if 'sortAtrribute' is empty, i.e. trying to sort by unknown attribute
             object = sortTable(topQueryObject, sortAtrribute);
             break;

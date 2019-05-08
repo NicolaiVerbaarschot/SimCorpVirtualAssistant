@@ -25,7 +25,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     const parameters = response.parameters;
 
     // Render ejs templates according to action type
-    if (actionType === tableOperation) {
+    if (actionType === tableOperation && parameters) {
         let data = await handleTableOperation(intentName, topQueryObject, secondTopMostQueryObject, parameters);
         resolvedResponseData.tableOperationType = data.tableOperationType;
         resolvedResponseData.newTable = data.newTable;
