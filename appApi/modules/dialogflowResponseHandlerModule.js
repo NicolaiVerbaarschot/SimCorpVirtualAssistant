@@ -5,13 +5,15 @@ const ejsEngine = require('./renderEngineModule');
 const responseFieldMap = {
     textOP: '',
     tableOP: 'newTable',
-    graphOP: 'newGraph'
+    graphOP: 'newGraph',
+    Knowledge: 'knowledgeAnswer'
 };
 
 const templateMap = {
     textOP: 'testejs',
     tableOP: 'testejs',
-    graphOP: 'graphTemplate'
+    graphOP: 'graphTemplate',
+    Knowledge: 'KnowledgeTemplate'
 };
 
 
@@ -23,6 +25,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         parameters: undefined,
         answer: undefined,
         newTable: undefined, //html
+        knowledgeAnswer: undefined,
         newVisualisation: undefined,
         newQueryObject: undefined,
         tableOperationType: undefined // Can be 'normal', 'undo'.
@@ -65,11 +68,9 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
             break;
 
         case 'Knowledge':
-
-
-
-
-
+            await ejsEngine.render(templateMap[actionType],response.answer).then((html) => {
+                resolvedResponseData[responseFieldMap[actionType]] = html;
+            })
     }
 
     // Define remaining properties

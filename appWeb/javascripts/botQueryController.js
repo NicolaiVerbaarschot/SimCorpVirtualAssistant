@@ -9,8 +9,13 @@ const bot_DOM_QueryController = {
         switch (data.actionType) {
             case 'tableOP':
                 $("#databaseContainer").html(data.newTable.toString());
+                break;
+            case 'Knowledge':
+                $("#fuseContainer").html(data.knowledgeAnswer.toString());
+                break;
 
         }
+
         // // copy the query into the query field
         // $("#queryText").val(queryParser(queryObjectStack[queryObjectStack.length - 1]));
         //
