@@ -67,45 +67,5 @@ async function postToDialogflow(query) {
 
 }
 
-async function postToDialogflowOld(value) {
-
-
-
-    // Instantiates a client. Explicitly use service account credentials by
-    // specifying the private key file. All clients in google-cloud-node have this
-    // helper, see https://github.com/GoogleCloudPlatform/google-cloud-node/blob/master/docs/authentication.md
-    const DIALOG_FLOW_API_ROOT_URL = "https://dialogflow.googleapis.com/v2beta1";
-    const YOUR_PROJECT_ID = "firstbot-d1b5b";
-    const SESSION_ID = "SomeOtherRandomThing";
-    const URL = `${DIALOG_FLOW_API_ROOT_URL}/projects/${YOUR_PROJECT_ID}/agent/sessions/${SESSION_ID}:detectIntent`;
-
-    try {
-        let data = await najax({
-            type: "POST",
-            url: URL,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-                "Authorization": "Bearer " + "AIzaSyA40DmYkUG4wlLlWishzJBhHb"
-            },
-            data: JSON.stringify({"queryInput": {"text": {"text": value, "languageCode": "en"}}}),
-        });
-        let isKnowledgeAnswer = !data.alternativeQueryResults;
-        let allRequiredParamsPresent = data.queryResult.allRequiredParamsPresent;
-
-        return {
-            answer: data.queryResult.fulfillmentText,
-            action: isKnowledgeAnswer ? "Knowledge" : data.queryResult.action,
-            allRequiredParamsPresent : allRequiredParamsPresent,
-            parameters: allRequiredParamsPresent ? data.queryResult.parameters : undefined,
-            intentName: data.queryResult.intent.displayName
-        };
-
-    } catch (error) {
-        console.log(error)
-    }
-
-}
-
 module.exports.send = postToDialogflow;
 
