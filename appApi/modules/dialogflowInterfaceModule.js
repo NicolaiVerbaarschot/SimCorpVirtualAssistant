@@ -32,7 +32,6 @@ async function postToDialogflow(query) {
             text: {
                 // The query to send to the dialogflow agent
                 text: query,
-                // The language used by the client (en-US)
                 languageCode: languageCode,
             },
         },
@@ -51,7 +50,6 @@ async function postToDialogflow(query) {
 
     if (queryResult.intent) {
         console.log(`  Intent: ${queryResult.intent.displayName}`);
-
     } else {
         console.log(`  No intent matched.`);
         return {success: false}

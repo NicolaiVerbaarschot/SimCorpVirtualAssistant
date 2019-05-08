@@ -29,36 +29,47 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     };
 
     // Action type is resolved from intent name by splitting on underscore character
-    const actionType = response.intentName.substring(0, response.intentName.indexOf('_'));
-    const intentName = response.intentName.substring(response.intentName.indexOf('_') + 1);
+    const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
+    const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
     const parameters = response.parameters;
 
 
     // Render ejs templates according to action type
-    if (['tableOP'].includes(actionType)) {
-        let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
-        let query = resolvedQuery.query;
+    switch (actionType) {
+        case 'tableOP':
+            let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
+            let query = resolvedQuery.query;
 
-        resolvedResponseData.newQueryObject = resolvedQuery.newTopQueryObject;
-        resolvedResponseData.tableOperationType = resolvedQuery.tableOperationType;
+            resolvedResponseData.newQueryObject = resolvedQuery.newTopQueryObject;
+            resolvedResponseData.tableOperationType = resolvedQuery.tableOperationType;
 
-        if (query) {
-            try {
-                let data = await database.functions.getDBArrayFromQuery(query);
-                await ejsEngine.render('tableTemplate', data)
-                    .then((html) => {
-                        resolvedResponseData[responseFieldMap[actionType]] = html;
-                    });
-            } catch (e) {
-                console.log("\nERROR:\n",e);
+            if (query) {
+                try {
+                    let data = await database.functions.getDBArrayFromQuery(query);
+                    await ejsEngine.render('tableTemplate', data)
+                        .then((html) => {
+                            resolvedResponseData[responseFieldMap[actionType]] = html;
+                        });
+                } catch (e) {
+                    console.log("\nERROR:\n",e);
+                }
+
             }
+            break;
 
-        }
 
-    } else if (['graphOP'].includes(actionType)) {
-        await ejsEngine.render(templateMap[actionType],parameters ).then((html) => {
-            resolvedResponseData[responseFieldMap[actionType]] = html;
-        });
+        case 'graphOP':
+            await ejsEngine.render(templateMap[actionType],parameters ).then((html) => {
+                resolvedResponseData[responseFieldMap[actionType]] = html;
+            });
+            break;
+
+        case 'Knowledge':
+
+
+
+
+
     }
 
     // Define remaining properties
