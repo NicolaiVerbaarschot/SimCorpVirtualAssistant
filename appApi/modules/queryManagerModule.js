@@ -145,11 +145,14 @@ function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, pa
     //handle edge case where filter is not defined because express is shit\
     if (!topQueryObject.filter) topQueryObject.filter = [];
     if (secondTopMostQueryObject && !secondTopMostQueryObject.filter) secondTopMostQueryObject.filter = [];
-
+    console.log("intent: " + intent)
     var tableOperationType = "normal";
     var object = undefined;
 
     switch (intent) {
+        case "visualize":
+            object = topQueryObject;
+            break;
         case "reset":
             object = baseQueryObject;
             break;

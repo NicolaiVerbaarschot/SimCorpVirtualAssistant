@@ -1,9 +1,10 @@
 const database = require('./databaseModule');
 const queryManager = require('./queryManagerModule');
 const ejsEngine = require('./renderEngineModule');
+const visualisationModule = require("./dataVisualisationModule");
 
 const tableOperation = 'tableOP';
-const graphOperation = 'graphOP'
+const graphOperation = 'graphOP';
 
 const responseFieldMap = {
     textOP: '',
@@ -47,26 +48,23 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
 
         if (query) {
             try {
-                let data = await database.functions.requestQuery(query);
-                await ejsEngine.render('tableTemplate', data)
-                    .then((html) => {
-                        resolvedResponseData[responseFieldMap[actionType]] = html;
-                    });
+                let data = await database.requestQuery(query);
+                let html = await ejsEngine.render('tableTemplate', data);
+                resolvedResponseData[responseFieldMap[actionType]] = html;
             } catch (e) {
                 console.log("\nERROR:\n",e);
             }
-
         }
 
     } else if (actionType === graphOperation) {
-        let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters)
+        let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
         let query = resolvedQuery.query;
+        let data = await database.requestQuery(query);
+        let modifiedData = visualisationModule.formatData(data);
 
+        let html = await ejsEngine.render(templateMap[actionType], modifiedData);
+        resolvedResponseData[responseFieldMap[actionType]] = html;
 
-
-        await ejsEngine.render(templateMap[actionType],parameters ).then((html) => {
-            resolvedResponseData[responseFieldMap[actionType]] = html;
-        });
     }
 
     // Define remaining properties
