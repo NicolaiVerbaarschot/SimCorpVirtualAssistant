@@ -100,7 +100,7 @@ $(document).ready(function() {
                 //TODO: Refactor into bot_DOM_QueryController
                 if (result.tableOperationType === 'undo') {
                     undo();
-                } else {
+                } else if (result.newQueryObject) {
                     queryObjectStack.push(result.newQueryObject);
                 }
                 bot_DOM_QueryController.handleDialogflowResult(result);
