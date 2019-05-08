@@ -85,6 +85,11 @@ function reverseTable(queryObject) {
     }
     return queryObject;
 }
+
+function barDiagramQuery(queryObject, param) {
+    queryObject.columns = "Symbol, " + param;
+    return queryObject;
+}
 // ----------------------------------
 
 function  queryParser(queryObject) {
@@ -140,14 +145,20 @@ function  queryParser(queryObject) {
     return query;
 }
 
+function resolveGraphFromAction(queryObject, params) {
+    if (!queryObject.filter) queryObject.filter = [];
 
+    let secondAttribute = params.numAttribute;
+    let object = barDiagramQuery(queryObject, secondAttribute);
+    let query = queryParser(object);
+    return query;
+}
 
 // Returns the query as object and as string wrapped in object.
-function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, parameters) { //
+function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, parameters) { //
     //handle edge case where filter is not defined because express is shit\
     if (!topQueryObject.filter) topQueryObject.filter = [];
     if (secondTopMostQueryObject && !secondTopMostQueryObject.filter) secondTopMostQueryObject.filter = [];
-
     var tableOperationType = "normal";
     var object = undefined;
 
@@ -156,22 +167,30 @@ function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, pa
             object = baseQueryObject;
             break;
         case "column_hide":
-            let attri = parameters["columnName"];
-            var object = hideColumnsInTable(topQueryObject, attri);
+            //TODO: Change so that hideColumns are hiding an array of columns
+            let columnNames = [];
+
+            let something = parameters.columnName.listValue.values;
+
+            something.forEach(function (value) {
+                columnNames.push(value.stringValue);
+            });
+
+            object = hideColumnsInTable(topQueryObject, columnNames)
             break;
         case "column_show_all":
             object = showAllColumnsInTable(topQueryObject);
             break;
         case "filter":
-            let higherLower = parameters.higherLower;
-            let attribute = parameters.numAttribute;
-            let value = parameters.value;
+            let higherLower = parameters.higherLower.stringValue;
+            let attribute = parameters.numAttribute.stringValue;
+            let value = parameters.value.numberValue;
             //TODO: Add error handling if attribute is empty, i.e. trying to filter by unknown attribute
 
             object = filterTable(topQueryObject, attribute, value, higherLower);
             break;
         case "group":
-            let columnName = parameters.stringAttribute;
+            let columnName = parameters.stringAttribute.stringValue;
             //TODO: Add error handling if column name is empty, i.e. trying to group by unknown attribute
 
             object = groupTable(topQueryObject, columnName);
@@ -181,7 +200,7 @@ function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, pa
             break;
         case "search":
             //TODO: Add error handling if 'searchString' is empty, i.e. trying to search by unknown attribute
-            let searchString = parameters.searchString;
+            let searchString = parameters.searchString.stringValue;
             object = searchTable(topQueryObject, searchString);
 
             break;
@@ -189,7 +208,7 @@ function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, pa
             object = clearSearch(topQueryObject);
             break;
         case "sort":
-            let sortAtrribute = parameters.columnName;
+            let sortAtrribute = parameters.sortAttribute.stringValue;
             //TODO: Add error handling if 'sortAtrribute' is empty, i.e. trying to sort by unknown attribute
             object = sortTable(topQueryObject, sortAtrribute);
             break;
@@ -208,4 +227,7 @@ function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, pa
     }
 }
 
-module.exports.getQueryFromAction = getQueryFromAction;
+module.exports = {
+    resolveQueryFromAction,
+    resolveGraphFromAction
+}

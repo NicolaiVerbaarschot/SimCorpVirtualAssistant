@@ -5,7 +5,7 @@ const database = require(path.resolve(__dirname, "./modules/databaseModule"));
 const documentSearch = require(path.resolve(__dirname, "./modules/documentSearch"));
 const superuserCommandHandler = require(path.resolve(__dirname, "./modules/superuserModule"));
 const dialogflowResponseHandler = require(path.resolve(__dirname, "./modules/dialogflowResponseHandlerModule"));
-
+const visualisationModule = require(path.resolve(__dirname, "./modules/dataVisualisationModule"));
 const router = express.Router();
 
 
@@ -38,14 +38,16 @@ router.get('/api/search/:query', function(req, res) {
 });
 
 router.get('/api/graph/:query', function(req, res) {
-    database.functions.queryDBGraph(req.params.query).then((data) => {
-        console.log('index.js:\n ', data);
-        res.render('graphTemplate.ejs', {results: data});
-    });
+    database.requestQuery(req.params.query).then( (data) => {
+        let modifiedData = visualisationModule.formatData(data);
+        res.render('graphTemplate.ejs', {results: modifiedData});
+    })
 });
 
 router.get('/api/table/:query', function(req, res) {
-    database.functions.queryDBTable(res,req.params.query);
+    database.requestQuery(req.params.query).then( (data) => {
+        res.render('tableTemplate.ejs', {results: data});
+    })
 });
 
 router.get('/', function(req, res) {

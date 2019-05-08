@@ -1,7 +1,6 @@
 const render = require('consolidate');
 const path = require('path');
 
-//TODO remove async?
 async function renderEjs(templateName, parameters) {
 
     let htmlOuter;
