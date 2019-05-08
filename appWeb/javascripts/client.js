@@ -1,36 +1,8 @@
-
 // Reveals our api
-$.getScript('javascripts/api.js', function() {
-});
+$.getScript('javascripts/api.js', function() {});
 
+const speechRecognition = new SpeechRecognition(updateRec, sendInput);
 
-
-
-function setResponse(val) {
-    const response = $("#response");
-    response.text(response.text() + val + "\r\n");
-    response.scrollTop(response[0].scrollHeight);
-}
-
-const successHandler = function(data) {
-    const reply = formatMultipleLineReply(data.result.fulfillment.speech); // Allow multi line responses
-    setResponse("Bot: " + reply);
-    action(data);
-};
-
-const errorHandler = function() {
-    setResponse("Internal Server Error");
-};
-
-function setInput(text) {
-    $("#input").val(text);
-}
-
-function updateRec(text) {
-    $("#rec").html(text);
-}
-
-const speechRecognition = new SpeechRecognition(updateRec, setInput);
 
 $(document).ready(function() {
 
@@ -71,8 +43,7 @@ $(document).ready(function() {
                 $("#fuseContainer").html(data.toString());
             });
     });
-
-    // TODO: Prevent crash from incorrectly formed query upon enter key submission
+//TODO: Refactor into bot_DOM_QueryController
     $("#queryText").keypress(function (e) {
         if (e.which === 13) {
             $("#HButton").click();
@@ -84,47 +55,50 @@ $(document).ready(function() {
             $("#VisualizeButton").click();
             return false;
         }
+
+
     });
-
-
     $("#input").keypress(function(event) {
         if (event.which === 13) {
             event.preventDefault();
             const text = $("#input").val();
             if (text === "") return;
-            setResponse("You: " + text);
             $("#input").val("");
-            let topQuery = queryObjectStack[queryObjectStack.length-1];
-            let secondTopMostQuery = queryObjectStack.length-2 >= 0 ? queryObjectStack[queryObjectStack.length-2] : undefined;
-            api.submitBotQuery(text, topQuery, secondTopMostQuery).then((result) => {
-
-                //TODO: Refactor into bot_DOM_QueryController
-                if (result.tableOperationType === 'undo') {
-                    undo();
-                } else if (result.newQueryObject) {
-                    queryObjectStack.push(result.newQueryObject);
-                }
-                bot_DOM_QueryController.handleDialogflowResult(result);
-            });
+            compileAndSendBotQueryThenHandleResult(text);
         }
-    });
 
+    });
     $("#rec").click(function() {
         speechRecognition.switch();
     });
 });
 
+function compileAndSendBotQueryThenHandleResult(text) {
+    setResponse("You: " + text);
+    let topQuery = queryObjectStack[queryObjectStack.length-1];
+    let secondTopMostQuery = queryObjectStack.length-2 >= 0 ? queryObjectStack[queryObjectStack.length-2] : undefined;
+    api.submitBotQuery(text, topQuery, secondTopMostQuery).then((result) => {
+        if (result.tableOperationType === 'undo') {
+            undo();
+        } else if (result.newQueryObject) {
+            queryObjectStack.push(result.newQueryObject);
+        }
+        bot_DOM_QueryController.handleDialogflowResult(result);
+    });
 
-function formatMultipleLineReply(response) {
-    const responseLines = response.split('#linebreak');			// split response by keyword #linebreak
-    let multiLineReply = "";									// create output variable
+}
 
-    for (let i = 0; i < responseLines.length - 1; i++) {		// append all but the last line with \n
-        multiLineReply += responseLines[i] + "\n ";
-    }
+function sendInput(text) {
+    compileAndSendBotQueryThenHandleResult(text);
+}
 
-    multiLineReply += responseLines[responseLines.length - 1];	// append the last line
+function setResponse(val) {
+    const response = $("#response");
+    response.text(response.text() + val + "\r\n");
+    response.scrollTop(response[0].scrollHeight);
+}
 
-    return multiLineReply;										// return the result
+function updateRec(text) {
+    $("#rec").html(text);
 }
 
