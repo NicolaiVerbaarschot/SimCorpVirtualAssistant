@@ -40,7 +40,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
 
     // Render ejs templates according to action type
     if (actionType === tableOperation) {
-        let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
+        let resolvedQuery = queryManager.resolveQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
         let query = resolvedQuery.query;
 
         resolvedResponseData.newQueryObject = resolvedQuery.newTopQueryObject;
@@ -57,8 +57,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         }
 
     } else if (actionType === graphOperation) {
-        let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
-        let query = resolvedQuery.query;
+        let query = queryManager.resolveGraphFromAction(topQueryObject, parameters);
         let data = await database.requestQuery(query);
         let modifiedData = visualisationModule.formatData(data);
 

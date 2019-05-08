@@ -85,6 +85,11 @@ function reverseTable(queryObject) {
     }
     return queryObject;
 }
+
+function barDiagramQuery(queryObject, param) {
+    queryObject.columns = "Symbol, " + param;
+    return queryObject;
+}
 // ----------------------------------
 
 function  queryParser(queryObject) {
@@ -140,8 +145,17 @@ function  queryParser(queryObject) {
     return query;
 }
 
+function resolveGraphFromAction(queryObject, params) {
+    if (!queryObject.filter) queryObject.filter = [];
+
+    let secondAttribute = params.numAttribute;
+    let object = barDiagramQuery(queryObject, secondAttribute);
+    let query = queryParser(object);
+    return query;
+}
+
 // Returns the query as object and as string wrapped in object.
-function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, parameters) { //
+function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, parameters) { //
     //handle edge case where filter is not defined because express is shit\
     if (!topQueryObject.filter) topQueryObject.filter = [];
     if (secondTopMostQueryObject && !secondTopMostQueryObject.filter) secondTopMostQueryObject.filter = [];
@@ -150,15 +164,12 @@ function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, pa
     var object = undefined;
 
     switch (intent) {
-        case "visualize":
-            object = topQueryObject;
-            break;
         case "reset":
             object = baseQueryObject;
             break;
         case "column_hide":
-            let attri = parameters["columnName"];
-            var object = hideColumnsInTable(topQueryObject, attri)
+            let attri = parameters.columnName;
+            object = hideColumnsInTable(topQueryObject, attri)
             break;
         case "column_show_all":
             object = showAllColumnsInTable(topQueryObject);
@@ -209,4 +220,7 @@ function getQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, pa
     }
 }
 
-module.exports.getQueryFromAction = getQueryFromAction;
+module.exports = {
+    resolveQueryFromAction,
+    resolveGraphFromAction
+}
