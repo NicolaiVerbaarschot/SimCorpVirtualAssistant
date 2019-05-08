@@ -33,28 +33,16 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     };
 
     // Action type is resolved from intent name by splitting on underscore character
-    const actionType = response.intentName.substring(0, response.intentName.indexOf('_'));
-    const intentName = response.intentName.substring(response.intentName.indexOf('_') + 1);
+    const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
+    const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
     const parameters = response.parameters;
-
 
     // Render ejs templates according to action type
     if (actionType === tableOperation) {
-        let resolvedQuery = queryManager.resolveQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
-        let query = resolvedQuery.query;
-
-        resolvedResponseData.newQueryObject = resolvedQuery.newTopQueryObject;
-        resolvedResponseData.tableOperationType = resolvedQuery.tableOperationType;
-
-        if (query) {
-            try {
-                let data = await database.requestQuery(query);
-                let html = await ejsEngine.render('tableTemplate', data);
-                resolvedResponseData[responseFieldMap[actionType]] = html;
-            } catch (e) {
-                console.log("\nERROR:\n",e);
-            }
-        }
+        let data = await handleTableOperation(intentName, topQueryObject, secondTopMostQueryObject, parameters);
+        resolvedResponseData.tableOperationType = data.tableOperationType;
+        resolvedResponseData.newTable = data.newTable;
+        resolvedResponseData.newQueryObject = data.newQueryObject;
 
     } else if (actionType === graphOperation) {
         let query = queryManager.resolveGraphFromAction(topQueryObject, parameters);
@@ -71,6 +59,32 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     resolvedResponseData.parameters = response.parameters;
     resolvedResponseData.answer = response.answer;
     return resolvedResponseData;
+}
+
+async function handleTableOperation(intentName, topQueryObject, secondTopMostQueryObject, parameters) {
+
+    let objectToReturn = {
+        newQueryObject: undefined,
+        tableOperationType: undefined,
+        newTable: undefined
+    }
+
+    let resolvedQuery = queryManager.resolveQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
+    let query = resolvedQuery.query;
+
+    objectToReturn.newQueryObject = resolvedQuery.newTopQueryObject;
+    objectToReturn.tableOperationType = resolvedQuery.tableOperationType;
+
+    if (query) {
+        try {
+            let data = await database.requestQuery(query);
+            let html = await ejsEngine.render('tableTemplate', data);
+            objectToReturn.newTable = html;
+        } catch (e) {
+            console.log("\nERROR:\n",e);
+        }
+    }
+    return objectToReturn;
 }
 
 
