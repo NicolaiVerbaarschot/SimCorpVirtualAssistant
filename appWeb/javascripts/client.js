@@ -93,6 +93,7 @@ $(document).ready(function() {
             const text = $("#input").val();
             if (text === "") return;
             setResponse("You: " + text);
+            $("#input").val("");
             let topQuery = queryObjectStack[queryObjectStack.length-1];
             let secondTopMostQuery = queryObjectStack.length-2 >= 0 ? queryObjectStack[queryObjectStack.length-2] : undefined;
             api.submitBotQuery(text, topQuery, secondTopMostQuery).then((result) => {
