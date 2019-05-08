@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "npx codeceptjs run --steps",
+    "startAndTest": "node app.js | npx codeceptjs run --steps"
   },
   "author": "",
   "license": "ISC",
