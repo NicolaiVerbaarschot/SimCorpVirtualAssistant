@@ -54,8 +54,10 @@ async function postToDialogflow(query) {
 
     } else {
         console.log(`  No intent matched.`);
+        return {success: false}
     }
     return {
+        success: true,
         answer: queryResult.fulfillmentText,
         action: isKnowledgeAnswer ? "Knowledge" : queryResult.action,
         allRequiredParamsPresent : allRequiredParamsPresent,
