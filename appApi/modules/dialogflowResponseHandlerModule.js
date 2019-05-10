@@ -3,8 +3,22 @@ const queryManager = require('./queryManagerModule');
 const ejsEngine = require('./renderEngineModule');
 const visualisationModule = require("./dataVisualisationModule");
 
+const responseFieldMap = {
+    textOP: '',
+    tableOP: 'newTable',
+    graphOP: 'newGraph',
+    Knowledge: 'knowledgeAnswer'
+};
 const tableOperation = 'tableOP';
 const graphOperation = 'graphOP';
+
+const templateMap = {
+    textOP: 'testejs',
+    tableOP: 'testejs',
+    graphOP: 'graphTemplate',
+    Knowledge: 'KnowledgeTemplate'
+};
+
 
 async function handleDialogflowResponse(response, topQueryObject, secondTopMostQueryObject) {
 
@@ -14,6 +28,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         parameters: undefined,
         answer: undefined,
         newTable: undefined, //html
+        knowledgeAnswer: undefined,
         newVisualisation: undefined,
         newQueryObject: undefined,
         tableOperationType: undefined // Can be 'normal', 'undo'.
@@ -25,16 +40,42 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     const parameters = response.parameters;
 
     // Render ejs templates according to action type
-    if (actionType === tableOperation && parameters) {
-        let data = await handleTableOperation(intentName, topQueryObject, secondTopMostQueryObject, parameters);
-        resolvedResponseData.tableOperationType = data.tableOperationType;
-        resolvedResponseData.newTable = data.newTable;
-        resolvedResponseData.newQueryObject = data.newQueryObject;
+    switch (actionType) {
+        case 'tableOP':
+            let resolvedQuery = queryManager.getQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
+            let query = resolvedQuery.query;
 
-    } else if (actionType === graphOperation) {
-        let html = await handleGraphOperation(topQueryObject, parameters);
-        resolvedResponseData.newGraph = html;
+            resolvedResponseData.newQueryObject = resolvedQuery.newTopQueryObject;
+            resolvedResponseData.tableOperationType = resolvedQuery.tableOperationType;
+
+            if (query) {
+                try {
+                    let data = await database.functions.getDBArrayFromQuery(query);
+                    await ejsEngine.render('tableTemplate', data)
+                        .then((html) => {
+                            resolvedResponseData[responseFieldMap[actionType]] = html;
+                        });
+                } catch (e) {
+                    console.log("\nERROR:\n",e);
+                }
+
+            }
+            break;
+
+
+        case 'graphOP':
+            await ejsEngine.render(templateMap[actionType],parameters ).then((html) => {
+                resolvedResponseData[responseFieldMap[actionType]] = html;
+            });
+            break;
+
+        case 'Knowledge':
+            let parameters = [response.query,response.answer];
+            await ejsEngine.render(templateMap[actionType],parameters).then((html) => {
+                resolvedResponseData[responseFieldMap[actionType]] = html;
+            })
     }
+
 
     // Define remaining properties
     resolvedResponseData.actionType = actionType;
