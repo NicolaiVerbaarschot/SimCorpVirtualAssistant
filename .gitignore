@@ -170,4 +170,8 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 
+
+#CodeceptJS Simon 10. May 2019
+tests/output
+
 # End of https://www.gitignore.io/api/node,webstorm
