@@ -220,6 +220,22 @@ $( function() {
                 historyIndex = 0;
             }
 
+            // trigger the history
+            if (event.keyCode === $.ui.keyCode.HISTORY) {
+                if (historyStack.length > 0) {
+                    if (historyIndex < historyStack.length) {
+                        input.val(historyStack[historyStack.length - 1 - historyIndex]);
+                        historyIndex++;
+                    } else {
+                        historyIndex = 0;
+                        input.val(historyStack[historyStack.length - 1 - historyIndex]);
+                        historyIndex++;
+                    }
+                }
+
+                availableTags = updateTags(input.val());
+            }
+
             // Handles whether enter selects suggestion or submits
             if (event.keyCode === $.ui.keyCode.ENTER &&
                 (!$('.ui-menu').is(':visible') || !$(this).autocomplete("instance").menu.active)
@@ -261,20 +277,6 @@ $( function() {
                 input.val("");
             }
 
-            // trigger the history
-            if (event.keyCode === $.ui.keyCode.HISTORY) {
-                if (historyStack.length > 0) {
-                    if (historyIndex < historyStack.length) {
-                        input.val(historyStack[historyStack.length - 1 - historyIndex]);
-                        historyIndex++;
-                    } else {
-                        historyIndex = 0;
-                        input.val(historyStack[historyStack.length - 1 - historyIndex]);
-                        historyIndex++;
-                    }
-                }
-            }
-
 
             // Prevent tab default behaviour when focused on input field
             if ( event.keyCode === $.ui.keyCode.TAB) {
@@ -284,7 +286,7 @@ $( function() {
 
         // taken from jquery api documentation
         .autocomplete({
-            //autofocus: true,                        // automatically focus on first item in autocomplete list
+            autofocus: true,                        // automatically focus on first item in autocomplete list
             minLength: 0,                           // allow autocomplete list on empty input field
 
             source: function( request, response ) {
@@ -324,8 +326,3 @@ $( function() {
 
 //TODO fetch column tags from db - same as in main.js
 //TODO auto select first element in autocompletion menu (eliminates double TAB clicks, "autofocus: true" does not work)
-//TODO error handler for incorrect queries (TO BE IMPLEMENTED FOR QUERIES MADE THROUGH CLIENT.HTML AS WELL)
-//     - relevant if the user decides to manually send a query through the text field
-//TODO automatically insert "SELECT SYMBOL," when the user wants to make a graph query without showing it in the menu
-//TODO make case insensitive?
-//TODO consecutive graph queries create graphs stacked on top of each other in the same canvas object
