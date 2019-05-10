@@ -32,7 +32,6 @@ async function postToDialogflow(query) {
             text: {
                 // The query to send to the dialogflow agent
                 text: query,
-                // The language used by the client (en-US)
                 languageCode: languageCode,
             },
         },
@@ -46,20 +45,19 @@ async function postToDialogflow(query) {
     const queryResult = responses[0].queryResult;
     console.log(`  Query: ${queryResult.queryText}`);
     console.log(`  Response: ${queryResult.fulfillmentText}`);
-    let isKnowledgeAnswer = queryResult.action==="";
     let allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
 
     if (queryResult.intent) {
         console.log(`  Intent: ${queryResult.intent.displayName}`);
-
     } else {
         console.log(`  No intent matched.`);
         return {success: false}
     }
     return {
         success: true,
+        query: query,
         answer: queryResult.fulfillmentText,
-        action: isKnowledgeAnswer ? "Knowledge" : queryResult.action,
+        action: queryResult.action,
         allRequiredParamsPresent : allRequiredParamsPresent,
         parameters: queryResult.allRequiredParamsPresent ? queryResult.parameters.fields : undefined,
         intentName: queryResult.intent.displayName
