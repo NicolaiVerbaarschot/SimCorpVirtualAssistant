@@ -51,12 +51,12 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
             case graphOperation:
                 let html = await handleGraphOperation(topQueryObject, response.parameters);
                 resolvedResponseData.newGraph = html;
-                break
+                break;
             case knowledgeBaseOperation:
                 let parameters = [response.query,response.answer];
                 await ejsEngine.render('KnowledgeTemplate',parameters).then((html) => {
                     resolvedResponseData['knowledgeAnswer'] = html;
-                })
+                });
                 break;
         }
     }
