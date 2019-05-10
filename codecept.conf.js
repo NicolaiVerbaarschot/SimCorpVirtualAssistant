@@ -1,12 +1,9 @@
 exports.config = {
-  tests: './*_test.js',
-  output: './output',
+  tests: 'tests/*_test.js',
+  output: 'tests/output',
   helpers: {
     Puppeteer: {
-      url: 'http://localhost:8080/',
-      chrome :{
-        args: ["--no-sandbox"]
-}
+      url: 'http://localhost:8080/'
     }
   },
   include: {},

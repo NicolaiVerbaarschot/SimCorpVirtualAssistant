@@ -12,7 +12,7 @@ Scenario('Hello Bot', (I) => {
     I.fillField('#input','hello');
     I.pressKey('Enter');
     I.seeInField("#input","");
-    I.wait(2);
+    I.wait(1);
     I.seeInField("#response","Bot:");
 });
 
