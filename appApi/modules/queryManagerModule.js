@@ -148,7 +148,7 @@ function  queryParser(queryObject) {
 function resolveGraphFromAction(queryObject, params) {
     if (!queryObject.filter) queryObject.filter = [];
 
-    let secondAttribute = params.numAttribute;
+    let secondAttribute = params.numAttribute.stringValue;
     let object = barDiagramQuery(queryObject, secondAttribute);
     let query = queryParser(object);
     return query;
