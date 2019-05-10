@@ -59,7 +59,7 @@ async function postToDialogflow(query) {
         answer: queryResult.fulfillmentText,
         action: queryResult.action,
         allRequiredParamsPresent : allRequiredParamsPresent,
-        parameters: queryResult.allRequiredParamsPresent ? queryResult.parameters : undefined,
+        parameters: queryResult.allRequiredParamsPresent ? queryResult.parameters.fields : undefined,
         intentName: queryResult.intent.displayName
     };
 
