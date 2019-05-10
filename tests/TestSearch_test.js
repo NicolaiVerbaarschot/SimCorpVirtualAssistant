@@ -18,7 +18,7 @@ Scenario('Hello Bot Responding', (I) => {
 
 Scenario('Ask KnowledgeBase',(I) => {
     I.amOnPage('http://localhost:8080/');
-    I.fillField('#input','how do i invest?');
+    I.fillField('#input','how do i invest');
     I.pressKey('Enter');
     I.wait(4);
     I.seeInField("#response","Bot:");

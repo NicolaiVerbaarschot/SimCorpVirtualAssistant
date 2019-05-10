@@ -39,7 +39,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
     const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
 
-    if (response.parameters != null) {
+    if (response.parameters != null || response.answer!= null) {
         // Render ejs templates according to action type
         switch (actionType) {
             case tableOperation:

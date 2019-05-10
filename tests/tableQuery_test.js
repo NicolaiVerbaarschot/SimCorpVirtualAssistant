@@ -1,10 +1,6 @@
 
 Feature('TableQuery');
 
-Scenario('test something', (I) => {
-
-});
-
 Scenario('Get standard query connection to DB',(I)=>{
     I.amOnPage('http://localhost:8080/');
     I.see('Table Query');
