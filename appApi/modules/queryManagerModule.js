@@ -41,11 +41,10 @@ function showAllColumnsInTable(queryObject) {
 }
 
 function filterTable(queryObject, stockAttribute, threshold, higherLower) {
-    console.log(higherLower);
-    let isHigher = false;
+    let isHigher = 'false';
 
     if (higherLower === "higher than") {
-        isHigher = true;
+        isHigher = 'true';
     }
     queryObject.filter = [[stockAttribute, threshold, isHigher]];
     return queryObject;
@@ -110,7 +109,7 @@ function  queryParser(queryObject) {
 
             query += queryObject.filter[0][0];
 
-            if (queryObject.filter[0][2]) {
+            if (queryObject.filter[0][2]==='true') {
                 query += " > ";
             }
             else {
@@ -162,6 +161,7 @@ function resolveGraphFromAction(queryObject, params) {
 
 // Returns the query as object and as string wrapped in object.
 function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, parameters) { //
+    console.log(parameters)
     //handle edge case where filter is not defined because express is shit\
     if (!topQueryObject.filter) topQueryObject.filter = [];
     if (secondTopMostQueryObject && !secondTopMostQueryObject.filter) secondTopMostQueryObject.filter = [];
