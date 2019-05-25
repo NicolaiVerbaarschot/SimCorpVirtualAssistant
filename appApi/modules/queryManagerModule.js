@@ -41,6 +41,7 @@ function showAllColumnsInTable(queryObject) {
 }
 
 function filterTable(queryObject, stockAttribute, threshold, higherLower) {
+    console.log(higherLower);
     let isHigher = false;
 
     if (higherLower === "higher than") {
@@ -72,7 +73,9 @@ function clearSearch(queryObject) {
 }
 
 function sortTable(queryObject, stockAttribute) {
+    console.log(queryObject);
     queryObject.sort = stockAttribute;
+    console.log(queryObject);
     return queryObject;
 }
 
@@ -104,12 +107,15 @@ function  queryParser(queryObject) {
         query += " WHERE ";
 
         if (filterLength !== 0) { // Check if there is a filter
-            // TODO: multiple filters (AND vs. OR)
 
             query += queryObject.filter[0][0];
 
-            if (queryObject.filter[0][2]) query += " > ";
-            else query += " < ";
+            if (queryObject.filter[0][2]) {
+                query += " > ";
+            }
+            else {
+                query += " < ";
+            }
 
             query += queryObject.filter[0][1];
 
@@ -220,6 +226,7 @@ function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject
             tableOperationType = "undo";
             break;
     }
+
     return {
         newTopQueryObject: object,
         query: queryParser(object),
