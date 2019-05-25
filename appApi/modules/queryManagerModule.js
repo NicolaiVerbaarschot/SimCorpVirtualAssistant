@@ -60,9 +60,8 @@ function ungroupTable(queryObject) {
     return queryObject;
 }
 
-//TODO: update search string to include all searchable columns from correct table.
 function searchTable(queryObject, searchString) {
-    queryObject.search = "Market = '" + searchString + "' OR Symbol = '" + searchString + "'";
+    queryObject.search = "Symbol = '" + searchString + "' OR Type = '" + searchString + "' OR QC = '" + searchString + "'";
     return queryObject;
 }
 
@@ -119,7 +118,7 @@ function  queryParser(queryObject) {
             query += queryObject.filter[0][1];
 
             if (searchLength !== 0) { // Check if there is a filter and search
-                query += " AND " + queryObject.search;
+                query += " AND (" + queryObject.search + ")";
             }
         } else { // There is only a search
             query += queryObject.search;
@@ -146,7 +145,7 @@ function  queryParser(queryObject) {
     }
 
     query += ";";
-
+    console.log(query);
     return query;
 }
 
@@ -161,7 +160,6 @@ function resolveGraphFromAction(queryObject, params) {
 
 // Returns the query as object and as string wrapped in object.
 function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject, parameters) { //
-    console.log(parameters)
     //handle edge case where filter is not defined because express is shit\
     if (!topQueryObject.filter) topQueryObject.filter = [];
     if (secondTopMostQueryObject && !secondTopMostQueryObject.filter) secondTopMostQueryObject.filter = [];
