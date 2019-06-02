@@ -61,9 +61,15 @@ p.output-text {
 }
 
 #superuserResultsFloat {
-    position: absolute;
-    top: 123px;
-    background-color: #1ec2fb;
+    position:relative;
+    top: -100%;
+    float:right;
+    width: 20%;
+    margin: 10px;
+    padding: 8px 8px 0 8px;
+    border-radius: 8px;
+    box-shadow: 0 0 18px -4px rgba(0,0,0,0.67);
+    background-color: white;
 }
 
 

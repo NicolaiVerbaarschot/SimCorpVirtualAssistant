@@ -41,10 +41,10 @@ function showAllColumnsInTable(queryObject) {
 }
 
 function filterTable(queryObject, stockAttribute, threshold, higherLower) {
-    let isHigher = false;
+    let isHigher = 'false';
 
     if (higherLower === "higher than") {
-        isHigher = true;
+        isHigher = 'true';
     }
     queryObject.filter = [[stockAttribute, threshold, isHigher]];
     return queryObject;
@@ -60,9 +60,8 @@ function ungroupTable(queryObject) {
     return queryObject;
 }
 
-//TODO: update search string to include all searchable columns from correct table.
 function searchTable(queryObject, searchString) {
-    queryObject.search = "Market = '" + searchString + "' OR Symbol = '" + searchString + "'";
+    queryObject.search = "Symbol = '" + searchString + "' OR Type = '" + searchString + "' OR QC = '" + searchString + "'";
     return queryObject;
 }
 
@@ -72,7 +71,9 @@ function clearSearch(queryObject) {
 }
 
 function sortTable(queryObject, stockAttribute) {
+    console.log(queryObject);
     queryObject.sort = stockAttribute;
+    console.log(queryObject);
     return queryObject;
 }
 
@@ -104,17 +105,20 @@ function  queryParser(queryObject) {
         query += " WHERE ";
 
         if (filterLength !== 0) { // Check if there is a filter
-            // TODO: multiple filters (AND vs. OR)
 
             query += queryObject.filter[0][0];
 
-            if (queryObject.filter[0][2]) query += " > ";
-            else query += " < ";
+            if (queryObject.filter[0][2]==='true') {
+                query += " > ";
+            }
+            else {
+                query += " < ";
+            }
 
             query += queryObject.filter[0][1];
 
             if (searchLength !== 0) { // Check if there is a filter and search
-                query += " AND " + queryObject.search;
+                query += " AND (" + queryObject.search + ")";
             }
         } else { // There is only a search
             query += queryObject.search;
@@ -141,7 +145,7 @@ function  queryParser(queryObject) {
     }
 
     query += ";";
-
+    console.log(query);
     return query;
 }
 
@@ -220,6 +224,7 @@ function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject
             tableOperationType = "undo";
             break;
     }
+
     return {
         newTopQueryObject: object,
         query: queryParser(object),
