@@ -1,21 +1,16 @@
 const express = require('express');
 const path = require('path');
-const dialogflow = require(path.resolve(__dirname, "./modules/dialogflowInterfaceModule"));
 const database = require(path.resolve(__dirname, "./modules/databaseModule"));
 const documentSearch = require(path.resolve(__dirname, "./modules/documentSearch"));
 const superuserCommandHandler = require(path.resolve(__dirname, "./modules/superuserModule"));
-const dialogflowResponseHandler = require(path.resolve(__dirname, "./modules/dialogflowResponseHandlerModule"));
 const visualisationModule = require(path.resolve(__dirname, "./modules/dataVisualisationModule"));
+const multipleRequestsResolver = require(path.resolve(__dirname, "./modules/multipleRequestsResolver"));
 const router = express.Router();
 
 
 router.get('/api/chatBotQueryManager/', function (req,res) {
-    dialogflow.send(req.query.query).then((data) => {
-        if (data.success) {
-            dialogflowResponseHandler.resolve(data, req.query.topQueryObject, req.query.secondTopMostQueryObject).then((result) => {
-                res.send(result);
-            });
-        }
+    multipleRequestsResolver.resolve(req.query.query, req.query.topQueryObject, req.query.secondTopMostQueryObject).then((result) => {
+        res.send(result);
     });
 });
 
