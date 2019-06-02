@@ -325,3 +325,4 @@ $( function() {
 } );
 
 //TODO fetch column tags from db - same as in main.js
+//TODO auto select first element in autocompletion menu (eliminates double TAB clicks, "autofocus: true" does not work)
