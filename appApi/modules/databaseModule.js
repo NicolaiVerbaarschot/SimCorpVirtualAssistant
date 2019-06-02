@@ -7,9 +7,9 @@ var regexSimpleSQLSelectQuery = RegExp('SELECT .* FROM DB_DATA( WHERE .*)?','i')
 
 const con = mysql.createConnection({
     host: "remotemysql.com",
-    user: "yiZaQZM5Nm",
-    password: "L3YF0CxQf7",
-    database: "yiZaQZM5Nm"
+    user: "9nI7CV8RHw",
+    password: "MtquOumHAk",
+    database: "9nI7CV8RHw"
 });
 
 function makeConnectionToDB() {
