@@ -32,8 +32,11 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         knowledgeAnswer: undefined,
         newVisualisation: undefined,
         newQueryObject: undefined,
-        tableOperationType: undefined // Can be 'normal', 'undo'.
+        tableOperationType: undefined, // Can be 'normal', 'undo'.
+        isKnowledgeAnswer: undefined
     };
+
+    resolvedResponseData.isKnowledgeAnswer = response.isKnowledgeAnswer;
 
     if (!response.allRequiredParamsPresent) {
         // return prematurely as not all params are present
@@ -103,7 +106,12 @@ async function handleTableOperation(intentName, topQueryObject, secondTopMostQue
     if (query) {
         try {
             let data = await database.requestQuery(query);
-            let html = await ejsEngine.render('tableTemplate', data);
+            let html;
+            if (data && data.length > 0) {
+                html = await ejsEngine.render('tableTemplate', data);
+            } else {
+                html = "No data to show...";
+            }
             objectToReturn.newTable = html;
         } catch (e) {
             console.log("\nERROR:\n",e);
