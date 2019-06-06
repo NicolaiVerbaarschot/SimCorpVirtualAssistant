@@ -32,8 +32,11 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         knowledgeAnswer: undefined,
         newVisualisation: undefined,
         newQueryObject: undefined,
-        tableOperationType: undefined // Can be 'normal', 'undo'.
+        tableOperationType: undefined, // Can be 'normal', 'undo'.
+        isKnowledgeAnswer: undefined
     };
+
+    resolvedResponseData.isKnowledgeAnswer = response.isKnowledgeAnswer;
 
     if (!response.allRequiredParamsPresent) {
         // return prematurely as not all params are present

@@ -7,20 +7,21 @@ const bot_DOM_QueryController = {
 
         console.log(data.actionType);
 
-        if (data.actionType) {
 
-            switch (data.actionType) {
-                case 'tableOP':
-                    $("#databaseContainer").html(data.newTable.toString());
-                    break;
-                case 'graphOP':
-                    $("#graphContainer").html(data.newGraph.toString());
-                    break;
-            }
 
-        } else {
+        switch (data.actionType) {
+            case 'tableOP':
+                $("#databaseContainer").html(data.newTable.toString());
+                break;
+            case 'graphOP':
+                $("#graphContainer").html(data.newGraph.toString());
+                break;
+        }
+
+        if (data.isKnowledgeAnswer) {
             $("#fuseContainer").html(data.answer.toString());
         }
+
 
     }
 
