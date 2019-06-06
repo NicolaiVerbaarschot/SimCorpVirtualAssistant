@@ -38,13 +38,13 @@ async function postToDialogflow(query) {
     };
 
     // Send request and log result
-    const responses = await sessionClient.detectIntent(request);
+    const response = (await sessionClient.detectIntent(request))[0];
 
+    let queryResultConfidence = response.queryResult.intentDetectionConfidence
 
-    console.log('Detected intent');
-    const queryResult = responses[0].queryResult;
-    console.log(`  Query: ${queryResult.queryText}`);
-    console.log(`  Response: ${queryResult.fulfillmentText}`);
+    let primaryQueryResult = response.queryResult;
+    let alternativeQueryResult = response.alternativeQueryResults[0];
+    const queryResult = (queryResultConfidence > 0.6 || alternativeQueryResult == null) ? primaryQueryResult : alternativeQueryResult;
     let allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
 
     if (queryResult.intent) {

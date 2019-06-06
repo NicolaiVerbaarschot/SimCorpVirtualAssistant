@@ -35,6 +35,12 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         tableOperationType: undefined // Can be 'normal', 'undo'.
     };
 
+    if (!response.allRequiredParamsPresent) {
+        // return prematurely as not all params are present
+        resolvedResponseData.answer = response.answer;
+        return resolvedResponseData;
+    }
+
     // Action type is resolved from intent name by splitting on underscore character
     const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
     const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
