@@ -3,22 +3,9 @@ const queryManager = require('./queryManagerModule');
 const ejsEngine = require('./renderEngineModule');
 const visualisationModule = require("./dataVisualisationModule");
 
-const responseFieldMap = {
-    textOP: '',
-    tableOP: 'newTable',
-    graphOP: 'newGraph',
-    Knowledge: 'knowledgeAnswer'
-};
 const tableOperation = 'tableOP';
 const graphOperation = 'graphOP';
 const knowledgeBaseOperation = 'Knowledge';
-
-const templateMap = {
-    textOP: 'testejs',
-    tableOP: 'testejs',
-    graphOP: 'graphTemplate',
-    Knowledge: 'KnowledgeTemplate'
-};
 
 
 async function handleDialogflowResponse(response, topQueryObject, secondTopMostQueryObject) {
@@ -47,6 +34,17 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
     const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
 
+    // Define remaining properties
+    resolvedResponseData.parameters = response.parameters;
+    resolvedResponseData.answer = response.answer;
+    resolvedResponseData.actionType = actionType;
+
+
+    if (response.action == "") {
+        resolvedResponseData.actionType = '';
+        return resolvedResponseData
+    }
+
     if (response.parameters != null || response.answer!= null) {
         // Render ejs templates according to action type
         switch (actionType) {
@@ -69,11 +67,6 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         }
     }
 
-
-    // Define remaining properties
-    resolvedResponseData.actionType = actionType;
-    resolvedResponseData.parameters = response.parameters;
-    resolvedResponseData.answer = response.answer;
     return resolvedResponseData;
 }
 
