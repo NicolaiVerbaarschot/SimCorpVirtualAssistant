@@ -57,6 +57,22 @@ const documents = [{
         tags: ['website', 'visualization']
     },
 
+    // Attributes Document
+    {
+        title: 'Attributes',
+        section: 'summary',
+        body: 'Vito knows about the attributes used to describe all your assets. These attributes are described below:',
+        tags: ['attributes', 'summary']
+    }, {
+        title: 'Attributes',
+        section: 'Symbol',
+        body: 'Symbol is an ID for each asset. For example APPL is the symbol of Apple.',
+        tags: ['attributes', 'symbol'],
+        section: 'another Symbol',
+        body: 'Just a body',
+        tags: ['attributes', 'symbol'],
+    },
+
     // Features Document
     {
         title: 'Features',
