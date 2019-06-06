@@ -38,6 +38,8 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     if (!response.allRequiredParamsPresent) {
         // return prematurely as not all params are present
         resolvedResponseData.answer = response.answer;
+        resolvedResponseData.newQueryObject = topQueryObject;
+
         return resolvedResponseData;
     }
 

@@ -28,8 +28,25 @@ async function postSubqueriesToDialogFlow(queries, topQueryObject, secondTopMost
         let updatedTopQueryObject = resolvedData.newQueryObject;
         let updatedSecondTopMostQueryObject = topQueryObject;
 
-        return postSubqueriesToDialogFlow(queries, updatedTopQueryObject, updatedSecondTopMostQueryObject, resolvedData)
+        let updatedResolvedData = updateUndefinedParams(resolvedData, currentResult)
+        return postSubqueriesToDialogFlow(queries, updatedTopQueryObject, updatedSecondTopMostQueryObject, updatedResolvedData)
     }
+}
+
+function updateUndefinedParams(current, previous) {
+    if (previous == null) {
+        return current
+    }
+    current.actionType = current.actionType == null ? previous.actionType : current.actionType
+    current.answer = current.answer == null ? previous.answer : current.answerx
+    current.knowledgeAnswer = current.knowledgeAnswer == null ? previous.knowledgeAnswer : current.knowledgeAnswer
+    current.newQueryObject = current.newQueryObject == null ? previous.newQueryObject : current.newQueryObject
+    current.newTable = current.newTable == null ? previous.newTable : current.newTable
+    current.newVisualisation = current.newVisualisation == null ? previous.newVisualisation : current.newVisualisation
+    current.parameters = current.parameters == null ? previous.parameters : current.parameters
+    current.tableOperationType = current.tableOperationType == null ? previous.tableOperationType : current.tableOperationType
+    return current
+
 }
 
 module.exports.resolve = resolve;
