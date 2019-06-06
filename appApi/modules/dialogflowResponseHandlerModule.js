@@ -103,7 +103,12 @@ async function handleTableOperation(intentName, topQueryObject, secondTopMostQue
     if (query) {
         try {
             let data = await database.requestQuery(query);
-            let html = await ejsEngine.render('tableTemplate', data);
+            let html;
+            if (data && data.length > 0) {
+                html = await ejsEngine.render('tableTemplate', data);
+            } else {
+                html = "No data to show...";
+            }
             objectToReturn.newTable = html;
         } catch (e) {
             console.log("\nERROR:\n",e);
