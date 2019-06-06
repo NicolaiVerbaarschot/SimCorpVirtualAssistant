@@ -38,7 +38,7 @@ function updateUndefinedParams(current, previous) {
         return current
     }
     current.actionType = current.actionType == null ? previous.actionType : current.actionType
-    current.answer = current.answer == null ? previous.answer : current.answerx
+    current.answer = current.answer == null ? previous.answer : current.answer
     current.knowledgeAnswer = current.knowledgeAnswer == null ? previous.knowledgeAnswer : current.knowledgeAnswer
     current.newQueryObject = current.newQueryObject == null ? previous.newQueryObject : current.newQueryObject
     current.newTable = current.newTable == null ? previous.newTable : current.newTable
