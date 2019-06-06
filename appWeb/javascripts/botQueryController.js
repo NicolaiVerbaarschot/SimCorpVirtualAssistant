@@ -3,8 +3,7 @@ const bot_DOM_QueryController = {
 
     handleDialogflowResult: function(data) {
 
-
-        setResponse("Bot: " + data.answer.split("#linebreak").join("\n"));
+        setResponse("Bot: " + data.answer);
 
 
         switch (data.actionType) {

@@ -17,6 +17,7 @@ const api = {
         })
             .done(function (data) {
                 returnData = data
+                console.log(data)
             });
         return returnData;
     }
