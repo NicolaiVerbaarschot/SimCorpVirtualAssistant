@@ -1,6 +1,6 @@
 
 Feature('TableQuery');
-
+/*
 Scenario('Get standard query connection to DB',(I)=>{
     I.amOnPage('http://localhost:8080/');
     I.see('Table Query');
@@ -15,4 +15,4 @@ Scenario('Get Price query',(I)=>{
     I.fillField('#queryText','select Price from DB_Data');
     I.click("#HButton");
     I.see("PRICE");
-});
+});*/

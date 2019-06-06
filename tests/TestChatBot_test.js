@@ -1,11 +1,9 @@
 
 Feature('TestChatBot');
 
-Scenario('test something', (I) => {
+Scenario('what you can do', (I) => {
     I.amOnPage('http://localhost:8080/');
-    I.fillField('#input','what can you do?');
-    I.pressKey('Enter');
-    I.seeInField("#input","");
+    I.askBot('what can you do?');
     I.wait(2);
-    I.seeInField("#response","Virtual Assistant");
+    I.getAnswer("Virtual Assistant");
 });

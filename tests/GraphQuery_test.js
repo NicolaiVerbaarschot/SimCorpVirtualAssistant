@@ -1,6 +1,6 @@
 
 Feature('GraphQuery');
-
+/*
 Scenario('Get graph query using direct query',(I)=>{
     I.amOnPage('http://localhost:8080/');
     I.see('Graph Query');
@@ -16,3 +16,4 @@ Scenario('visualise using chat bot',(I)=>{
     I.wait(4);
     I.seeElement('#myChart');
 });
+*/
