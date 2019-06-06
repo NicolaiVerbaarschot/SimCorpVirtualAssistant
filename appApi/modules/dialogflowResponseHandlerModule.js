@@ -3,22 +3,9 @@ const queryManager = require('./queryManagerModule');
 const ejsEngine = require('./renderEngineModule');
 const visualisationModule = require("./dataVisualisationModule");
 
-const responseFieldMap = {
-    textOP: '',
-    tableOP: 'newTable',
-    graphOP: 'newGraph',
-    Knowledge: 'knowledgeAnswer'
-};
 const tableOperation = 'tableOP';
 const graphOperation = 'graphOP';
 const knowledgeBaseOperation = 'Knowledge';
-
-const templateMap = {
-    textOP: 'testejs',
-    tableOP: 'testejs',
-    graphOP: 'graphTemplate',
-    Knowledge: 'KnowledgeTemplate'
-};
 
 
 async function handleDialogflowResponse(response, topQueryObject, secondTopMostQueryObject) {
@@ -32,8 +19,11 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         knowledgeAnswer: undefined,
         newVisualisation: undefined,
         newQueryObject: undefined,
-        tableOperationType: undefined // Can be 'normal', 'undo'.
+        tableOperationType: undefined, // Can be 'normal', 'undo'.
+        isKnowledgeAnswer: undefined
     };
+
+    resolvedResponseData.isKnowledgeAnswer = response.isKnowledgeAnswer;
 
     if (!response.allRequiredParamsPresent) {
         // return prematurely as not all params are present
@@ -46,6 +36,17 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
     // Action type is resolved from intent name by splitting on underscore character
     const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
     const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
+
+    // Define remaining properties
+    resolvedResponseData.parameters = response.parameters;
+    resolvedResponseData.answer = response.answer;
+    resolvedResponseData.actionType = actionType;
+
+
+    if (response.action == "") {
+        resolvedResponseData.actionType = '';
+        return resolvedResponseData
+    }
 
     if (response.parameters != null || response.answer!= null) {
         // Render ejs templates according to action type
@@ -69,11 +70,6 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         }
     }
 
-
-    // Define remaining properties
-    resolvedResponseData.actionType = actionType;
-    resolvedResponseData.parameters = response.parameters;
-    resolvedResponseData.answer = response.answer;
     return resolvedResponseData;
 }
 
@@ -103,7 +99,12 @@ async function handleTableOperation(intentName, topQueryObject, secondTopMostQue
     if (query) {
         try {
             let data = await database.requestQuery(query);
-            let html = await ejsEngine.render('tableTemplate', data);
+            let html;
+            if (data && data.length > 0) {
+                html = await ejsEngine.render('tableTemplate', data);
+            } else {
+                html = "No data to show...";
+            }
             objectToReturn.newTable = html;
         } catch (e) {
             console.log("\nERROR:\n",e);

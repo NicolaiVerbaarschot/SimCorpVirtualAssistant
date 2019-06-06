@@ -38,13 +38,14 @@ function updateUndefinedParams(current, previous) {
         return current
     }
     current.actionType = current.actionType == null ? previous.actionType : current.actionType
-    current.answer = current.answer == null ? previous.answer : current.answerx
+    current.answer = current.answer == null ? previous.answer : current.answer
     current.knowledgeAnswer = current.knowledgeAnswer == null ? previous.knowledgeAnswer : current.knowledgeAnswer
     current.newQueryObject = current.newQueryObject == null ? previous.newQueryObject : current.newQueryObject
     current.newTable = current.newTable == null ? previous.newTable : current.newTable
     current.newVisualisation = current.newVisualisation == null ? previous.newVisualisation : current.newVisualisation
     current.parameters = current.parameters == null ? previous.parameters : current.parameters
     current.tableOperationType = current.tableOperationType == null ? previous.tableOperationType : current.tableOperationType
+    current.isKnowledgeAnswer = current.isKnowledgeAnswer == null? previous.isKnowledgeAnswer : current.isKnowledgeAnswer
     return current
 
 }

@@ -44,7 +44,7 @@ async function postToDialogflow(query) {
 
     let primaryQueryResult = response.queryResult;
     let alternativeQueryResult = response.alternativeQueryResults[0];
-    const queryResult = (queryResultConfidence > 0.6 || alternativeQueryResult == null) ? primaryQueryResult : alternativeQueryResult;
+    const queryResult = (queryResultConfidence > 0.6 || alternativeQueryResult == null || alternativeQueryResult.intent == null) ? primaryQueryResult : alternativeQueryResult;
     let allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
 
     if (queryResult.intent) {
@@ -60,7 +60,8 @@ async function postToDialogflow(query) {
         action: queryResult.action,
         allRequiredParamsPresent : allRequiredParamsPresent,
         parameters: queryResult.allRequiredParamsPresent ? queryResult.parameters.fields : undefined,
-        intentName: queryResult.intent.displayName
+        intentName: queryResult.intent.displayName,
+        isKnowledgeAnswer: !queryResult.action
     };
 
 }
