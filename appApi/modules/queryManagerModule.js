@@ -1,5 +1,5 @@
 
-const columnPositions = ["Symbol", "Type", "Price", "QC", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
+const columnPositions = ["Symbol", "QC", "Type", "Price", "Total_QTY", "Total_Price", "Maturity_Date", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
 let modColumns = columnPositions.slice();
 
 const baseQueryObject = {
