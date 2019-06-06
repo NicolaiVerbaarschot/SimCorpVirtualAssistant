@@ -40,7 +40,7 @@ strong {
 
 
 .content-container-left {
-    overflow: hidden;
+    overflow: scroll;
     background-color: #FFFFFF;
     padding: 5px 15px 1px 15px;
     border-radius:10px;
