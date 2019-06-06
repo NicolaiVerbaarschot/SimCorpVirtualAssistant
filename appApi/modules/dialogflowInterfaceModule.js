@@ -60,7 +60,8 @@ async function postToDialogflow(query) {
         action: queryResult.action,
         allRequiredParamsPresent : allRequiredParamsPresent,
         parameters: queryResult.allRequiredParamsPresent ? queryResult.parameters.fields : undefined,
-        intentName: queryResult.intent.displayName
+        intentName: queryResult.intent.displayName,
+        isKnowledgeAnswer: !queryResult.action
     };
 
 }
