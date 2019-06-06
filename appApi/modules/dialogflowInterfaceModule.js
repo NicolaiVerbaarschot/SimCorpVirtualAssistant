@@ -44,7 +44,7 @@ async function postToDialogflow(query) {
 
     let primaryQueryResult = response.queryResult;
     let alternativeQueryResult = response.alternativeQueryResults[0];
-    const queryResult = queryResultConfidence > 0.6 ? primaryQueryResult : alternativeQueryResult;
+    const queryResult = (queryResultConfidence > 0.6 || alternativeQueryResult == null) ? primaryQueryResult : alternativeQueryResult;
     let allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
 
     if (queryResult.intent) {
