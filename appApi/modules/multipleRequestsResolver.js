@@ -45,6 +45,7 @@ function updateUndefinedParams(current, previous) {
     current.newVisualisation = current.newVisualisation == null ? previous.newVisualisation : current.newVisualisation
     current.parameters = current.parameters == null ? previous.parameters : current.parameters
     current.tableOperationType = current.tableOperationType == null ? previous.tableOperationType : current.tableOperationType
+    current.isKnowledgeAnswer = current.isKnowledgeAnswer == null? previous.isKnowledgeAnswer : current.isKnowledgeAnswer
     return current
 
 }
