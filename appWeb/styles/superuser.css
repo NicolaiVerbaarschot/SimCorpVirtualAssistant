@@ -64,7 +64,8 @@ p.output-text {
     position:relative;
     top: -100%;
     float:right;
-    width: 20%;
+    width: 40%;
+    min-width: 330px;
     margin: 10px;
     padding: 8px 8px 0 8px;
     border-radius: 8px;
