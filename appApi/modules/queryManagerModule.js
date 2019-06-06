@@ -12,17 +12,9 @@ const baseQueryObject = {
     search: ""
 };
 
-// --------- Table operations ---------
+// --------- aux function ---------
 
-function hideColumnsInTable(queryObject, columnNames) {
-
-    // modify column names to be shown (remove selected columns from modColumns
-    columnNames.forEach(function (column) {
-        if (modColumns.indexOf(column) > -1) {
-            modColumns.splice(modColumns.indexOf(column), 1);
-        }
-    });
-
+function parseColumnsToSqlSyntax(queryObject) {
     // parse string from modColumns into SQL syntax
     let sqlString = "";
 
@@ -34,6 +26,54 @@ function hideColumnsInTable(queryObject, columnNames) {
 
     queryObject.columns = sqlString;
     return queryObject;
+}
+
+// --------- Table operations ---------
+
+function hideColumnsInTable(queryObject, columnNames) {
+
+    // modify column names to be shown (remove selected columns from modColumns
+    columnNames.forEach(function (column) {
+        if (modColumns.indexOf(column) > -1) {
+            modColumns.splice(modColumns.indexOf(column), 1);
+        }
+    });
+
+    return parseColumnsToSqlSyntax(queryObject);
+}
+
+function showColumnsInTable(queryObject, columnNames) {
+    let standardPos = -1;       // this variable will hold the standard position of the column
+    let insertIndex = -1;       // this variable will hold the insertion position of the column
+
+    // iterate over all columns contained in the argument list
+    columnNames.forEach(function (column) {
+
+        // only add columns that are not contained in the current table.
+        if (modColumns.indexOf(column) === -1) {
+            standardPos = columnPositions.indexOf(column);  // get the standard position of the current column
+            insertIndex = -1;                               // set insertion index to -1
+
+            // iterate over all columns currently shown in the table. When a column is encountered that is usually
+            // positioned to the right of the current column in question, save that index.
+            for (let i = 0; i < modColumns.length; i++) {
+                if (columnPositions.indexOf(modColumns[i]) >= standardPos && insertIndex === -1) {
+                    insertIndex = i;
+                }
+            }
+
+            // insert the column as the last column if the index has not been updated
+            if (insertIndex === -1) {
+                modColumns.push(column);
+            }
+            // insert the column at the insertion index
+            else {
+                modColumns.splice(insertIndex, 0, column);
+            }
+        }
+    });
+
+    return parseColumnsToSqlSyntax(queryObject)
 }
 
 function showAllColumnsInTable(queryObject) {
@@ -173,18 +213,29 @@ function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject
             break;
         case "column_hide":
             //TODO: Change so that hideColumns are hiding an array of columns
-            let columnNames = [];
+            let hideColumnNames = [];
 
-            let something = parameters.columnName.listValue.values;
+            let hideColumnArray = parameters.columnName.listValue.values;
 
-            something.forEach(function (value) {
-                columnNames.push(value.stringValue);
+            hideColumnArray.forEach(function (value) {
+                hideColumnNames.push(value.stringValue);
             });
 
-            object = hideColumnsInTable(topQueryObject, columnNames)
+            object = hideColumnsInTable(topQueryObject, hideColumnNames)
             break;
         case "column_show_all":
             object = showAllColumnsInTable(topQueryObject);
+            break;
+        case "column_show":
+            let showColumnNames = [];
+
+            let showColumnArray = parameters.columnName.listValue.values;
+
+            showColumnArray.forEach(function (value) {
+                showColumnNames.push(value.stringValue);
+            });
+
+            object = showColumnsInTable(topQueryObject, showColumnNames);
             break;
         case "filter":
             let higherLower = parameters.higherLower.stringValue;
