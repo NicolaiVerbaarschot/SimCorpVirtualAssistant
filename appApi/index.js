@@ -24,19 +24,10 @@ router.get('/api/superuser/:query', function(req, res) {
 
 });
 
-// if (["tableQuery", "graphQuery"].indexOf(commandCode) < 0) // check commandcode TODO: consider moving out of index.js
-
 router.get('/api/search/:query', function(req, res) {
     const fuse = documentSearch.fuse;
     const fuseResponse = fuse.search(req.params.query);
     res.render('searchTemplate.ejs', {results: fuseResponse});
-});
-
-router.get('/api/graph/:query', function(req, res) {
-    database.requestQuery(req.params.query).then( (data) => {
-        let modifiedData = visualisationModule.formatData(data);
-        res.render('graphTemplate.ejs', {results: modifiedData});
-    })
 });
 
 router.get('/api/table/:query', function(req, res) {
