@@ -207,6 +207,12 @@ $( function() {
 
     $( "#superuserInput" )
     // don't navigate away from the field on tab when selecting an item
+
+        .focus(function(){
+            var that = this;
+            setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
+        })
+
         .on( "keydown", function( event ) {
 
             const input = $("#superuserInput");
@@ -233,6 +239,7 @@ $( function() {
                     }
                 }
 
+                input.focus();
                 availableTags = updateTags(input.val());
             }
 
