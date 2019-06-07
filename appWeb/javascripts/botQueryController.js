@@ -24,6 +24,7 @@ const bot_DOM_QueryController = {
         switch (data.actionType) {
             case 'tableOP':
                 $("#databaseContainer").html(data.newTable.toString());
+                representState(data.SQLQuery);
                 break;
             case 'graphOP':
                 $("#graphContainer").html(data.newGraph.toString());
@@ -39,3 +40,16 @@ const bot_DOM_QueryController = {
 
 };
 
+
+function representState(query){
+    array = query.split(/(SELECT|FROM|WHERE|ORDER|BY|;)/);
+
+    const i1 = array.findIndex( S => S=="WHERE") + 1;
+    predicateString = i1 ? "constraints: " + predicate[i1].toLocaleLowerCase() : "";
+
+    const i2 = array.findIndex( S => S=="BY") + 1;
+    orderByString = i2 ? "ordered by: " + array[i2].toLocaleLowerCase() : "";
+
+    $("#predicate").html(predicateString);
+    $("#order").html(orderByString);
+}
