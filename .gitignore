@@ -173,7 +173,5 @@ fabric.properties
 
 #CodeceptJS Simon 10. May 2019
 tests/output
-*.png
-*.failed.png
 
 # End of https://www.gitignore.io/api/node,webstorm

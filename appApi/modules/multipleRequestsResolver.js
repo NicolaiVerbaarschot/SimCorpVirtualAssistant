@@ -4,8 +4,8 @@ const dialogflowResponseHandler = require(path.resolve(__dirname, ".//dialogflow
 
 async function resolve(query, topQueryObject, secondTopMostQueryObject) {
 
-    if (query === "") {
-        console.log("ERROR: QueryManager cannot handle empty input");
+    if (query == "") {
+        console.log("ERROR: QueryManager cannot handle empty input")
         return
     }
     // Split input based on 'and'.
