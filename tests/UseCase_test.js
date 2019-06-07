@@ -9,7 +9,6 @@ How to invest
 Search for dkk
 group by type
 sort by dirty value qc
-
  */
 
 Scenario('What can you do', (I) => {
@@ -22,7 +21,7 @@ Scenario('What can you do', (I) => {
 
 });
 
-Scenario('how to invest', (I)=> {
+Scenario('how to invest', (I) => {
     I.reloadPage();
     I.askBot("how to invest");
     I.getAnswer('investment');
