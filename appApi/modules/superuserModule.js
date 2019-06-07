@@ -14,10 +14,8 @@ function commandHelp() {
 }
 
 async function queryDatabaseAndRenderResult(isGraphQuery, query) { //TODO: remove async
-    let data = await database.requestQuery(query);
-    if (data === "invalid query") {
-        return "<p> Invalid query syntax. Try something else.</p>";
-    } else {
+    try {
+        let data = await database.requestQuery(query);
         let result;
         if (data.length > 0) {
             if (isGraphQuery) {
@@ -30,6 +28,8 @@ async function queryDatabaseAndRenderResult(isGraphQuery, query) { //TODO: remov
         } else {
             return "<p> Your query did not yield any results. Please update your search and filter parameters.</p>";
         }
+    } catch {
+        return "<p> Invalid query syntax. Try something else.</p>";
     }
 }
 
