@@ -14,19 +14,22 @@ function commandHelp() {
 
 async function queryDatabaseAndRenderResult(isGraphQuery, query) { //TODO: remove async
     let data = await database.requestQuery(query);
-    let result;
-    if (data.length > 0) {
-        if (isGraphQuery) {
-            data = visualizationDataProcessor.formatData(data);
-            result = ejsEngine.render('graphTemplate', data);
-        } else {
-            result = ejsEngine.render('tableTemplate', data);
-        }
-        return result;
+    if (data === "invalid query") {
+        return "<p> Invalid query syntax. Try something else.</p>";
     } else {
-        return "<p> Your query did not yield any results. Please update your search and filter parameters.</p>";
+        let result;
+        if (data.length > 0) {
+            if (isGraphQuery) {
+                data = visualizationDataProcessor.formatData(data);
+                result = ejsEngine.render('graphTemplate', data);
+            } else {
+                result = ejsEngine.render('tableTemplate', data);
+            }
+            return result;
+        } else {
+            return "<p> Your query did not yield any results. Please update your search and filter parameters.</p>";
+        }
     }
-
 }
 
 function commandSearchDocs() {
