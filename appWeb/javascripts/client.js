@@ -96,7 +96,7 @@ function compileAndSendBotQueryThenHandleResult(text) {
 
 function sendInput(text) {
     compileAndSendBotQueryThenHandleResult(text);
-}
+} //FIXME: wtf?
 
 function setResponse(val) {
     const response = $("#response");

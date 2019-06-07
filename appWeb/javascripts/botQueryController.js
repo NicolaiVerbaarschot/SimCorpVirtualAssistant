@@ -12,6 +12,7 @@ const bot_DOM_QueryController = {
         switch (data.actionType) {
             case 'tableOP':
                 $("#databaseContainer").html(data.newTable.toString());
+                representState(data.SQLQuery);
                 break;
             case 'graphOP':
                 $("#graphContainer").html(data.newGraph.toString());
@@ -27,3 +28,7 @@ const bot_DOM_QueryController = {
 
 };
 
+
+function representState(query){
+    $("#SQLquery").html(query);
+}

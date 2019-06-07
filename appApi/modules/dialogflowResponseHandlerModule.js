@@ -20,7 +20,8 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         newVisualisation: undefined,
         newQueryObject: undefined,
         tableOperationType: undefined, // Can be 'normal', 'undo'.
-        isKnowledgeAnswer: undefined
+        isKnowledgeAnswer: undefined,
+        SQLQuery: ""
     };
 
     resolvedResponseData.isKnowledgeAnswer = response.isKnowledgeAnswer;
@@ -56,6 +57,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
                 resolvedResponseData.tableOperationType = data.tableOperationType;
                 resolvedResponseData.newTable = data.newTable;
                 resolvedResponseData.newQueryObject = data.newQueryObject;
+                resolvedResponseData.SQLQuery = data.query;
                 break;
             case graphOperation:
                 let html = await handleGraphOperation(topQueryObject, response.parameters);
@@ -87,12 +89,14 @@ async function handleTableOperation(intentName, topQueryObject, secondTopMostQue
     let objectToReturn = {
         newQueryObject: undefined,
         tableOperationType: undefined,
-        newTable: undefined
+        newTable: undefined,
+        query: ""
     }
 
     let resolvedQuery = queryManager.resolveQueryFromAction(intentName, topQueryObject, secondTopMostQueryObject, parameters);
     let query = resolvedQuery.query;
 
+    objectToReturn.query = query;
     objectToReturn.newQueryObject = resolvedQuery.newTopQueryObject;
     objectToReturn.tableOperationType = resolvedQuery.tableOperationType;
 
