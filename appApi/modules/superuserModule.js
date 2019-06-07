@@ -9,30 +9,29 @@ function commandHelp() {
         "\t- help\n" +
         "\t- queryTable\n" +
         "\t- queryGraph\n" +
-        "\t- searchDocs";
+        "\n" +
+        "Use TAB and ENTER to navigate the autocomplete menu. The UP-arrow will call your most recent commands\n";
 }
 
 async function queryDatabaseAndRenderResult(isGraphQuery, query) { //TODO: remove async
-    let data = await database.requestQuery(query);
-    let result;
-    if (data.length > 0) {
-        if (isGraphQuery) {
-            data = visualizationDataProcessor.formatData(data);
-            result = ejsEngine.render('graphTemplate', data);
+    try {
+        let data = await database.requestQuery(query);
+        let result;
+        if (data.length > 0) {
+            if (isGraphQuery) {
+                data = visualizationDataProcessor.formatData(data);
+                result = ejsEngine.render('graphTemplate', data);
+            } else {
+                result = ejsEngine.render('tableTemplate', data);
+            }
+            return result;
         } else {
-            result = ejsEngine.render('tableTemplate', data);
+            return "<p> Your query did not yield any results. Please update your search and filter parameters.</p>";
         }
-        return result;
-    } else {
-        return "<p> Your query did not yield any results. Please update your search and filter parameters.</p>";
+    } catch {
+        return "<p> Invalid query syntax. Try something else.</p>";
     }
-
 }
-
-function commandSearchDocs() {
-    return "Link to document search in appApi/modules/superuserModule.ejs";
-}
-
 
 async function handleSuperuserCommand(command, res) {
 
@@ -53,8 +52,6 @@ async function handleSuperuserCommand(command, res) {
             return await queryDatabaseAndRenderResult(false, commandArgument);
         case "graphQuery":
             return await queryDatabaseAndRenderResult(true, commandArgument);
-        case "searchDocs":
-            return commandSearchDocs();
         default:
             return "Invalid Command"
     }

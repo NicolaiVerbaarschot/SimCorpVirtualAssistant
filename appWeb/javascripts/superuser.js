@@ -28,7 +28,7 @@ $( function() {
                       "Dirty_Value_PC", "Dirty_Value_RC"];
     var numTags = ["Price", "Total_QTY", "Total_Price", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
     var sqlKeywords = ["SELECT", "FROM", "WHERE", "ORDER BY"];
-    var modes = ["help", "tableQuery", "graphQuery", "searchDocs"];
+    var modes = ["help", "tableQuery", "graphQuery"];
     var filterTags = [">", "=", "<"];
     var historyStack = [];
     var numSavedCommands = 20;
@@ -79,7 +79,6 @@ $( function() {
         if (firstWord === modes[0]) {return updateTagsHelp(inputString);}
         else if (firstWord === modes[1]) {return updateTagsTQ(inputString);}
         else if (firstWord === modes[2]) {return updateTagsGQ(inputString);}
-        else if (firstWord === modes[3]) {return updateTagsSearchDocs(inputString);}
         else {return modes;}
     }
 
@@ -207,6 +206,12 @@ $( function() {
 
     $( "#superuserInput" )
     // don't navigate away from the field on tab when selecting an item
+
+        .focus(function(){
+            var that = this;
+            setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
+        })
+
         .on( "keydown", function( event ) {
 
             const input = $("#superuserInput");
@@ -233,6 +238,7 @@ $( function() {
                     }
                 }
 
+                input.focus();
                 availableTags = updateTags(input.val());
             }
 
@@ -259,12 +265,13 @@ $( function() {
                         const isGraph = data[1];
 
                         if (isGraph) {
-                            graphOutput.html(html);
-                            // graphOutput.append(html);
-                            output.append("\nThe graph is visible in the top right.")
-
+                            if (html === "<p> Invalid query syntax. Try something else.</p>") {
+                                output.append("\n" + html);
+                            } else {
+                                graphOutput.html(html);
+                                output.append("\nThe graph is visible in the top right.")
+                            }
                         } else {
-
                             output.append("\n" + html);
                         }
                         const objDiv = document.getElementById("superuserResults");
