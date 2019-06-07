@@ -266,12 +266,13 @@ $( function() {
                         const isGraph = data[1];
 
                         if (isGraph) {
-                            graphOutput.html(html);
-                            // graphOutput.append(html);
-                            output.append("\nThe graph is visible in the top right.")
-
+                            if (html === "<p> Invalid query syntax. Try something else.</p>") {
+                                output.append("\n" + html);
+                            } else {
+                                graphOutput.html(html);
+                                output.append("\nThe graph is visible in the top right.")
+                            }
                         } else {
-
                             output.append("\n" + html);
                         }
                         const objDiv = document.getElementById("superuserResults");
