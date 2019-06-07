@@ -3,11 +3,23 @@ const bot_DOM_QueryController = {
 
     handleDialogflowResult: function(data) {
 
-        setResponseBot(data.answer);
+
+        // TODO: Proccess responses from dialogflow
+
+
+        function formatResponse(text) {
+            text = text.split("-").join("<br>");
+            text = text.split("*").join("<em>");
+            text = text.split("^").join("</em>");
+
+
+            return text;
+        }
+
+        setResponseBot(formatResponse(data.answer));
 
         console.log(data.actionType);
 
-        // TODO: Proccess responses from dialogflow
 
         switch (data.actionType) {
             case 'tableOP':

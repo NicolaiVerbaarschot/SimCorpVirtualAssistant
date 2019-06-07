@@ -1,8 +1,27 @@
+/*@font-face {*/
+/*    font-family: 'Product Sans';*/
+/*    font-style: normal;*/
+/*    font-weight: 400;*/
+/*    src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');*/
+/*}*/
+
 @font-face {
-    font-family: 'Product Sans';
+    font-family: 'IBM Plex Sans';
     font-style: normal;
     font-weight: 400;
-    src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+    font-display: swap;
+    src: local('IBM Plex Sans'), local('IBMPlexSans'), url(https://fonts.gstatic.com/s/ibmplexsans/v6/zYXgKVElMYYaJe8bpLHnCwDKhdzeFaxOedfTDw.woff2) format('woff2');
+    unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local('IBM Plex Sans Bold'), local('IBMPlexSans-Bold'), url(https://fonts.gstatic.com/s/ibmplexsans/v6/zYX9KVElMYYaJe8bpLHnCwDKjWr7AIVsdP3pBmtF8A.woff2) format('woff2');
+    unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 html {
@@ -12,7 +31,8 @@ html {
 
 body {
     height: calc(100vh - 55px);
-    font-family: Product Sans, sans-serif;
+    /*font-family: Product Sans, sans-serif;*/
+    font-family: IBM Plex Sans, sans-serif;
 }
 
 strong {
@@ -20,6 +40,10 @@ strong {
     color: #1ec2fb;
 }
 
+em {
+    font-weight: 800;
+    font-style: normal;
+}
 
 
 
@@ -30,10 +54,11 @@ strong {
     position: relative;
     float: right;
     padding: 6px 8px;
+    color: white;
 }
 
 .bot-response {
-    background-color: white;
+    background-color: #eaeaea;
     border-radius: 10px 10px 10px 0;
     position: relative;
     float: left;
@@ -41,10 +66,12 @@ strong {
 }
 
 #response {
+    background-color: white;
+    padding: 10px;
     height: 550px;
     border-radius: 10px;
     overflow: scroll;
-    box-shadow:  inset 0px 57px 67px -94px rgba(0,0,0,0.35),  inset 0px -57px 67px -94px rgba(0,0,0,0.35);;
+    box-shadow:  inset 0 57px 67px -94px rgba(0,0,0,0.15),  inset 0 -57px 67px -94px rgba(0,0,0,0.15);
 
 
 }
