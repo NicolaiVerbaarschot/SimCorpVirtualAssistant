@@ -34,7 +34,7 @@ async function requestQuery(query) {
                 throw e;
             }
         } else {
-            throw new Error("query: " + query + "didnt match regex");
+            return "invalid query";
         }
     }
 
