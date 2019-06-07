@@ -28,7 +28,7 @@ $( function() {
                       "Dirty_Value_PC", "Dirty_Value_RC"];
     var numTags = ["Price", "Total_QTY", "Total_Price", "Dirty_Value_QC", "Dirty_Value_PC", "Dirty_Value_RC"];
     var sqlKeywords = ["SELECT", "FROM", "WHERE", "ORDER BY"];
-    var modes = ["help", "tableQuery", "graphQuery", "searchDocs"];
+    var modes = ["help", "tableQuery", "graphQuery"];
     var filterTags = [">", "=", "<"];
     var historyStack = [];
     var numSavedCommands = 20;
@@ -79,7 +79,6 @@ $( function() {
         if (firstWord === modes[0]) {return updateTagsHelp(inputString);}
         else if (firstWord === modes[1]) {return updateTagsTQ(inputString);}
         else if (firstWord === modes[2]) {return updateTagsGQ(inputString);}
-        else if (firstWord === modes[3]) {return updateTagsSearchDocs(inputString);}
         else {return modes;}
     }
 

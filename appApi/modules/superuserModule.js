@@ -9,7 +9,8 @@ function commandHelp() {
         "\t- help\n" +
         "\t- queryTable\n" +
         "\t- queryGraph\n" +
-        "\t- searchDocs";
+        "\n" +
+        "Use TAB and ENTER to navigate the autocomplete menu. The UP-arrow will call your most recent commands\n";
 }
 
 async function queryDatabaseAndRenderResult(isGraphQuery, query) { //TODO: remove async
@@ -32,11 +33,6 @@ async function queryDatabaseAndRenderResult(isGraphQuery, query) { //TODO: remov
     }
 }
 
-function commandSearchDocs() {
-    return "Link to document search in appApi/modules/superuserModule.ejs";
-}
-
-
 async function handleSuperuserCommand(command, res) {
 
     // Splitting input into command and arguments
@@ -56,8 +52,6 @@ async function handleSuperuserCommand(command, res) {
             return await queryDatabaseAndRenderResult(false, commandArgument);
         case "graphQuery":
             return await queryDatabaseAndRenderResult(true, commandArgument);
-        case "searchDocs":
-            return commandSearchDocs();
         default:
             return "Invalid Command"
     }
