@@ -30,9 +30,14 @@ const bot_DOM_QueryController = {
 
 
 function representState(query){
-    array = query.split(/(SELECT|FROM|WHERE)/g);
-    let columns = array[2];
-    let predicate = array[6];
-    console.log(predicate);
-    $("#predicate").html(predicate);
+    array = query.split(/(SELECT|FROM|WHERE|ORDER|BY|;)/);
+
+    const i1 = array.findIndex( S => S=="WHERE") + 1;
+    predicateString = i1 ? "constraints: " + predicate[i1].toLocaleLowerCase() : "";
+
+    const i2 = array.findIndex( S => S=="BY") + 1;
+    orderByString = i2 ? "ordered by: " + array[i2].toLocaleLowerCase() : "";
+
+    $("#predicate").html(predicateString);
+    $("#order").html(orderByString);
 }
