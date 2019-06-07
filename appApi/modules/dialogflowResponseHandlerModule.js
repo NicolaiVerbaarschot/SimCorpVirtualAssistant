@@ -23,8 +23,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         isKnowledgeAnswer: undefined
     };
 
-    resolvedResponseData.isKnowledgeAnswer = response.isKnowledgeAnswer;
-
+    //Return prematurely in edge cases
     if (!response.allRequiredParamsPresent) {
         // return prematurely as not all params are present
         resolvedResponseData.answer = response.answer;
@@ -33,53 +32,65 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         return resolvedResponseData;
     }
 
-    // Action type is resolved from intent name by splitting on underscore character
+    // return prematurely when user exits a slotfilling (e.g. saying 'stop')
+    if (response.action == "") {
+        resolvedResponseData.actionType = '';
+        resolvedResponseData.answer = response.answer;
+        return resolvedResponseData
+    }
+
+    // Action type is resolved from intent name by splitting on '.' character
     const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
     const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
 
-    // Define remaining properties
+
+    // Define initial properties
+    resolvedResponseData.isKnowledgeAnswer = response.isKnowledgeAnswer;
     resolvedResponseData.parameters = response.parameters;
     resolvedResponseData.answer = response.answer;
     resolvedResponseData.actionType = actionType;
 
-
-    if (response.action == "") {
-        resolvedResponseData.actionType = '';
-        return resolvedResponseData
-    }
-
     if (response.parameters != null || response.answer!= null) {
-        // Render ejs templates according to action type
-        switch (actionType) {
-            case tableOperation:
-                let data = await handleTableOperation(intentName, topQueryObject, secondTopMostQueryObject, response.parameters);
-                resolvedResponseData.tableOperationType = data.tableOperationType;
-                resolvedResponseData.newTable = data.newTable;
-                resolvedResponseData.newQueryObject = data.newQueryObject;
-                break;
-            case graphOperation:
-                let html = await handleGraphOperation(topQueryObject, response.parameters);
-                resolvedResponseData.newGraph = html;
-                break;
-            case knowledgeBaseOperation:
-                let parameters = [response.query,response.answer];
-                await ejsEngine.render('KnowledgeTemplate',parameters).then((html) => {
-                    resolvedResponseData['knowledgeAnswer'] = html;
-                });
-                break;
-        }
+        resolvedResponseData = await resolveAction(response, actionType, intentName, topQueryObject, secondTopMostQueryObject, resolvedResponseData)
     }
 
     return resolvedResponseData;
 }
 
+async function resolveAction(response, actionType, intentName, topQueryObject, secondTopMostQueryObject, resolvedResponseData) {
+    // Render ejs templates according to action type
+    switch (actionType) {
+        case tableOperation:
+            let data = await handleTableOperation(intentName, topQueryObject, secondTopMostQueryObject, response.parameters);
+            resolvedResponseData.tableOperationType = data.tableOperationType;
+            resolvedResponseData.newTable = data.newTable;
+            resolvedResponseData.newQueryObject = data.newQueryObject;
+            break;
+        case graphOperation:
+            let html = await handleGraphOperation(topQueryObject, response.parameters);
+            resolvedResponseData.newGraph = html;
+            break;
+        case knowledgeBaseOperation:
+            let parameters = [response.query,response.answer];
+            await ejsEngine.render('KnowledgeTemplate',parameters).then((html) => {
+                data['knowledgeAnswer'] = html;
+            });
+            break;
+    }
+    return resolvedResponseData;
+}
+
 async function handleGraphOperation(topQueryObject, parameters) {
     let query = queryManager.resolveGraphFromAction(topQueryObject, parameters);
-    let data = await database.requestQuery(query);
-    let modifiedData = visualisationModule.formatData(data);
+    try {
+        let data = await database.requestQuery(query);
+        let modifiedData = visualisationModule.formatData(data);
 
-    let html = await ejsEngine.render('graphTemplate', modifiedData);
-    return html;
+        let html = await ejsEngine.render('graphTemplate', modifiedData);
+        return html;
+    } catch (e) {
+        console.log("\nERROR:\n",e);
+    }
 }
 
 async function handleTableOperation(intentName, topQueryObject, secondTopMostQueryObject, parameters) {

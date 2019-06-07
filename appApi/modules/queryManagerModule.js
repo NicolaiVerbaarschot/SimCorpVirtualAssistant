@@ -184,7 +184,6 @@ function  queryParser(queryObject) {
     }
 
     query += ";";
-    console.log(query);
     return query;
 }
 

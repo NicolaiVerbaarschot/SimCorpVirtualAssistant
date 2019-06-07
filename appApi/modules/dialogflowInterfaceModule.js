@@ -1,10 +1,5 @@
-const najax = require('najax');
 const dialogflow = require('dialogflow').v2beta1;
 const uuid = require('uuid');
-
-const accessToken = "fe3ac7ce30b340d1b6802eb18de04809";
-const baseUrl = "https://api.api.ai/v1/";
-
 
 var config = {
     projectId: 'firstbot-d1b5b',
@@ -44,6 +39,8 @@ async function postToDialogflow(query) {
 
     let primaryQueryResult = response.queryResult;
     let alternativeQueryResult = response.alternativeQueryResults[0];
+
+    // Only select primary query result if confidence is above 60%, else use fall-back.
     const queryResult = (queryResultConfidence > 0.6 || alternativeQueryResult == null || alternativeQueryResult.intent == null) ? primaryQueryResult : alternativeQueryResult;
     let allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
 
