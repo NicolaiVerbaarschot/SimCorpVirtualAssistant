@@ -175,3 +175,4 @@ fabric.properties
 tests/output
 
 # End of https://www.gitignore.io/api/node,webstorm
+*png
