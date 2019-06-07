@@ -19,7 +19,6 @@ async function postSubqueriesToDialogFlow(queries, topQueryObject, secondTopMost
 
     if (queries.length == 0) {
         // Base case
-        console.log("RESOLVE LAST ELEM!");
         return currentResult
     } else {
         var head = queries.shift();

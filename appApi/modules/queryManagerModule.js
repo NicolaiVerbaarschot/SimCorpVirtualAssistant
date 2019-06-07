@@ -112,9 +112,7 @@ function clearSearch(queryObject) {
 }
 
 function sortTable(queryObject, stockAttribute) {
-    console.log(queryObject);
     queryObject.sort = stockAttribute;
-    console.log(queryObject);
     return queryObject;
 }
 
@@ -186,7 +184,6 @@ function  queryParser(queryObject) {
     }
 
     query += ";";
-    console.log(query);
     return query;
 }
 

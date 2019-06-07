@@ -23,8 +23,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         isKnowledgeAnswer: undefined
     };
 
-    resolvedResponseData.isKnowledgeAnswer = response.isKnowledgeAnswer;
-
+    //Return prematurely in edge cases
     if (!response.allRequiredParamsPresent) {
         // return prematurely as not all params are present
         resolvedResponseData.answer = response.answer;
@@ -33,21 +32,30 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         return resolvedResponseData;
     }
 
-    // Action type is resolved from intent name by splitting on underscore character
-    const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
-    const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
-
-    // Define remaining properties
-    resolvedResponseData.parameters = response.parameters;
-    resolvedResponseData.answer = response.answer;
-    resolvedResponseData.actionType = actionType;
-
-
     if (response.action == "") {
         resolvedResponseData.actionType = '';
         return resolvedResponseData
     }
 
+    // Action type is resolved from intent name by splitting on '.' character
+    const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
+    const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
+
+
+    // Define initial properties
+    resolvedResponseData.isKnowledgeAnswer = response.isKnowledgeAnswer;
+    resolvedResponseData.parameters = response.parameters;
+    resolvedResponseData.answer = response.answer;
+    resolvedResponseData.actionType = actionType;
+
+    if (response.parameters != null || response.answer!= null) {
+        resolvedResponseData = await resolveAction(response, actionType, intentName, topQueryObject, secondTopMostQueryObject, resolvedResponseData)
+    }
+
+    return resolvedResponseData;
+}
+
+async function resolveAction(response, actionType, intentName, topQueryObject, secondTopMostQueryObject, resolvedResponseData) {
     if (response.parameters != null || response.answer!= null) {
         // Render ejs templates according to action type
         switch (actionType) {
@@ -64,12 +72,11 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
             case knowledgeBaseOperation:
                 let parameters = [response.query,response.answer];
                 await ejsEngine.render('KnowledgeTemplate',parameters).then((html) => {
-                    resolvedResponseData['knowledgeAnswer'] = html;
+                    data['knowledgeAnswer'] = html;
                 });
                 break;
         }
     }
-
     return resolvedResponseData;
 }
 

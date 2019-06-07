@@ -3,7 +3,6 @@ const path = require('path');
 const database = require(path.resolve(__dirname, "./modules/databaseModule"));
 const documentSearch = require(path.resolve(__dirname, "./modules/documentSearch"));
 const superuserCommandHandler = require(path.resolve(__dirname, "./modules/superuserModule"));
-const visualisationModule = require(path.resolve(__dirname, "./modules/dataVisualisationModule"));
 const multipleRequestsResolver = require(path.resolve(__dirname, "./modules/multipleRequestsResolver"));
 const router = express.Router();
 
