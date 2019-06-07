@@ -103,7 +103,6 @@ function setResponseClient(val) {
     const message = $("<p class='client-response'></p>");
     message.append(val);
     response.append(message);
-    response.append("<br><br>");
     response.scrollTop(response[0].scrollHeight);
 
 }
@@ -113,7 +112,6 @@ function setResponseBot(val) {
     const message = $("<p class='bot-response'></p>");
     message.append(val);
     response.append(message);
-    response.append("<br><br>");
     response.scrollTop(response[0].scrollHeight);
 }
 

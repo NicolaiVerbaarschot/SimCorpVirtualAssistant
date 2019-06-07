@@ -49,6 +49,7 @@ em {
 
 
 .client-response {
+    clear: both;
     background-color: #1ec2fb;
     border-radius: 10px 10px 0 10px;
     position: relative;
@@ -58,6 +59,7 @@ em {
 }
 
 .bot-response {
+    clear: both;
     background-color: #eaeaea;
     border-radius: 10px 10px 10px 0;
     position: relative;
