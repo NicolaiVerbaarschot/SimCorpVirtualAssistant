@@ -30,5 +30,9 @@ const bot_DOM_QueryController = {
 
 
 function representState(query){
-    $("#SQLquery").html(query);
+    array = query.split(/(SELECT|FROM|WHERE)/g);
+    let columns = array[2];
+    let predicate = array[6];
+    console.log(predicate);
+    $("#predicate").html(predicate);
 }
