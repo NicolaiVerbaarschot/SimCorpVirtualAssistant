@@ -47,6 +47,10 @@ em {
 
 
 
+#botDP {
+    clear: both;
+    float: left;
+}
 
 .client-response {
     clear: both;
@@ -59,7 +63,7 @@ em {
 }
 
 .bot-response {
-    clear: both;
+    clear: right;
     background-color: #eaeaea;
     border-radius: 10px 10px 10px 0;
     position: relative;

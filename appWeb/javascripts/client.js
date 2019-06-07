@@ -111,6 +111,7 @@ function setResponseBot(val) {
     const response = $("#response");
     const message = $("<p class='bot-response'></p>");
     message.append(val);
+    response.append('<img id="botDP" src="../images/botdp.png"  alt="Bot Display Picture"/>');
     response.append(message);
     response.scrollTop(response[0].scrollHeight);
 }
