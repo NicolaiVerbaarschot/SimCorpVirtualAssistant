@@ -40,6 +40,15 @@ strong {
     padding: 6px 8px;
 }
 
+#response {
+    height: 550px;
+    border-radius: 10px;
+    overflow: scroll;
+    box-shadow:  inset 0px 57px 67px -94px rgba(0,0,0,0.35),  inset 0px -57px 67px -94px rgba(0,0,0,0.35);;
+
+
+}
+
 
 
 .btn-secondary {
@@ -64,6 +73,7 @@ strong {
 }
 .content-container-right {
     overflow: hidden;
+    /*max-height: 800px;*/
     background-color: #eaeaea;
     padding: 5px 15px 1px 15px;
     border-radius:10px;

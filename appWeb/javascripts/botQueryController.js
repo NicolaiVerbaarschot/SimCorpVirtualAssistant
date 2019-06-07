@@ -7,7 +7,7 @@ const bot_DOM_QueryController = {
 
         console.log(data.actionType);
 
-
+        // TODO: Proccess responses from dialogflow
 
         switch (data.actionType) {
             case 'tableOP':

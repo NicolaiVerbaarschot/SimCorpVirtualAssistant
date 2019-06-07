@@ -104,6 +104,8 @@ function setResponseClient(val) {
     message.append(val);
     response.append(message);
     response.append("<br><br>");
+    response.scrollTop(response[0].scrollHeight);
+
 }
 
 function setResponseBot(val) {
@@ -112,6 +114,7 @@ function setResponseBot(val) {
     message.append(val);
     response.append(message);
     response.append("<br><br>");
+    response.scrollTop(response[0].scrollHeight);
 }
 
 // function setResponseBot(val) {
