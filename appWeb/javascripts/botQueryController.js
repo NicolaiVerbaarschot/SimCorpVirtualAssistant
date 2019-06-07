@@ -3,7 +3,7 @@ const bot_DOM_QueryController = {
 
     handleDialogflowResult: function(data) {
 
-        setResponse("Bot: " + data.answer);
+        setResponseBot(data.answer);
 
         console.log(data.actionType);
 

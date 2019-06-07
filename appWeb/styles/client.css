@@ -24,6 +24,22 @@ strong {
 
 
 
+.client-response {
+    background-color: #1ec2fb;
+    border-radius: 10px 10px 0 10px;
+    position: relative;
+    float: right;
+    padding: 6px 8px;
+}
+
+.bot-response {
+    background-color: white;
+    border-radius: 10px 10px 10px 0;
+    position: relative;
+    float: left;
+    padding: 6px 8px;
+}
+
 
 
 .btn-secondary {

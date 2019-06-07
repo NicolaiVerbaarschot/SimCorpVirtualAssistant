@@ -80,7 +80,7 @@ $(document).ready(function() {
 });
 
 function compileAndSendBotQueryThenHandleResult(text) {
-    setResponse("You: " + text);
+    setResponseClient(text);
     let topQuery = queryObjectStack[queryObjectStack.length-1];
     let secondTopMostQuery = queryObjectStack.length-2 >= 0 ? queryObjectStack[queryObjectStack.length-2] : undefined;
     api.submitBotQuery(text, topQuery, secondTopMostQuery).then((result) => {
@@ -98,11 +98,27 @@ function sendInput(text) {
     compileAndSendBotQueryThenHandleResult(text);
 }
 
-function setResponse(val) {
+function setResponseClient(val) {
     const response = $("#response");
-    response.text(response.text() + val + "\r\n");
-    response.scrollTop(response[0].scrollHeight);
+    const message = $("<p class='client-response'></p>");
+    message.append(val);
+    response.append(message);
+    response.append("<br><br>");
 }
+
+function setResponseBot(val) {
+    const response = $("#response");
+    const message = $("<p class='bot-response'></p>");
+    message.append(val);
+    response.append(message);
+    response.append("<br><br>");
+}
+
+// function setResponseBot(val) {
+//     const response = $("#response");
+//     response.text(response.text() + val + "\r\n");
+//     response.scrollTop(response[0].scrollHeight);
+// }
 
 function updateRec(text) {
     $("#rec").html(text);
