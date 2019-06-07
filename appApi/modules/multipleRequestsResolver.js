@@ -4,8 +4,8 @@ const dialogflowResponseHandler = require(path.resolve(__dirname, ".//dialogflow
 
 async function resolve(query, topQueryObject, secondTopMostQueryObject) {
 
-    if (query == "") {
-        console.log("ERROR: QueryManager cannot handle empty input")
+    if (query === "") {
+        console.log("ERROR: QueryManager cannot handle empty input");
         return
     }
     // Split input based on 'and'.
@@ -23,12 +23,12 @@ async function postSubqueriesToDialogFlow(queries, topQueryObject, secondTopMost
     } else {
         var head = queries.shift();
         let dfData = await dialogflow.send(head)
-        let resolvedData = await dialogflowResponseHandler.resolve(dfData, topQueryObject, secondTopMostQueryObject)
+        let resolvedData = await dialogflowResponseHandler.resolve(dfData, topQueryObject, secondTopMostQueryObject);
         let updatedTopQueryObject = resolvedData.newQueryObject;
         let updatedSecondTopMostQueryObject = topQueryObject;
 
-        let updatedResolvedData = updateUndefinedParams(resolvedData, currentResult)
-        return postSubqueriesToDialogFlow(queries, updatedTopQueryObject, updatedSecondTopMostQueryObject, updatedResolvedData)
+        let updatedResolvedData = updateUndefinedParams(resolvedData, currentResult);
+        return postSubqueriesToDialogFlow(queries, updatedTopQueryObject, updatedSecondTopMostQueryObject, updatedResolvedData);
     }
 }
 
