@@ -31,7 +31,6 @@ html {
 
 body {
     height: calc(100vh - 55px);
-    /*font-family: Product Sans, sans-serif;*/
     font-family: IBM Plex Sans, sans-serif;
 }
 
@@ -46,9 +45,15 @@ em {
 }
 
 
-
-#botDP {
+.chat-row {
+    position: relative;
+    float: left;
     clear: both;
+}
+
+.botDP {
+    position: absolute;
+    bottom: 0;
     float: left;
 }
 
@@ -63,11 +68,10 @@ em {
 }
 
 .bot-response {
-    clear: right;
     background-color: #eaeaea;
     border-radius: 10px 10px 10px 0;
     position: relative;
-    float: left;
+    margin-left: 40px;
     padding: 6px 8px;
 
 }
@@ -79,8 +83,6 @@ em {
     border-radius: 10px;
     overflow: scroll;
     box-shadow:  inset 0 57px 67px -94px rgba(0,0,0,0.15),  inset 0 -57px 67px -94px rgba(0,0,0,0.15);
-
-
 }
 
 
@@ -107,7 +109,6 @@ em {
 }
 .content-container-right {
     overflow: hidden;
-    /*max-height: 800px;*/
     background-color: #eaeaea;
     padding: 5px 15px 1px 15px;
     border-radius:10px;

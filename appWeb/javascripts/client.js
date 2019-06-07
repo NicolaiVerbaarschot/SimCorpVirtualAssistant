@@ -104,23 +104,19 @@ function setResponseClient(val) {
     message.append(val);
     response.append(message);
     response.scrollTop(response[0].scrollHeight);
-
 }
 
 function setResponseBot(val) {
     const response = $("#response");
+    const container = $("<div class='chat-row'></div>");
     const message = $("<p class='bot-response'></p>");
     message.append(val);
-    response.append('<img id="botDP" src="../images/botdp.png"  alt="Bot Display Picture"/>');
-    response.append(message);
+    container.append('<img class="botDP" src="../images/botdp.png"  alt="Bot Display Picture"/>');
+    container.append(message);
+    response.append(container);
     response.scrollTop(response[0].scrollHeight);
 }
 
-// function setResponseBot(val) {
-//     const response = $("#response");
-//     response.text(response.text() + val + "\r\n");
-//     response.scrollTop(response[0].scrollHeight);
-// }
 
 function updateRec(text) {
     $("#rec").html(text);
