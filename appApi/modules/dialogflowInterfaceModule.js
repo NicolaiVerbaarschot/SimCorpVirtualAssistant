@@ -62,16 +62,20 @@ async function postToDialogflow(query) {
             isKnowledgeAnswer: true
         };
     } else {
-        queryResult = response.alternativeQueryResults[0];
+        queryResult = response.queryResult;
+        while (queryResult.intent.displayName.includes('Knowledge')){
+            queryResult = response.alternativeQueryResults.pop()
+        }
         allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
-        console.log(`  Intent: ${queryResult.intent.displayName}`);
+        //console.log(`  Intent: ${queryResult.intent.displayName}`);
+        //parameters = queryResult
         return {
             success: true,
             query: query,
             answer: queryResult.fulfillmentText,
             action: queryResult.action,
             allRequiredParamsPresent : allRequiredParamsPresent,
-            parameters: queryResult.allRequiredParamsPresent ? queryResult.parameters.fields : undefined,
+            parameters: allRequiredParamsPresent ? queryResult.parameters.fields : undefined,
             intentName: queryResult.intent.displayName,
             isKnowledgeAnswer: false
         };
