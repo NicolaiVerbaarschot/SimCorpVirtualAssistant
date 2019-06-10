@@ -24,6 +24,36 @@ const documents = [{
         tags: ['versions','vito']
     },
 
+    // Features Document
+    {
+        title: 'Features',
+        section: 'summary',
+        body: 'Vito ships chalk-full of a healthy set of features. Many of them were originally introduced in Vivan, but there are also come that are completely new! The following provides an overview of Vitos most significant features.',
+        tags: ['feature', 'summary']
+    }, {
+        title: 'Features',
+        section: 'Grid Operations & Database Integration',
+        body: 'Grid operations were part of the basic set of requirements met by Vivan. Upon development of Vito, some more advanced grid operations were added. Here is a list of all the grid operations currently supported by Vito:\n' +
+            '\n' +
+            'Sorting\n' +
+            'Grouping\n' +
+            'Showing/hiding columns\n' +
+            'Reversing the table order\n' +
+            'Table search\n' +
+            'Furthermore, Vito is integrated with a remote SQL server which is used to store all of the data that can be shown in the graph. In fact, all the grid operations are actually implemented as different SQL queries. When a user specifies a grouping, a valid SQL query is formed where the data will be ordered accordingly.',
+        tags: ['feature', 'Grid']
+    }, {
+        title: 'Features',
+        section: 'Natural Language Processing',
+        body: 'Vito is capable of natural language processing. This is a requirement for the ability to interact with the assisant through natural language, be that typed or spoken. Dialogflow, the host of the assistant, uses machine learning techniques coupled with developer defined training phrases to be able to resolve an intent from any given input.',
+        tags: ['feature', 'nlp', 'natural language']
+    }, {
+        title: 'Features',
+        section: 'Document Search',
+        body: 'It is possible to search Vitos documentation pages via the assistant. Search strings are matched to either document titles, headers, or body content; Each with respective weights, and the results are displayed on the homepage.',
+        tags: ['feature', 'doucment search', 'how to']
+    },
+
     // Website Document
     {
         title: 'Website',
@@ -90,9 +120,9 @@ const documents = [{
         tags: ['attributes', 'TOTAL_QTY'],
     }, {
         title: 'Attributes',
-        section: 'TOTAL_PRICE',
-        body: 'TOTAL_PRICE shows the total price of all the assets. This is calculated as Price times total quantity.',
-        tags: ['attributes', 'TOTAL_PRICE'],
+        section: 'total_price',
+        body: 'total_price shows the total price of all the assets. This is calculated as price times total quantity.',
+        tags: ['attributes', 'total_price'],
     }, {
         title: 'Attributes',
         section: 'MATURITY_DATE',
@@ -115,35 +145,7 @@ const documents = [{
         tags: ['attributes', 'DIRTY_VALUE_RC'],
     },
 
-    // Features Document
-    {
-        title: 'Features',
-        section: 'summary',
-        body: 'Vito ships chalk-full of a healthy set of features. Many of them were originally introduced in Vivan, but there are also come that are completely new! The following provides an overview of Vitos most significant features.',
-        tags: ['feature', 'summary']
-    }, {
-        title: 'Features',
-        section: 'Grid Operations & Database Integration',
-        body: 'Grid operations were part of the basic set of requirements met by Vivan. Upon development of Vito, some more advanced grid operations were added. Here is a list of all the grid operations currently supported by Vito:\n' +
-            '\n' +
-            'Sorting\n' +
-            'Grouping\n' +
-            'Showing/hiding columns\n' +
-            'Reversing the table order\n' +
-            'Table search\n' +
-            'Furthermore, Vito is integrated with a remote SQL server which is used to store all of the data that can be shown in the graph. In fact, all the grid operations are actually implemented as different SQL queries. When a user specifies a grouping, a valid SQL query is formed where the data will be ordered accordingly.',
-        tags: ['feature', 'Grid']
-    }, {
-        title: 'Features',
-        section: 'Natural Language Processing',
-        body: 'Vito is capable of natural language processing. This is a requirement for the ability to interact with the assisant through natural language, be that typed or spoken. Dialogflow, the host of the assistant, uses machine learning techniques coupled with developer defined training phrases to be able to resolve an intent from any given input.',
-        tags: ['feature', 'nlp', 'natural language']
-    }, {
-        title: 'Features',
-        section: 'Document Search',
-        body: 'It is possible to search Vitos documentation pages via the assistant. Search strings are matched to either document titles, headers, or body content; Each with respective weights, and the results are displayed on the homepage.',
-        tags: ['feature', 'doucment search']
-    },
+
 
     // Dependencies Document
     {
@@ -160,7 +162,7 @@ const documents = [{
             '\n' +
             'Fuse.js\n' +
             'Fuse.js is another lightweight framework that provides fuzzy matching capabilities. It currently serves as the backbone for document search',
-        tags: [    ]
+        tags: [  'required' ]
     },
 
     // Investopedia document
@@ -192,10 +194,23 @@ const documents = [{
         tags: [    ]
     }, {
         title: 'Investopedia',
-        section: 'Investing Vehicles',
-        body: 'There are many different ways you can go about investing, including putting money into stocks, bonds, mutual funds, ETFs, real estate (and other alternative investment vehicles), or even starting your own business.\n' +
+        section: 'apple Stock',
+        body: 'An investment of $10,000 in the stock of Apple (AAPL) that was made on December 31, 1980 would have grown to $2,709,248 as of the market’s close on February 28, 2017 according to Morningstar’s Advisor Workstation tool. This translates to an annual return of 16.75%, including the reinvestment of all dividends from the stock.\n' +
             '\n' +
-            'Every investment vehicle has its positives and negatives, which we\'ll discuss in a later section of this tutorial. Understanding how different types of investment vehicles work is critical to your success. For example, what does a mutual fund invest in? Who is managing the fund? What are the fees and expenses? Are there any costs or penalties for accessing your money? These are all questions that should be answered before making an investment. While it is true there are no guarantees of making money, some work on your part can increase your odds of being a successful investor. Analysis, research and even just reading up on investing can all help.',
+            'Apple started paying dividends in 2012. Even so, if those dividends hadn’t been reinvested the ending balance of this investment would have been $2,247,949 or 83% of the amount that you would have had by reinvesting.\n' +
+            '\n' +
+            'While Apple is one of the most successful companies, and their stock is a winner year-in and year-out, compound interest also works for index funds, which are managed to replicate the performance of a major market index such as the S&P 500.',
+        tags: [  'apple', 'Why should I have invested in Apple'  ]
+    }, {
+        title: 'Investopedia',
+        section: 'Vangaurd 500 Index',
+        body: 'Another example of the benefits of compounding is the popular Vanguard 500 Index fund (VFINX) held for the 20 years ending February 28, 2017.\n' +
+            '\n' +
+            'A $10,000 investment into the fund made on February 28, 1997 would have grown to a value of $42,650 at the end of the 20-year period. This assumes the reinvestment of all fund distributions for dividends, interest or capital gains back into the fund.\n' +
+            '\n' +
+            'Without reinvesting the distributions, the value of the initial $10,000 investment would have grown to $29,548 or 69% of the amount with reinvestment.\n' +
+            '\n' +
+            'In this and the Apple example, current year taxes would have been due on any fund distributions or stock dividends if the investment was held in a taxable account, but for most investors, these earnings can grow tax-deferred in a retirement account such as a employer-sponsored 401(k).',
         tags: [    ]
     },
     {
@@ -218,16 +233,15 @@ const documents = [{
         tags: [    ]
     }
 
-
-
 ];
 
 const options = {
     shouldSort: true,
     includeScore: true,
+    threshold: 0.9,
     keys: [{
         name: 'title',
-        weight: 0.4
+        weight: 0.2
     }, {
         name: 'section',
         weight: 0.7
