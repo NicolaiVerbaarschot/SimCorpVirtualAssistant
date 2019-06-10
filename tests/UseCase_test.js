@@ -23,7 +23,7 @@ Scenario('What can you do', (I) => {
 
 Scenario('how to invest', (I) => {
     I.reloadPage();
-    I.askBot("how to invest");
+    I.askBot("? how to invest");
     I.getAnswer('investment');
 });
 

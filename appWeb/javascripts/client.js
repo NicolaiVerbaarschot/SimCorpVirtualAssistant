@@ -90,6 +90,25 @@ function compileAndSendBotQueryThenHandleResult(text) {
             queryObjectStack.push(result.newQueryObject);
         }
         bot_DOM_QueryController.handleDialogflowResult(result);
+
+        array = result.SQLQuery.split(/(SELECT|FROM|WHERE|ORDER|BY|;)/);
+
+        const i1 = array.findIndex( S => S=="WHERE") + 1;
+        if (i1){
+            predicateString = i1 ? "constraints are " + array[i1].toLocaleLowerCase() : "";
+            $("#predicate").html(predicateString);
+
+        }
+
+        const i2 = array.findIndex( S => S=="BY") + 1;
+        if (i2) {
+            orderByString = i2 ? "ordered by " + array[i2].toLocaleLowerCase() : "";
+            orderByString = orderByString.split(',').join(' then ');
+            $("#order").html(orderByString);
+        }
+
+
+
     });
 
 }

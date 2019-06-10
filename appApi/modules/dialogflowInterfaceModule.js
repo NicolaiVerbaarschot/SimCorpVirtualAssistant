@@ -25,6 +25,11 @@ const sessionPath = sessionClient.sessionPath(projectId, sessionId);
  */
 async function postToDialogflow(query) {
 
+    var askingKB = false;
+    if (query[0] === '?') {
+        askingKB = true;
+        query = query.substr(1);
+    }
     // The text query request.
     const request = {
         session: sessionPath,
@@ -37,22 +42,29 @@ async function postToDialogflow(query) {
         },
     };
 
+
     // Send request and log result
     const response = (await sessionClient.detectIntent(request))[0];
 
-    let queryResultConfidence = response.queryResult.intentDetectionConfidence
+    if (askingKB) {
+        queryResult = response.queryResult.knowledgeAnswers[0]
+    } else{
 
-    let primaryQueryResult = response.queryResult;
-    let alternativeQueryResult = response.alternativeQueryResults[0];
-    const queryResult = (queryResultConfidence > 0.6 || alternativeQueryResult == null || alternativeQueryResult.intent == null) ? primaryQueryResult : alternativeQueryResult;
-    let allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
-
-    if (queryResult.intent) {
-        console.log(`  Intent: ${queryResult.intent.displayName}`);
-    } else {
-        console.log(`  No intent matched.`);
-        return {success: false}
+        queryResult = response.queryResult;
     }
+    let allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
+    console.log(`  Intent: ${queryResult.intent.displayName}`);
+
+    //let queryResultConfidence = response.queryResult.intentDetectionConfidence;
+    //  let alternativeQueryResult = response.alternativeQueryResults[0];
+    //  const queryResult = (queryResultConfidence > 0.6 || alternativeQueryResult == null || alternativeQueryResult.intent == null) ? primaryQueryResult : alternativeQueryResult;
+    //
+    // if (queryResult.intent) {
+    // } else {
+    //     console.log(`  No intent matched.`);
+    //     return {success: false}
+    // }
+
     return {
         success: true,
         query: query,

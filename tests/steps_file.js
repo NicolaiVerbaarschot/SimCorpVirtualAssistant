@@ -13,7 +13,7 @@ module.exports = function() {
       },
 
       getAnswer: function(answer){
-          this.seeInField("#response",answer);
+          this.see(answer);
       },
 
       reloadPage: function(){
