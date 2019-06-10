@@ -1,8 +1,23 @@
 const Fuse = require('fuse.js/dist/fuse.js');
 
-const documents = [{
+const documents = [
+
+    {
+        title: 'Investopedia',
+        section: 'Starting Early',
+        body: 'Another way to look at the power of compounding is to compare how much less initial investment you need if you start early to reach the same goal.\n' +
+            '\n' +
+            'A 25-year-old who wishes to accumulate $1 million by age 60 would need to invest $880.21 each month assuming a constant return of 5%.\n' +
+            '\n' +
+            'A 35-year-old wishing to accumulate $1 million by age 60 would need to invest $1,679.23 each month using the same assumptions.\n' +
+            '\n' +
+            'A 45-year-old would need to invest $3,741.27 each month to accumulate the same $1 million by age 60. That’s almost 4 times the amount that the 25-year old needs. Starting early is especially helpful when saving for retirement, when putting aside a little bit early in your career can reap great benefits.',
+        tags: [  'How much does a 25 year-old have to put aside each month to become a millionaire?', '25', 'years'  ]
+    },
+
 
     // Versions Document
+    {
         title: 'Versions',
         section: 'Summary',
         body: 'Vito was not always as shiny and pretty as we know she is today. Before she was birthed, numerous other imlplementations were carrying the Vi-name! There exists three major Vi-versions; Vivan, Vivan Node, and Vito; The naming convention is no accident; Vivan represents version one or V1, Vivan Node reporesents the migration of Vivan to a Node.js, and finally Vito represents version 2 or V2.',
@@ -194,7 +209,7 @@ const documents = [{
         tags: [    ]
     }, {
         title: 'Investopedia',
-        section: 'apple Stock',
+        section: 'An Investment In Apple Stock',
         body: 'An investment of $10,000 in the stock of Apple (AAPL) that was made on December 31, 1980 would have grown to $2,709,248 as of the market’s close on February 28, 2017 according to Morningstar’s Advisor Workstation tool. This translates to an annual return of 16.75%, including the reinvestment of all dividends from the stock.\n' +
             '\n' +
             'Apple started paying dividends in 2012. Even so, if those dividends hadn’t been reinvested the ending balance of this investment would have been $2,247,949 or 83% of the amount that you would have had by reinvesting.\n' +
@@ -220,18 +235,7 @@ const documents = [{
             '\n' +
             'Compounding is the process of generating more return on an asset\'s reinvested earnings. To work, it requires two things: the reinvestment of earnings and time. Compound interest can help your initial investment grow exponentially. For younger investors, it is the greatest investing tool possible, and the #1 argument for starting as early as possible. Below we give a couple of examples of compound interest.',
         tags: [    ]
-    }, {
-        title: 'Investopedia',
-        section: 'Investing early',
-        body: 'Another way to look at the power of compounding is to compare how much less initial investment you need if you start early to reach the same goal.\n' +
-            '\n' +
-            'A 25-year-old who wishes to accumulate $1 million by age 60 would need to invest $880.21 each month assuming a constant return of 5%.\n' +
-            '\n' +
-            'A 35-year-old wishing to accumulate $1 million by age 60 would need to invest $1,679.23 each month using the same assumptions.\n' +
-            '\n' +
-            'A 45-year-old would need to invest $3,741.27 each month to accumulate the same $1 million by age 60. That’s almost 4 times the amount that the 25-year old needs. Starting early is especially helpful when saving for retirement, when putting aside a little bit early in your career can reap great benefits.',
-        tags: [    ]
-    }
+    },
 
 ];
 

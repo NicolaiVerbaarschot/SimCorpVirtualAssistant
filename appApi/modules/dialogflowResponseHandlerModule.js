@@ -74,7 +74,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
             case fuseSearchOperation:
                 const fuse = fuseSearchModule.fuse;
                 const fuseResponse = fuse.search(response.parameters['any']['stringValue']);
-                if (fuseResponse != null && fuseResponse[0]['score'] < 0.15) { // Empty == null
+                if (fuseResponse != null && fuseResponse[0]['score'] < 0.157) { // Empty == null
 
                     await ejsEngine.render('searchTemplate', {results: fuseResponse}).then((html) => {
                         resolvedResponseData.fuseSearch = html;
