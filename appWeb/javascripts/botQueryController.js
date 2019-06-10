@@ -4,19 +4,36 @@ const bot_DOM_QueryController = {
     handleDialogflowResult: function(data) {
 
 
-        // TODO: Proccess responses from dialogflow
-
 
         function formatResponse(text) {
             text = text.split("-").join("<br>");
             text = text.split("*").join("<em>");
             text = text.split("^").join("</em>");
 
-
             return text;
         }
 
-        setResponseBot(formatResponse(data.answer));
+        // Set bot response
+        if (data.actionType === 'discoverOP') {
+
+            var text = data.answer.split("&");
+
+            text.forEach(function (line, index, collection) {
+
+                setTimeout(function (){
+
+                    setResponseBot(formatResponse(line));
+
+                }, index * 2000);
+
+            });
+            console.log(text);
+
+
+        } else {
+
+            setResponseBot(formatResponse(data.answer));
+        }
 
         console.log(data.actionType);
 
