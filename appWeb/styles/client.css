@@ -48,7 +48,7 @@ em {
 
 #floating-assistant {
     z-index: 1;
-    position:absolute;
+    position:fixed;
     bottom: 1%;
     right: 1%;
     min-width: 500px;
@@ -91,7 +91,7 @@ em {
 #response {
     background-color: white;
     padding: 10px;
-    max-height: 750px;
+    max-height: calc(100vh - 220px);
     border-radius: 10px;
     overflow: scroll;
     box-shadow:  inset 0 57px 67px -94px rgba(0,0,0,0.15),  inset 0 -57px 67px -94px rgba(0,0,0,0.15);
@@ -116,15 +116,16 @@ em {
     overflow: scroll;
     background-color: #FFFFFF;
     padding: 5px 15px 1px 15px;
-    border-radius:10px;
-    box-shadow: 0 0 18px -4px rgba(0,0,0,0.67);
+    width: calc(100vw - 650px);
+    border-radius: 10px;
+    box-shadow: 0 0 18px -4px rgba(0, 0, 0, 0.67);
 }
 .content-container-right {
     overflow: hidden;
     background-color: #eaeaea;
     padding: 5px 15px 1px 15px;
     border-radius:10px;
-    box-shadow: 0 0 18px -4px rgba(0,0,0,0.67);
+    box-shadow: 0 0 18px -4px rgba(0,0,0,0.37);
 }
 
 .container-fluid {
@@ -137,6 +138,7 @@ em {
     background-color: #22c9fc;
     position: relative;
     height: auto;
+    width: calc(100vw - 650px);
     padding-bottom: 30px;
     padding-left: 30px;
     padding-right: 30px;
