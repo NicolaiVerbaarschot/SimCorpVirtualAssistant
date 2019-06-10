@@ -68,9 +68,51 @@ const documents = [{
         section: 'Symbol',
         body: 'Symbol is an ID for each asset. For example APPL is the symbol of Apple.',
         tags: ['attributes', 'symbol'],
-        section: 'another Symbol',
-        body: 'Just a body',
-        tags: ['attributes', 'symbol'],
+    }, {
+        title: 'Attributes',
+        section: 'Type',
+        body: 'An asset can be of three types: Fund, Bond or Stock.',
+        tags: ['attributes', 'type'],
+    }, {
+        title: 'Attributes',
+        section: 'Price',
+        body: 'Price shows the price of a single asset.',
+        tags: ['attributes', 'price'],
+    }, {
+        title: 'Attributes',
+        section: 'QC',
+        body: 'QC is the currency of the price of each asset.',
+        tags: ['attributes', 'qc'],
+    }, {
+        title: 'Attributes',
+        section: 'TOTAL_QTY',
+        body: 'TOTAL_QTY is the total ammount of each asset in the portfolio.',
+        tags: ['attributes', 'TOTAL_QTY'],
+    }, {
+        title: 'Attributes',
+        section: 'TOTAL_PRICE',
+        body: 'TOTAL_PRICE shows the total price of all the assets. This is calculated as Price times total quantity.',
+        tags: ['attributes', 'TOTAL_PRICE'],
+    }, {
+        title: 'Attributes',
+        section: 'MATURITY_DATE',
+        body: 'Maturity date refers to the final payment date of the asset.',
+        tags: ['attributes', 'MATURITY_DATE'],
+    }, {
+        title: 'Attributes',
+        section: 'DIRTY_VALUE_QC',
+        body: 'DIRTY_VALUE_QC refers to something we dont really know what is.',
+        tags: ['attributes', 'DIRTY_VALUE_QC'],
+    }, {
+        title: 'Attributes',
+        section: 'DIRTY_VALUE_PC',
+        body: 'DIRTY_VALUE_PC refers to something we dont really know what is.',
+        tags: ['attributes', 'DIRTY_VALUE_PC'],
+    }, {
+        title: 'Attributes',
+        section: 'DIRTY_VALUE_RC',
+        body: 'DIRTY_VALUE_RC refers to something we dont really know what is.',
+        tags: ['attributes', 'DIRTY_VALUE_RC'],
     },
 
     // Features Document
@@ -106,30 +148,20 @@ const documents = [{
     // Dependencies Document
     {
         title: 'Dependencies',
-        section: 'Summary',
-        body: 'Vito depends on various third party products and frameworks. Without these dependencies, Vito would not be alive and kicing today! These dependecies, together with the function they serve, are briefly mentioned in the following sections.',
+        section: 'Dependencies',
+        body: 'DialogFLow\n' +
+            'DialogFlow is a Google product used for creating chat bots. It is with DialogFLow, that Vito has been built and trained.\n' +
+            '\n' +
+            'Node.js\n' +
+            'Node.js is a framework for back-end web architecture. It allows for rapid, asynchronous, server-side computations, that allow Vito to respond and enact actions more quickly and efficiently. Node.js was first introduted in Vivan Node, hence the name.\n' +
+            '\n' +
+            'Chart.js\n' +
+            'Chart.js is a lightweight framework for generating charts and diagrams in HTML and Javascript. It is used to make Vitos visualizations\n' +
+            '\n' +
+            'Fuse.js\n' +
+            'Fuse.js is another lightweight framework that provides fuzzy matching capabilities. It currently serves as the backbone for document search',
         tags: [    ]
-    }, {
-        title: 'Dependencies',
-        section: 'DialogFLow',
-        body: 'DialogFlow is a Google product used for creating chat bots. It is with DialogFLow, that Vito has been built and trained.',
-        tags: ['dependency', 'dialogflow']
-    }, {
-        title: 'Dependencies',
-        section: 'Node.js',
-        body: 'Node.js is a framework for back-end appWeb architecture. It allows for rapid, asynchronous, server-side computations, that allow Vito to respond and enact actions more quickly and efficiently. Node.js was first introduted in Vivan Node, hence the name.',
-        tags: ['dependency', 'node', 'node.js']
-    }, {
-        title: 'Dependencies',
-        section: 'Chart.js',
-        body: 'Chart.js is a lightweight framework for generating charts and diagrams in HTML and Javascript. It is used to make Vitos visualizations',
-        tags: ['dependency', 'chart', 'chart.js']
-    }, {
-        title: 'Dependencies',
-        section: 'fuse.js',
-        body: 'Fuse.js is another lightweight framework that provides fuzzy matching capabilities. It currently serves as the backbone for document search.',
-        tags: ['dependency', 'fuse', 'fuse.js']
-    } ,
+    },
 
     // Investopedia document
     // Dependencies Document
@@ -142,7 +174,7 @@ const documents = [{
         tags: [    ]
     }, {
         title: 'Investopedia',
-        section: 'What is investing',
+        section: 'investing introduction',
         body: 'Investing is really about “working smarter and not harder.” Most of us work hard at our jobs, whether for a company or our own business. We often work long hours, which requires sacrifice and adds stress. Taking some of our hard-earned money and investing for our future needs is a way to make the most of what we earn.\n' +
             '\n' +
             'Investing is also about making priorities for your money. Spending is easy and gives instant gratification—whether the splurge is on a new outfit, a vacation to some exotic spot or dinner in a fancy restaurant. All of these are wonderful and make life more enjoyable. But investing requires prioritizing our financial futures over our present desires.\n' +
@@ -159,6 +191,14 @@ const documents = [{
             'Every investment vehicle has its positives and negatives, which we\'ll discuss in a later section of this tutorial. Understanding how different types of investment vehicles work is critical to your success. For example, what does a mutual fund invest in? Who is managing the fund? What are the fees and expenses? Are there any costs or penalties for accessing your money? These are all questions that should be answered before making an investment. While it is true there are no guarantees of making money, some work on your part can increase your odds of being a successful investor. Analysis, research and even just reading up on investing can all help.',
         tags: [    ]
     }, {
+        title: 'Investopedia',
+        section: 'Investing Vehicles',
+        body: 'There are many different ways you can go about investing, including putting money into stocks, bonds, mutual funds, ETFs, real estate (and other alternative investment vehicles), or even starting your own business.\n' +
+            '\n' +
+            'Every investment vehicle has its positives and negatives, which we\'ll discuss in a later section of this tutorial. Understanding how different types of investment vehicles work is critical to your success. For example, what does a mutual fund invest in? Who is managing the fund? What are the fees and expenses? Are there any costs or penalties for accessing your money? These are all questions that should be answered before making an investment. While it is true there are no guarantees of making money, some work on your part can increase your odds of being a successful investor. Analysis, research and even just reading up on investing can all help.',
+        tags: [    ]
+    },
+    {
         title: 'Investopedia',
         section: 'Compound Interest',
         body: 'Now that you have a general idea of what investing is and why you should do it, it\'s time to learn about how investing lets you take advantage of one of the miracles of mathematics: compound interest.\n' +
@@ -183,6 +223,8 @@ const documents = [{
 ];
 
 const options = {
+    shouldSort: true,
+    includeScore: true,
     keys: [{
         name: 'title',
         weight: 0.4
@@ -191,7 +233,7 @@ const options = {
         weight: 0.7
     },{
         name: 'body',
-        weight: 0.3
+        weight: 0.4
     }]
 };
 

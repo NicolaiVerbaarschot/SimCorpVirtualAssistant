@@ -74,9 +74,15 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
             case fuseSearchOperation:
                 const fuse = fuseSearchModule.fuse;
                 const fuseResponse = fuse.search(response.parameters['any']['stringValue']);
-                await ejsEngine.render('searchTemplate', {results: fuseResponse}).then((html) => {
-                    resolvedResponseData.fuseSearch = html;
-                });
+                if (fuseResponse == null && fuseResponse[0]['score'] < 0.6) { // Empty == null
+
+                    await ejsEngine.render('searchTemplate', {results: fuseResponse}).then((html) => {
+                        resolvedResponseData.fuseSearch = html;
+                    });
+
+                } else {
+                    resolvedResponseData.fuseSearch = "<p>Sorry, I'm not confident in my findings... Try asking in a different way.</p>";
+                }
                 resolvedResponseData.actionType = fuseSearchOperation;
         }
     }
