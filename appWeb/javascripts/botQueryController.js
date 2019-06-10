@@ -24,7 +24,7 @@ const bot_DOM_QueryController = {
 
                     setResponseBot(formatResponse(line));
 
-                }, index * 1000);
+                }, index * 2000);
 
             });
             console.log(text);
