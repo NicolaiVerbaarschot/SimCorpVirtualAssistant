@@ -84,6 +84,7 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
                     resolvedResponseData.fuseSearch = "<p>Sorry, I'm not confident in my findings... Try asking in a different way.</p>";
                 }
                 resolvedResponseData.actionType = fuseSearchOperation;
+                resolvedResponseData.answer = "Check 'Search' for my findings!"
         }
     }
 
