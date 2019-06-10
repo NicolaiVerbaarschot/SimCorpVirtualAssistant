@@ -28,11 +28,15 @@ const bot_DOM_QueryController = {
             case 'graphOP':
                 $("#graphContainer").html(data.newGraph.toString());
                 break;
+            case 'searchOP':
+                $('#fuseContainer').html(data.fuseSearch.toString());
+                break;
+
         }
 
-        if (data.isKnowledgeAnswer) {
-            $("#fuseContainer").html(data.answer.toString());
-        }
+        // if (data.isKnowledgeAnswer) {
+        //     $("#fuseContainer").html(data.answer.toString());
+        // }
 
 
     }

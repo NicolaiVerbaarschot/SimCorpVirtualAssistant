@@ -2,9 +2,11 @@ const database = require('./databaseModule');
 const queryManager = require('./queryManagerModule');
 const ejsEngine = require('./renderEngineModule');
 const visualisationModule = require("./dataVisualisationModule");
+const fuseSearchModule = require("./documentSearch");
 
 const tableOperation = 'tableOP';
 const graphOperation = 'graphOP';
+const fuseSearchOperation = 'searchOP';
 const knowledgeBaseOperation = 'Knowledge';
 
 
@@ -20,22 +22,24 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
         newVisualisation: undefined,
         newQueryObject: undefined,
         tableOperationType: undefined, // Can be 'normal', 'undo'.
-        isKnowledgeAnswer: undefined
+        isKnowledgeAnswer: undefined,
+        fuseSearch: undefined
     };
+    // return prematurely as not all params are present
+    // Action type is resolved from intent name by splitting on underscore character
+    const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
+    const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
 
     resolvedResponseData.isKnowledgeAnswer = response.isKnowledgeAnswer;
 
+
     if (!response.allRequiredParamsPresent) {
-        // return prematurely as not all params are present
         resolvedResponseData.answer = response.answer;
         resolvedResponseData.newQueryObject = topQueryObject;
 
         return resolvedResponseData;
     }
 
-    // Action type is resolved from intent name by splitting on underscore character
-    const actionType = response.intentName.substring(0, response.intentName.indexOf('.'));
-    const intentName = response.intentName.substring(response.intentName.indexOf('.') + 1);
 
     // Define remaining properties
     resolvedResponseData.parameters = response.parameters;
@@ -67,6 +71,13 @@ async function handleDialogflowResponse(response, topQueryObject, secondTopMostQ
                     resolvedResponseData['knowledgeAnswer'] = html;
                 });
                 break;
+            case fuseSearchOperation:
+                const fuse = fuseSearchModule.fuse;
+                const fuseResponse = fuse.search(response.parameters['any']['stringValue']);
+                await ejsEngine.render('searchTemplate', {results: fuseResponse}).then((html) => {
+                    resolvedResponseData.fuseSearch = html;
+                });
+                resolvedResponseData.actionType = fuseSearchOperation;
         }
     }
 

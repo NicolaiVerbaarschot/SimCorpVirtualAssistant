@@ -108,7 +108,7 @@ const documents = [{
         title: 'Dependencies',
         section: 'Summary',
         body: 'Vito depends on various third party products and frameworks. Without these dependencies, Vito would not be alive and kicing today! These dependecies, together with the function they serve, are briefly mentioned in the following sections.',
-        tags: ['dependencies', 'summary']
+        tags: [    ]
     }, {
         title: 'Dependencies',
         section: 'DialogFLow',
