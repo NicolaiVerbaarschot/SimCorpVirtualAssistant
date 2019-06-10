@@ -129,7 +129,58 @@ const documents = [{
         section: 'fuse.js',
         body: 'Fuse.js is another lightweight framework that provides fuzzy matching capabilities. It currently serves as the backbone for document search.',
         tags: ['dependency', 'fuse', 'fuse.js']
-    } ];
+    } ,
+
+    // Investopedia document
+    // Dependencies Document
+    {
+        title: 'Investopedia',
+        section: 'Summary',
+        body: 'Investing: The act of committing money or capital to an endeavor with the expectation of obtaining an additional income or profit.\n' +
+            '\n' +
+            'Legendary investor Warren Buffett defines investing as “… the process of laying out money now to receive more money in the future.” The goal of investing is to put your money to work in one or more types of investment vehicles in the hopes of growing your money over time.\n',
+        tags: [    ]
+    }, {
+        title: 'Investopedia',
+        section: 'What is investing',
+        body: 'Investing is really about “working smarter and not harder.” Most of us work hard at our jobs, whether for a company or our own business. We often work long hours, which requires sacrifice and adds stress. Taking some of our hard-earned money and investing for our future needs is a way to make the most of what we earn.\n' +
+            '\n' +
+            'Investing is also about making priorities for your money. Spending is easy and gives instant gratification—whether the splurge is on a new outfit, a vacation to some exotic spot or dinner in a fancy restaurant. All of these are wonderful and make life more enjoyable. But investing requires prioritizing our financial futures over our present desires.\n' +
+            '\n' +
+            'Investing is a way to set aside money while you are busy with life and have that money work for you so that you can fully reap the rewards of your labor in the future. Investing is a means to a happier ending.\n' +
+            '\n' +
+            '[ Investing is a complicated subject, but it can be very rewarding to those that put in the effort. If you\'re interested in accelerating your learning path, Investopedia\'s Investing for Beginners Course provides an in-depth introduction to the topic taught by a Chartered Financial Analyst. You\'ll learn investing basics, how to manage your portfolio, risk reduction techniques, and more in over 75 lessons containing on-demand video, exercises, and interactive content. ]',
+        tags: [    ]
+    }, {
+        title: 'Investopedia',
+        section: 'Investing Vehicles',
+        body: 'There are many different ways you can go about investing, including putting money into stocks, bonds, mutual funds, ETFs, real estate (and other alternative investment vehicles), or even starting your own business.\n' +
+            '\n' +
+            'Every investment vehicle has its positives and negatives, which we\'ll discuss in a later section of this tutorial. Understanding how different types of investment vehicles work is critical to your success. For example, what does a mutual fund invest in? Who is managing the fund? What are the fees and expenses? Are there any costs or penalties for accessing your money? These are all questions that should be answered before making an investment. While it is true there are no guarantees of making money, some work on your part can increase your odds of being a successful investor. Analysis, research and even just reading up on investing can all help.',
+        tags: [    ]
+    }, {
+        title: 'Investopedia',
+        section: 'Compound Interest',
+        body: 'Now that you have a general idea of what investing is and why you should do it, it\'s time to learn about how investing lets you take advantage of one of the miracles of mathematics: compound interest.\n' +
+            '\n' +
+            'Compounding is the process of generating more return on an asset\'s reinvested earnings. To work, it requires two things: the reinvestment of earnings and time. Compound interest can help your initial investment grow exponentially. For younger investors, it is the greatest investing tool possible, and the #1 argument for starting as early as possible. Below we give a couple of examples of compound interest.',
+        tags: [    ]
+    }, {
+        title: 'Investopedia',
+        section: 'Investing early',
+        body: 'Another way to look at the power of compounding is to compare how much less initial investment you need if you start early to reach the same goal.\n' +
+            '\n' +
+            'A 25-year-old who wishes to accumulate $1 million by age 60 would need to invest $880.21 each month assuming a constant return of 5%.\n' +
+            '\n' +
+            'A 35-year-old wishing to accumulate $1 million by age 60 would need to invest $1,679.23 each month using the same assumptions.\n' +
+            '\n' +
+            'A 45-year-old would need to invest $3,741.27 each month to accumulate the same $1 million by age 60. That’s almost 4 times the amount that the 25-year old needs. Starting early is especially helpful when saving for retirement, when putting aside a little bit early in your career can reap great benefits.',
+        tags: [    ]
+    }
+
+
+
+];
 
 const options = {
     keys: [{
