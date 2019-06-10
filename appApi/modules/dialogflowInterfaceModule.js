@@ -29,6 +29,9 @@ async function postToDialogflow(query) {
     if (query[0] === '?') {
         askingKB = true;
         query = query.substr(1);
+    } else if (query.includes('question mark')){
+        askingKB = true;
+        query = query.split('question mark')[1];
     }
     // The text query request.
     const request = {
@@ -45,37 +48,35 @@ async function postToDialogflow(query) {
 
     // Send request and log result
     const response = (await sessionClient.detectIntent(request))[0];
-
+    let allRequiredParamsPresent = true;
     if (askingKB) {
-        queryResult = response.queryResult.knowledgeAnswers[0]
-    } else{
+        queryResult = response.queryResult.knowledgeAnswers.answers[0];
+        return {
+            success: true,
+            query: query,
+            answer: queryResult.answer,
+            action: queryResult.action,
+            allRequiredParamsPresent : allRequiredParamsPresent,
+            parameters: undefined,
+            intentName: 'KB',
+            isKnowledgeAnswer: true
+        };
+    } else {
+        queryResult = response.alternativeQueryResults[0];
+        allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
+        console.log(`  Intent: ${queryResult.intent.displayName}`);
+        return {
+            success: true,
+            query: query,
+            answer: queryResult.fulfillmentText,
+            action: queryResult.action,
+            allRequiredParamsPresent : allRequiredParamsPresent,
+            parameters: queryResult.allRequiredParamsPresent ? queryResult.parameters.fields : undefined,
+            intentName: queryResult.intent.displayName,
+            isKnowledgeAnswer: false
+        };
 
-        queryResult = response.queryResult;
     }
-    let allRequiredParamsPresent = queryResult.allRequiredParamsPresent;
-    console.log(`  Intent: ${queryResult.intent.displayName}`);
-
-    //let queryResultConfidence = response.queryResult.intentDetectionConfidence;
-    //  let alternativeQueryResult = response.alternativeQueryResults[0];
-    //  const queryResult = (queryResultConfidence > 0.6 || alternativeQueryResult == null || alternativeQueryResult.intent == null) ? primaryQueryResult : alternativeQueryResult;
-    //
-    // if (queryResult.intent) {
-    // } else {
-    //     console.log(`  No intent matched.`);
-    //     return {success: false}
-    // }
-
-    return {
-        success: true,
-        query: query,
-        answer: queryResult.fulfillmentText,
-        action: queryResult.action,
-        allRequiredParamsPresent : allRequiredParamsPresent,
-        parameters: queryResult.allRequiredParamsPresent ? queryResult.parameters.fields : undefined,
-        intentName: queryResult.intent.displayName,
-        isKnowledgeAnswer: !queryResult.action
-    };
-
 }
 
 module.exports.send = postToDialogflow;
