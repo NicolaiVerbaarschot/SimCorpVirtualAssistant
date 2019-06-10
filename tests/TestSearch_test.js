@@ -18,7 +18,6 @@ Scenario('Ask KnowledgeBase',(I) => {
     I.reloadPage();
     I.askBot('? how do i invest in stocks');
     I.getAnswer('investment');
-    I.see("how do i invest","#searchQuestion");
     I.save('how_do_i_invest_in_stocks.png');
 });
 

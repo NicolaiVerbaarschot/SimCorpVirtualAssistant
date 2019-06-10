@@ -9,7 +9,7 @@ module.exports = function() {
       askBot: function(query) {
           this.fillField('#input',query);
           this.pressKey('Enter');
-          this.wait(2);
+          this.wait(4);
       },
 
       getAnswer: function(answer){

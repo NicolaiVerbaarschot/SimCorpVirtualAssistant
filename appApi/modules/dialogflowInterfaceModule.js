@@ -50,17 +50,32 @@ async function postToDialogflow(query) {
     const response = (await sessionClient.detectIntent(request))[0];
     let allRequiredParamsPresent = true;
     if (askingKB) {
-        queryResult = response.queryResult.knowledgeAnswers.answers[0];
-        return {
-            success: true,
-            query: query,
-            answer: queryResult.answer,
-            action: queryResult.action,
-            allRequiredParamsPresent : allRequiredParamsPresent,
-            parameters: undefined,
-            intentName: 'KB',
-            isKnowledgeAnswer: true
-        };
+        if (response.queryResult.knowledgeAnswers!=null) {
+            queryResult = response.queryResult.knowledgeAnswers.answers[0];
+            return {
+                success: true,
+                query: query,
+                answer: queryResult.answer,
+                action: queryResult.action,
+                allRequiredParamsPresent: allRequiredParamsPresent,
+                parameters: undefined,
+                intentName: 'KB',
+                isKnowledgeAnswer: true
+            };
+        } else {
+            return {
+                success: true,
+                query: query,
+                answer: "I didn't find anything in the documents, for: " + "'"+query+"'",
+                action: "TextOP.fail",
+                allRequiredParamsPresent: true,
+                parameters: undefined,
+                intentName: 'KB',
+                isKnowledgeAnswer: true
+            };
+        }
+
+
     } else {
         queryResult = response.queryResult;
         while (queryResult.intent.displayName.includes('Knowledge')){

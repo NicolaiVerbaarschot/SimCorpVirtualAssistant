@@ -24,7 +24,7 @@ Scenario('What can you do', (I) => {
 Scenario('how to invest', (I) => {
     I.reloadPage();
     I.askBot("? how to invest");
-    I.getAnswer('investment');
+    I.getAnswer('investing');
 });
 
 Scenario('table operations', (I) => {
@@ -35,3 +35,5 @@ Scenario('table operations', (I) => {
     I.askBot('sort by dirty value qc');
     I.saveScreenshot('result.png')
 });
+
+
