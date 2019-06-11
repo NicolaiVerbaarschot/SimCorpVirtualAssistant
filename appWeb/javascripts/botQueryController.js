@@ -1,9 +1,7 @@
 
 const bot_DOM_QueryController = {
 
-    handleDialogflowResult: function(data) {
-
-
+    handleDialogflowResult: function (data) {
 
 
         function formatResponse(text) {
@@ -21,7 +19,7 @@ const bot_DOM_QueryController = {
 
             text.forEach(function (line, index, collection) {
 
-                setTimeout(function (){
+                setTimeout(function () {
 
                     setResponseBot(formatResponse(line));
 
@@ -32,7 +30,7 @@ const bot_DOM_QueryController = {
 
 
         } else {
-            representState(data.SQLQuery);
+
             setResponseBot(formatResponse(data.answer));
         }
 
@@ -51,19 +49,16 @@ const bot_DOM_QueryController = {
                 $('#fuseContainer').html(data.fuseSearch.toString());
                 break;
 
+
+
         }
 
     }
-
 };
-
-
 function representState(query){
     array = query.split(/(SELECT|FROM|WHERE|ORDER|BY|;)/);
-    console.log(array);
 
     const i1 = array.findIndex( S => S=="WHERE") + 1;
-    console.log(i1);
     predicateString = i1 ? "constraints: " + array[i1].toLocaleLowerCase() : "";
 
     const i2 = array.findIndex( S => S=="BY") + 1;
