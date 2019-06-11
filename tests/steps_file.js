@@ -18,6 +18,6 @@ module.exports = function() {
 
       reloadPage: function(){
           this.amOnPage('http://localhost:8080/');
-      }
+      },
   });
 }

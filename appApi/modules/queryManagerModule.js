@@ -285,4 +285,4 @@ function resolveQueryFromAction(intent, topQueryObject, secondTopMostQueryObject
 module.exports = {
     resolveQueryFromAction,
     resolveGraphFromAction
-}
+};
