@@ -5,6 +5,7 @@ const bot_DOM_QueryController = {
 
 
 
+
         function formatResponse(text) {
             text = text.split("-").join("<br>");
             text = text.split("*").join("<em>");
@@ -31,7 +32,7 @@ const bot_DOM_QueryController = {
 
 
         } else {
-
+            representState(data.SQLQuery);
             setResponseBot(formatResponse(data.answer));
         }
 
@@ -52,11 +53,6 @@ const bot_DOM_QueryController = {
 
         }
 
-        // if (data.isKnowledgeAnswer) {
-        //     $("#fuseContainer").html(data.answer.toString());
-        // }
-
-
     }
 
 };
@@ -64,13 +60,16 @@ const bot_DOM_QueryController = {
 
 function representState(query){
     array = query.split(/(SELECT|FROM|WHERE|ORDER|BY|;)/);
+    console.log(array);
 
     const i1 = array.findIndex( S => S=="WHERE") + 1;
-    predicateString = i1 ? "constraints: " + predicate[i1].toLocaleLowerCase() : "";
+    console.log(i1);
+    predicateString = i1 ? "constraints: " + array[i1].toLocaleLowerCase() : "";
 
     const i2 = array.findIndex( S => S=="BY") + 1;
     orderByString = i2 ? "ordered by: " + array[i2].toLocaleLowerCase() : "";
 
     $("#predicate").html(predicateString);
     $("#order").html(orderByString);
+    console.log('representState End');
 }

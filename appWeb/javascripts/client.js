@@ -2,6 +2,7 @@
 $.getScript('javascripts/api.js', function() {});
 
 const speechRecognition = new SpeechRecognition(updateRec, sendInput);
+
 window.onload = function() {
     $.ajax({
         url: "http://localhost:8080/api/table/"+"SELECT%20*%20FROM%20DB_Data"
