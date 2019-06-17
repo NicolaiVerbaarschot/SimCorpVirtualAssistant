@@ -19,16 +19,32 @@ function makeConnectionToDB() {
     });
 
 
-    con.on('error', function(err) {
-        console.log('db error', err);
-        if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-            makeConnectionToDB();                         // lost due to either server restart, or a
-        } else {                                      // connnection idle timeout (the wait_timeout
-            throw err;                                  // server variable configures this)
+
+}
+
+
+
+makeConnectionToDB();
+
+
+function handleDisconnect(conn) {
+    conn.on('error', function(err) {
+        if (!err.fatal) {
+            return;
         }
+
+        if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
+            throw err;
+        }
+        console.log('Re-connecting lost connection: ' + err.stack);
+        connection = mysql.createConnection(config.CLEARDB_DATABASE_URL);
+        handleDisconnect(connection);
+        connection.connect();
     });
 }
-makeConnectionToDB();
+
+handleDisconnect(con);
+
 const queryUtil = util.promisify(con.query).bind(con);
 
 
@@ -37,16 +53,16 @@ function isValidSyntaxForQuery(query) {
 }
 
 async function requestQuery(query) {
-        if (isValidSyntaxForQuery(query)) {
-            try {
-                return await queryUtil(query);
-            } catch (e) {
-                throw e;
-            }
-        } else {
-            throw new Error("query: " + query + " did not match regex");
+    if (isValidSyntaxForQuery(query)) {
+        try {
+            return await queryUtil(query);
+        } catch (e) {
+            throw e;
         }
+    } else {
+        throw new Error("query: " + query + " did not match regex");
     }
+}
 
 module.exports.requestQuery = requestQuery;
 
