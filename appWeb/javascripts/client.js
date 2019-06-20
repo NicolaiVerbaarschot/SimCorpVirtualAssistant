@@ -1,8 +1,12 @@
 // Reveals our api
 $.getScript('javascripts/api.js', function() {});
 
+function sendInput(text) {sendBotQuery(text)}
+function updateRec(text) {$("#rec").html(text)}
 const speechRecognition = new SpeechRecognition(updateRec, sendInput);
 
+
+// Populates the table so that it isn't blank when it loads initially
 window.onload = function() {
     $.ajax({
         url: "http://localhost:8080/api/table/"+"SELECT%20*%20FROM%20DB_Data"
@@ -11,67 +15,17 @@ window.onload = function() {
             $("#databaseContainer").html(answer.toString());
         });
 };
+
+// Ties logic to html components
 $(document).ready(function() {
 
-    $("#VisualizeButton").on("click", function () {
-
-        const query = $("#queryTextForGraph").val();
-
-        $.ajax({
-            url: "http://localhost:8080/api/graph/"+query
-        })
-            .done(function( answer ) {
-                $("#graphContainer").html(answer.toString());
-
-            });//TODO switch case based (knowledge/newTable/newGraph)
-    });
-
-    $("#HButton").on("click", function () {
-        let queryTextField = $("#queryText");
-        const query = queryTextField.val();//.toLowerCase();
-        $.ajax({
-            url: "http://localhost:8080/api/table/"+query
-        })
-            .done(function( data ) {
-                $("#databaseContainer").html(data.toString());
-            })
-            .fail(function(model,textStatus,errorThrown) {
-                alert("Query failed:\n"+model.responseJSON.error);
-                queryTextField.select();
-            })
-    });
-
-    $("#fuse").on("click", function () {
-        const query = "man";
-        $.ajax({
-            url: "http://localhost:8080/api/search/"+query
-        })
-            .done(function( data ) {
-                $("#fuseContainer").html(data.toString());
-            });
-    });
-//TODO: Refactor into bot_DOM_QueryController
-    $("#queryText").keypress(function (e) {
-        if (e.which === 13) {
-            $("#HButton").click();
-            return false;
-        }
-    });
-    $("#queryTextForGraph").keypress(function (e) {
-        if (e.which === 13) {
-            $("#VisualizeButton").click();
-            return false;
-        }
-
-
-    });
     $("#input").keypress(function(event) {
         if (event.which === 13) {
             event.preventDefault();
             const text = $("#input").val();
             if (text === "") return;
             $("#input").val("");
-            compileAndSendBotQueryThenHandleResult(text);
+            sendBotQuery(text);
         }
 
     });
@@ -80,7 +34,8 @@ $(document).ready(function() {
     });
 });
 
-function compileAndSendBotQueryThenHandleResult(text) {
+// Submits the user query from the inut field to our server
+function sendBotQuery(text) {
     setResponseClient(text);
     let topQuery = queryObjectStack[queryObjectStack.length-1];
     let secondTopMostQuery = queryObjectStack.length-2 >= 0 ? queryObjectStack[queryObjectStack.length-2] : undefined;
@@ -94,10 +49,6 @@ function compileAndSendBotQueryThenHandleResult(text) {
     });
 
 }
-
-function sendInput(text) {
-    compileAndSendBotQueryThenHandleResult(text);
-} //FIXME: wtf?
 
 function setResponseClient(val) {
     const response = $("#response");
@@ -119,7 +70,4 @@ function setResponseBot(val) {
 }
 
 
-function updateRec(text) {
-    $("#rec").html(text);
-}
 

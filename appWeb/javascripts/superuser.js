@@ -331,4 +331,4 @@ $( function() {
         });
 } );
 
-//TODO fetch column tags from db - same as in main.js
+//TODO fetch column tags from db - same as in queryStack.js

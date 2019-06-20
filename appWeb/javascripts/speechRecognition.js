@@ -1,3 +1,5 @@
+
+// Usage example of speech recognition function from google, tweaked to need
 function SpeechRecognition(updateHandler, resultHandler) {
     this.recognition = new webkitSpeechRecognition();
     this.isSpeaking = false;

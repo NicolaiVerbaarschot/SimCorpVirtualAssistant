@@ -3,39 +3,17 @@ const bot_DOM_QueryController = {
 
     handleDialogflowResult: function (data) {
 
-
-        function formatResponse(text) {
-            text = text.split("-").join("<br>");
-            text = text.split("*").join("<em>");
-            text = text.split("^").join("</em>");
-
-            return text;
-        }
-
-        // Set bot response
+        // Set bot response with timer for drip feeding information
         if (data.actionType === 'discoverOP') {
-
-            var text = data.answer.split("&");
-
+            const text = data.answer.split("&");
             text.forEach(function (line, index, collection) {
-
                 setTimeout(function () {
-
                     setResponseBot(formatResponse(line));
-
                 }, index * 2000);
-
             });
-            console.log(text);
-
-
         } else {
-
             setResponseBot(formatResponse(data.answer));
         }
-
-        console.log(data.actionType);
-
 
         switch (data.actionType) {
             case 'tableOP':
@@ -48,13 +26,11 @@ const bot_DOM_QueryController = {
             case 'searchOP':
                 $('#fuseContainer').html(data.fuseSearch.toString());
                 break;
-
-
-
         }
-
     }
 };
+
+
 function representState(query){
     array = query.split(/(SELECT|FROM|WHERE|ORDER|BY|;)/);
 
@@ -67,4 +43,12 @@ function representState(query){
     $("#predicate").html(predicateString);
     $("#order").html(orderByString);
     console.log('representState End');
+}
+
+// Formating text for chat bubbles
+function formatResponse(text) {
+    text = text.split("-").join("<br>");
+    text = text.split("*").join("<em>");
+    text = text.split("^").join("</em>");
+    return text;
 }

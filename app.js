@@ -1,11 +1,8 @@
-var express = require('express');
-var path = require('path');
-var cors = require('cors');
-
-
-var indexRouter = require('./appApi/index');
-var intentMatcherRouter = require('./appApi/modules/intentMatcher');
-var app = express();
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const indexRouter = require('./appApi/index');
+const app = express();
 
 app.use(cors());
 
@@ -17,7 +14,6 @@ app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'appWeb')));
 
 app.use('/', indexRouter);
-app.use('/users',intentMatcherRouter);
 
 app.listen(8080, function() {console.log('listening on port 8080...')});
 

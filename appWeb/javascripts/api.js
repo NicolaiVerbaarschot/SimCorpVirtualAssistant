@@ -1,5 +1,4 @@
-$.getScript('javascripts/botQueryController.js', function() {
-});
+$.getScript('javascripts/botQueryController.js', function() {});
 
 const api = {
 
@@ -16,8 +15,8 @@ const api = {
             url: "http://localhost:8080/api/chatBotQueryManager/"
         })
             .done(function (data) {
-                returnData = data
-                console.log(data)
+                returnData = data;
+                console.log(data);
             });
         return returnData;
     }
